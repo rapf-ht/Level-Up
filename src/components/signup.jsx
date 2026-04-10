@@ -1,6 +1,6 @@
 // src/components/SignupForm.jsx
 import '../styles/signup.css'
-
+import 'bootstrap/dist/css/bootstrap.min.css'
 export default function SignupForm() {
   return (
     <div className="container">
