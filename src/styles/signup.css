@@ -1,0 +1,17 @@
+body {
+    background-image: url('../assets/signup_in/background_cadastro.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed; /* Efeito Parallax */
+}
+
+.signup-form-box {
+    border-radius: 8px;
+    background-color: rgba(183, 183, 183, 0.64);
+    padding: 10px 20px;
+}
+
+.signup-form {
+    
+}
