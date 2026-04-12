@@ -6,12 +6,12 @@ body {
     background-attachment: fixed; /* Efeito Parallax */
 }
 
-.signup-form-box {
+.signin-form-box {
     border-radius: 8px;
     background-color: rgba(183, 183, 183, 0.64);
     padding: 10px 20px;
 }
 
-.signup-form {
+.signin-form {
     
 }

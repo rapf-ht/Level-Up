@@ -1,8 +1,8 @@
 import { useState } from 'react'
-import SignupForm from './components/signup'
+import SigninForm from './components/signin'
 
 function App() {
-  return <SignupForm />
+  return <SigninForm />
 }
 
 export default App
