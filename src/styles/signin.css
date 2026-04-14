@@ -1,0 +1,37 @@
+body {
+    background-image: url('../assets/signup_in/background_cadastro.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed; /* Efeito Parallax */
+}
+
+.signin-form {
+    border-radius: 8px;
+    background-color: rgba(0, 0, 0, 0.616);
+    padding: 10px 20px;
+    backdrop-filter: blur(5px)
+}
+
+.title-label {
+    color: #cfcfcfdf;
+    font-weight: bold;
+}
+
+.span-disclaimer {
+    color: #fff7f779;
+    font-weight: lighter;
+    font-style: italic;
+    font-size: .875em;
+    margin-top: .25em;
+}
+
+.signin-form input {
+    background-color: transparent;
+    border: 1px solid #ececec79;
+    color: #fff;
+}
+
+.signin-form input::placeholder {
+    color: #ececec79
+}

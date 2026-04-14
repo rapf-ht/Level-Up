@@ -1,0 +1,50 @@
+body {
+    background-image: url('../assets/signup_in/background_cadastro.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed; /* Efeito Parallax */
+}
+
+.signup-form {
+    border-radius: 8px;
+    background-color: rgba(0, 0, 0, 0.616);
+    padding: 10px 20px;
+    backdrop-filter: blur(5px)
+}
+
+.title-label {
+    color: #cfcfcfdf;
+    font-weight: bold;
+}
+
+.text-choice {
+    font-weight: lighter;
+    font-style: italic;
+    color: #ffc107; /* Hex do amarelo warning do Bootstrap e do site */
+    font-size: small;
+}
+
+.btn-choice {
+    width: 100%;
+    margin-bottom: 1em;
+    margin-top: 0.3em;
+}
+
+.span-disclaimer {
+    color: #fff7f779;
+    font-weight: lighter;
+    font-style: italic;
+    font-size: .875em;
+    margin-top: .25em;
+}
+
+.signup-form input {
+    background-color: transparent;
+    border: 1px solid #ececec79;
+    color: #fff;
+}
+
+.signup-form input::placeholder {
+    color: #ececec79
+}
