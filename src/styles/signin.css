@@ -22,6 +22,8 @@ body {
     color: #fff7f779;
     font-weight: lighter;
     font-style: italic;
+    font-size: .875em;
+    margin-top: .25em;
 }
 
 .signin-form input {
