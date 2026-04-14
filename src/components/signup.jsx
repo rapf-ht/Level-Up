@@ -8,17 +8,34 @@ export default function SignupForm() {
 
         <div className="col-11 col-sm-8 col-md-6 col-lg-4 col-xl-3">
           <div className="signup-form">
-
-            <h4 className="text-warning fw-bold text-center mb-4">
-              🧙 Bem-vindo, Aventureiro(a)
-            </h4>
+            
+            <div className="title-signup">
+              <h4 className="text-warning fw-bold text-center mt-2">
+                📜 Toda lenda começou de algum lugar...
+              </h4>
+              <h4 className="text-warning fw-bold text-center mb-3">
+                A sua começa aqui 📜
+              </h4>
+              <div className="choose-class">
+                <h6 className="text-choice mb-0">
+                  Escolha sua classe para começar a aventura:
+                </h6>
+              </div>
+              
+              <div className="d-flex justify-content-center gap-3 mt-2">
+                <button className="btn btn-outline-warning btn-sm btn-choice">Guerreiro ⚔️</button>
+                <button className="btn btn-outline-warning btn-sm btn-choice">Mago 🔮</button>
+                <button className="btn btn-outline-warning btn-sm btn-choice">Ladino 🏹</button>
+              </div>
+            
+            </div>
 
             <div className="mb-3">
-              <label htmlFor="signin-email" className="form-label title-label">Email:</label>
+              <label htmlFor="signup-email" className="form-label title-label">Email:</label>
               <input
                 type="email"
                 className="form-control"
-                id="signin-email"
+                id="signup-email"
                 placeholder="Digite seu email"
                 aria-describedby="emailDisclaimer"
               />
@@ -27,32 +44,34 @@ export default function SignupForm() {
               </span>
             </div>
 
-            <div className="mb-4">
-              <label htmlFor="signup-password" className="form-label title-label">Senha:</label>
+            <div className="mb-4 signup-passwords">
+              <label htmlFor="signup-password" className="form-label title-label">Criar senha:</label>
               <input
                 type="password"
                 className="form-control"
                 id="signup-password"
                 placeholder="Digite sua senha"
               />
+
               <span className="form-text span-disclaimer">
                 Mínimo 8 caracteres, letras maiúsculas e minúsculas
               </span>
+
+              <label htmlFor="signup-confirm-password" className="form-label title-label mt-3">
+                Confirmar Senha:
+              </label>
+              <input
+                type="password"
+                className="form-control"
+                id="signup-password"
+                placeholder="Digite sua senha novamente"
+              />
             </div>
 
             <div className="d-grid mb-3">
               <button type="submit" className="btn btn-warning fw-bold">
-                ⚔ Entrar
+                ⚔ Começar sua jornada ⚔
               </button>
-            </div>
-
-            <div className="text-center">
-              <a className="icon-link icon-link-hover text-warning small" href="#">
-                Não tenho cadastro
-                <svg xmlns="http://www.w3.org/2000/svg" className="bi" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
-                  <path d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
-                </svg>
-              </a>
             </div>
 
           </div>
