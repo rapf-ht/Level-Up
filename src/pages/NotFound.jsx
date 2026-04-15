@@ -8,7 +8,7 @@ export default function NotFound() {
   }
 
   return (
-    <div style={{ textAlign: 'center' }}>
+    <div style={{ textAlign: 'center', paddingTop: '100px' }}>
       <h1>Oops! 😢</h1>
       <p>Desculpe, a página que você procura não existe ou ocorreu um erro.</p>
       

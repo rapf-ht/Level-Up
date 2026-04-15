@@ -1,12 +1,109 @@
 .mainContainer {
   text-align: center;
+  /* margin-top: 160px; */
 }
 
 .backgroundGif {
-  background-image: url('../../public/background-home-gif.gif');
-  /* background-size: cover; */
-  background-position: center;
+  background-image: url("../../public/background-home-gif.gif");
+  background-attachment: fixed;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center 10px;
+  min-height: 100vh;
+}
+
+.conteudoSeguro {
+  padding: 0 64px;
+  padding-top: 100vh;
+  display: flex;
+  flex-direction: column;
+  gap: 124px;
+  font-size: 24px;
+}
+.mobileInfoPerfil {
+  display: none;
+}
+.firtContainer {
+  height: 462px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.avatarConatiner {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  background-color: #d9d9d9;
+  width: 312px;
+  height: 454px;
+}
+.avatar {
   width: 100%;
-  height: 772px;
-  margin-bottom: 20px;
+  height: 269px;
+  align-content: center;
+  border-bottom: 1px solid #000000;
+}
+.attributes {
+  width: 100%;
+  height: 185px;
+  align-content: center;
+}
+
+.goalsContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  background-color: #d9d9d9;
+  min-width: 872px;
+  height: 454px;
+  font-size: 24px;
+}
+
+.secondContainer {
+  height: 462px;
+  align-content: center;
+  background-color: #d9d9d9;
+}
+
+.thirdContainer {
+  height: 462px;
+  margin-bottom: 124px;
+  align-content: center;
+  background-color: #d9d9d9;
+}
+
+@media screen and (max-width: 768px) {
+  .backgroundGif{
+    background-position: right 53px;
+  }
+  .conteudoSeguro {
+    padding: 0 16px;
+    padding-top: 9vh;
+    display: flex;
+    flex-direction: column;
+    gap: 64px;
+    font-size: 18px;
+  }
+  .mobileInfoPerfil {
+    display: block;
+    font-size: 18px;
+    width: 100%;
+    height: 48px;
+    padding: 0;
+    background-color: #d9d9d9;
+    align-content: center;
+  }
+  .firtContainer {
+    display: none;
+  }
+  .secondContainer {
+    display: none;
+  }
+  .thirdContainer {
+    display: none;
+  }
 }
