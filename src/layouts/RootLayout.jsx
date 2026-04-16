@@ -84,14 +84,10 @@ export default function RootLayout() {
         </nav>
       </header>
 
-      {/* 2. CONTEÚDO PRINCIPAL (Aqui a mágica acontece) */}
       <main className={styles.conteudoPrincipal}>
-        {/* O <Outlet /> é substituído pelo componente da rota atual 
-            (ex: <Home /> ou <Sobre />) */}
         <Outlet />
       </main>
 
-      {/* 3. RODAPÉ */}
       <footer className={styles.footer}>
         <p>&copy; 2026 Meu App. Todos os direitos reservados.</p>
       </footer>
