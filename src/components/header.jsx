@@ -11,7 +11,7 @@ export default function Header() {
                         <div className="d-flex align-items-center gap-3">
 
                             <img src="./assets/levelup_logo.png" alt="logo_site" className="logo" />
-                            <ul className="nav col-7 d-flex align-items-center gap-3">
+                            <ul className="nav navbar-expand-lg d-flex align-items-center gap-3">
                                 <li className="nav-item">
                                     <a className="nav-link" aria-current="page" href="#">Tarefas</a>
                                 </li>
@@ -35,7 +35,7 @@ export default function Header() {
                         
                         <div className="d-flex align-items-center gap-2">
 
-                            <ul className="nav col-3 d-flex justify-content-end">
+                            <ul className="nav d-flex justify-content-end">
                                 <li className="nav-item">
                                     <a className="nav-link" href="#">Moeda</a>
                                 </li>
