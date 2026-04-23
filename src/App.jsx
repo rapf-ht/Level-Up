@@ -1,17 +1,18 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
-import SigninForm from './components/signin'
-import SignupForm from './components/signup'
+import { RouterProvider } from "react-router-dom";
+import { router } from "./routes";
+import React from "react";
+import ReactDOM from "react-dom/client";
+// import SigninForm from './components/signin'
+// import SignupForm from './components/signup'
+
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <React.StrictMode>
+    <RouterProvider router={router} />
+  </React.StrictMode>,
+);
 
 function App() {
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Navigate to="/signin" replace />} />
-        <Route path="/signin" element={<SigninForm />} />
-        <Route path="/signup" element={<SignupForm />} />
-      </Routes>
-    </BrowserRouter>
-  )
+  return <RouterProvider router={router} />;
 }
 
-export default App
+export default App;
