@@ -42,9 +42,9 @@ export default function SigninForm() {
             </div>
 
             <div className="d-grid mb-3">
-              <button type="submit" className="btn btn-warning fw-bold">
+              <Link to="/home" className="btn btn-warning fw-bold">
                 ⚔ Entrar
-              </button>
+              </Link>
             </div>
 
             <div className="text-center">
