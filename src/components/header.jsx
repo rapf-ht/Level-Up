@@ -1,5 +1,4 @@
 import '../styles/header.css'
-import 'bootstrap/dist/css/bootstrap.min.css'
 
 export default function Header() {
     return (
