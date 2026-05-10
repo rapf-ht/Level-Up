@@ -1,3 +1,9 @@
-header {
-    background-color: #0f0e17;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container {
+    background-color: #141517;
 }
