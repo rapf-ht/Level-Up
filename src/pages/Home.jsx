@@ -2,6 +2,8 @@ import { Link, useRouteError } from "react-router-dom";
 import styles from "./Home.module.css";
 
 export default function Home() {
+  let name = "Dev_Br";
+  let level = 4;
   return (
     <div className={styles.mainContainer}>
       <div className={styles.backgroundGif}>
@@ -12,7 +14,9 @@ export default function Home() {
           <div className={styles.firtContainer}>
             <div className={styles.avatarConatiner}>
               <div className={styles.avatar}>
-                <p>Avatar</p>
+                <img src="/avatar-icon.png" alt="Avatar" width="130px"/>
+                <p className={`${styles.text} ${styles.tittle}`}>{name}</p>
+                <p className={styles.text}>Level {level}</p>
               </div>
               <div className={styles.attributes}>
                 <p>Atributos do avatar</p>
