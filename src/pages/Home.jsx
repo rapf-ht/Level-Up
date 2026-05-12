@@ -1,6 +1,7 @@
 import { Link, useRouteError } from "react-router-dom";
 import styles from "./Home.module.css";
 import { CustomCheckbox } from "../components/CustomCheckbox";
+import { Calendar } from "../components/Calendar";
 
 export default function Home() {
   let name = "Dev_Br";
@@ -68,7 +69,7 @@ export default function Home() {
             <p className={`${styles.highlightedText} ${styles.tittle}`}>
               Calendário
             </p>
-            <img src="/calendar.png" alt="Calendário" />
+            <Calendar />
           </div>
 
           <div className={styles.thirdContainer}>
