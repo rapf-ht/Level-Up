@@ -35,7 +35,6 @@ export function Calendar() {
           </div>
         ))}
         {dias.map((d, i) => {
-          // Verifica se d não é null e se coincide com hoje
           const isHoje =
             d &&
             d.getDate() === hoje.getDate() &&

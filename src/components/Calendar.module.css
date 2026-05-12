@@ -45,30 +45,11 @@
   font-family: "Press Start 2P", system-ui;
 }
 
-.numeroPequeno {
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  font-size: 0.9rem;
-  color: #555;
-}
-
-
 .activeDay {
   background-color: #fff9e3;
   z-index: 10;
   outline: 2px solid #b3a2ff;
   box-shadow: 0 0 20px 5px rgba(147, 112, 219, 0.6);
-  position: relative;
-}
-
-.cristal {
-  position: absolute;
-  bottom: 5px;
-  right: 5px;
-  width: 25px;
-  height: auto;
-  filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.5));
 }
 
 @keyframes pulsar {
