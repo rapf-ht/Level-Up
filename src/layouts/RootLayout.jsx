@@ -3,136 +3,113 @@ import styles from "./RootLayout.module.css";
 
 export default function RootLayout() {
   return (
-    <div className={styles.layoutContainer}>
-      <header className={styles.header}>
-        <Link to="/">
-          <img src="../../public/logo1.png" alt="Logo" width={64} />
-        </Link>
-        <h1>LEVEL UP</h1>
-        <Link to="/" className={styles.btnProfile}>
-          <img
-            src="../../public/icons-mobile/profile-icon.png"
-            alt="Profile"
-            width={64}
-          />
-        </Link>
+    <div className={styles.container}>
+        
+      <header className={styles['header-body']}>
+        <div className={styles.logo}>
+          <Link to="/home">
+            <img src="/Logo_Level_UP_Mid.png" alt="logo_lvl_up" />
+          </Link>
+        </div>
+          
         <nav className={styles.navbar}>
-          <NavLink
-            to="/tarefas"
-            className={({ isActive }) =>
-              `${styles.btnNavbar} ${isActive ? styles.linkAtivo : ""}`
-            }
-          >
-            Tarefas
-          </NavLink>
-          <NavLink
-            to="/Inventario"
-            className={({ isActive }) =>
-              `${styles.btnNavbar} ${isActive ? styles.linkAtivo : ""}`
-            }
-          >
-            Inventario
-          </NavLink>
-          <NavLink
-            to="/Bazar do Hélio"
-            className={({ isActive }) =>
-              `${styles.btnNavbar} ${isActive ? styles.linkAtivo : ""}`
-            }
-          >
-            Bazar do Hélio
-          </NavLink>
-          <NavLink
-            to="/Taverna"
-            className={({ isActive }) =>
-              `${styles.btnNavbar} ${isActive ? styles.linkAtivo : ""}`
-            }
-          >
-            Taverna
-          </NavLink>
-          <NavLink
-            to="/Desafios"
-            className={({ isActive }) =>
-              `${styles.btnNavbar} ${isActive ? styles.linkAtivo : ""}`
-            }
-          >
-            Desafios
-          </NavLink>
-          <NavLink
-            to="/Ajuda"
-            className={({ isActive }) =>
-              `${styles.btnNavbar} ${isActive ? styles.linkAtivo : ""}`
-            }
-          >
-            Ajuda
-          </NavLink>
-          <NavLink
-            to="/Notificação"
-            className={({ isActive }) =>
-              `${styles.btnNavbar} ${isActive ? styles.linkAtivo : ""}`
-            }
-          >
-            Notificação
-          </NavLink>
-          <NavLink
-            to="/Login"
-            className={({ isActive }) =>
-              `${styles.btnNavbar} ${isActive ? styles.linkAtivo : ""}`
-            }
-          >
-            Login
-          </NavLink>
+          <ul className={styles['list-btns']}>
+            <li><Link to="/home">Inventário</Link></li>
+            <li><Link to="/home">Bazar Mágico</Link></li>
+            <li><Link to="/home">Taverna</Link></li>
+            <li><Link to="/home">Áreas da Vida</Link></li>
+          </ul>
+                   
+          <div className={styles.stats}>
+            <div className={styles.coins}>
+              <img src="" alt="" />
+                <p className={styles.gc}>0</p>
+            </div>
+            <div className={styles['notification-icon']}>
+              <img src="" alt="" />
+            </div>
+            <div className={styles['pfp-card']}>
+              <img src="" alt="" />
+              <p className={styles.username}>Username</p>
+              <div className={styles['xp-bar']}></div>
+            </div>
+          </div>
+
         </nav>
       </header>
 
-      <main className={styles.conteudoPrincipal}>
+      <main className={styles.main}>
         <Outlet />
       </main>
 
-      <footer className={styles.footer}>
-        <p>&copy; 2026 Meu App. Todos os direitos reservados.</p>
-      </footer>
-      <footer className={styles.footerMobile}>
-        <Link to="/Taverna">
-          <div className={styles.btnFooterMobile}>
-            <img
-              src="../../public/icons-mobile/social-icon.png"
-              alt="Taverna"
-              width={40}
-            />
-            <p>Taverna</p>
+      <footer className={styles['footer-body']}>
+
+        <div className={styles.col1}>
+          <div className={styles['logo-footer']}>
+            <Link to="/home">
+              <img src="/Logo_Level_UP_BIG.png" alt="logo-lvlup" />
+            </Link>
           </div>
-        </Link>
-        <Link to="/Categorias">
-          <div className={styles.btnFooterMobile}>
-            <img
-              src="../../public/icons-mobile/category-icon.png"
-              alt="Categorias"
-              width={40}
-            />
-            <p>Categorias</p>
+          <p className={styles['footer-caption']}>
+            Plataforma organizacional gamificada <br /> 
+            para grupos. Transforme suas tarefas em <br /> 
+            missões e evolua junto com sua guilda.
+          </p>
+        </div>
+
+        <div className={styles.col2}>
+          <h3 className={styles['col-navegation']}>Navegação</h3>
+          <div className={styles['line-splitter']}>
+            <hr className={styles.line} />
           </div>
-        </Link>
-        <Link to="/">
-          <div className={styles.btnFooterMobile}>
-            <img
-              src="../../public/icons-mobile/home-icon.png"
-              alt="Home"
-              width={40}
-            />
-            <p>Home</p>
+          <ul className={styles['col2-ul']}>
+            <li><Link to="/home" className={styles['col2-list']}>Inventário</Link></li>
+            <li><Link to="/home" className={styles['col2-list']}>Bazar Mágico</Link></li>
+            <li><Link to="/home" className={styles['col2-list']}>Taverna</Link></li>
+            <li><Link to="/home" className={styles['col2-list']}>Áreas da Vida</Link></li>
+          </ul>
+        </div>
+
+        <div className={styles.col3}>
+          <h3 className={styles['col-account']}>Conta</h3>
+          <div className={styles['line-splitter']}>
+            <hr className={styles.line} /> //Linha divisória entre o título e os links
           </div>
-        </Link>
-        <Link to="/Bazar do Hélio">
-          <div className={styles.btnFooterMobile}>
-            <img
-              src="../../public/icons-mobile/store-icon.png"
-              alt="Bazar do Hélio"
-              width={40}
-            />
-            <p>Bazar</p>
+          <ul className={styles['col3-ul']}>
+            <li><Link to="/home" className={styles['col3-list']}>Meu Perfil</Link></li>
+            <li><Link to="/home" className={styles['col3-list']}>Configurações</Link></li>
+            <li><Link to="/home" className={styles['col3-list']}>Notificações</Link></li>
+            <li><Link to="/home" className={styles['col3-list']}>Estatísticas</Link></li>
+            <li><Link to="/home" className={styles['col3-list']}>Conquistas</Link></li>
+            <li><Link to="/home" className={styles['col3-list']}>Sair</Link></li>
+          </ul>
+        </div>
+
+        <div className={styles.col4}>
+          <h3 className={styles['col-guild']}>Minha Guilda</h3>
+          <div className={styles['line-splitter']}>
+            <hr className={styles.line} />
           </div>
-        </Link>
+          <div className={styles['pfp-card']}>
+            <img src="" alt="" />
+            <p className={styles.username}>Username</p>
+            <div className={styles['xp-bar']}></div>
+          </div>
+          <div className={styles['pfp-card']}>
+            <img src="" alt="" />
+            <p className={styles.username}>Username</p>
+            <div className={styles['xp-bar']}></div>
+          </div>
+          <div className={styles['pfp-card']}>
+            <img src="" alt="" />
+            <p className={styles.username}>Username</p>
+            <div className={styles['xp-bar']}></div>
+          </div>
+        </div>
+        <div className={styles['license-line']}>
+          <p className={styles['license']}>@ 2026 Level-UP</p>
+        </div>
       </footer>
     </div>
-  );
+    )
 }
