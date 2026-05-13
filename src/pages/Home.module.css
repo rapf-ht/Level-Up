@@ -15,10 +15,16 @@
   flex-direction: column;
   gap: clamp(1.5rem, 8.33vw, 7.5rem);
   font-size: 24px;
-  max-width: 1440px;
-}
+  max-width: 1440px;}
 .mobileInfoPerfil {
   display: none;
+}
+.animatedAvatar {
+  width: 80px;
+  position: fixed;
+  top: 700px;
+  left: 410px;
+  z-index: 0;
 }
 .firtContainer {
   height: 462px;
@@ -141,6 +147,8 @@
   gap: 16px;
   display: flex;
   flex-direction: column;
+  z-index: 1;
+
 }
 
 .thirdContainer {
@@ -151,8 +159,9 @@
   gap: 48px;
   display: flex;
   flex-direction: column;
+  z-index: 1;
 }
-.tittleStore{
+.tittleStore {
   padding: 8px 24px;
   background-color: #14151799;
   border-radius: 12px;
@@ -188,14 +197,29 @@
 
 @media screen and (max-width: 768px) {
   .backgroundGif {
-    background-position: right 53px;
+    background-size: 970px;
+    background-position-x: right -35px;
+    background-position-y: -16px;
+    background-color: #0f1921;
+  }
+  .animatedAvatar{
+    top: 41%;
+    left: 60px;
+  }
+  .tittle {
+    font-size: 32px;
+    color: #303035;
+  }
+  .text {
+    font-size: 18px;
+    color: #303035;
   }
   .conteudoSeguro {
     padding: 0 16px;
     padding-top: 9vh;
     display: flex;
     flex-direction: column;
-    gap: 64px;
+    gap: 24px;
     font-size: 18px;
   }
   .mobileInfoPerfil {
@@ -207,13 +231,60 @@
     background-color: #d9d9d9;
     align-content: center;
   }
-  .firtContainer {
+  .goalsContainer {
+    min-width: 358px;
+    margin-top: 350px;
+    background-color: #f1e6fa90;
+    padding: 16px;
+    height: auto;
+    z-index: 1;
+  }
+  .line {
+    width: 110%;
+    margin-left: -16px;
+  }
+  .avatarConatiner {
     display: none;
+  }
+  .firtContainer{
+    height: auto;
   }
   .secondContainer {
-    display: none;
+    min-width: 358px;
+    padding: 16px;
+    background-color: #f1e6fa90;
+    height: auto;
+    z-index: 1;
   }
   .thirdContainer {
-    display: none;
+    min-width: 358px;
+    padding: 0;
+    margin-bottom: 341px;
+    z-index: 0;
+    gap: 16px;
+  }
+  .tittleStore{
+    min-width: 358px;
+    text-align: center;
+    background-color: #f1e6fa90;
+  }
+  .newItemsStore {
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .newItem {
+    width: 47%;
+    justify-content: center;
+    background-color: #f1e6fa90;
+    border-color: #0f1921;
+    padding: 16px;
+  }
+  .newItem img {
+    width: 100%;
+  }
+  .valueItem {
+    margin: 20px auto;
+    justify-items: center;
+    background-color: #f1e6fa90;
   }
 }

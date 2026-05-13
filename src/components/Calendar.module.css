@@ -53,10 +53,31 @@
 }
 
 @keyframes pulsar {
-  0% { box-shadow: 0 0 15px 1px rgba(147, 112, 219, 0.4); }
-  100% { box-shadow: 0 0 25px 10px rgba(147, 112, 219, 0.7); }
+  0% {
+    box-shadow: 0 0 15px 1px rgba(147, 112, 219, 0.4);
+  }
+  100% {
+    box-shadow: 0 0 25px 10px rgba(147, 112, 219, 0.7);
+  }
 }
 
 .activeDay {
   animation: pulsar 1.5s infinite alternate ease-in-out;
+}
+
+@media (max-width: 768px) {
+  .header {
+    font-size: 1.4rem;
+  }
+  .gridCalendar {
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.5px;
+  }
+  .cell {
+    width: 100%;
+    height: 45px;
+  }
+  .numeroGrande {
+    font-size: 1.1rem;
+  }
 }

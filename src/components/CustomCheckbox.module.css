@@ -51,3 +51,22 @@
 .textChecked{
   text-decoration: line-through;
 }
+
+@media (max-width: 768px) {
+  .text {
+    font-size: 18px;
+    color: #303035;
+  }
+  .checkboxContainer{
+    gap: 16px;
+    height: 30px;
+  }
+  .circle {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #303035;
+  }
+  .textChecked {
+    color: #656469;
+  }
+}

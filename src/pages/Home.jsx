@@ -1,4 +1,4 @@
-import { Link, useRouteError } from "react-router-dom";
+import { Link } from "react-router-dom";
 import styles from "./Home.module.css";
 import { CustomCheckbox } from "../components/CustomCheckbox";
 import { Calendar } from "../components/Calendar";
@@ -16,6 +16,7 @@ export default function Home() {
           <div className={styles.mobileInfoPerfil}>
             <h2>NOME / XP/ VIDA / GOLD</h2>
           </div>
+          <img className={styles.animatedAvatar} src="/avatar.png" alt="avatar" />
           <div className={styles.firtContainer}>
             <div className={styles.avatarConatiner}>
               <div className={styles.avatar}>
