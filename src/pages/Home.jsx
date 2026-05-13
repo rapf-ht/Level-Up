@@ -13,10 +13,36 @@ export default function Home() {
     <div className={styles.mainContainer}>
       <div className={styles.backgroundGif}>
         <div className={styles.conteudoSeguro}>
-          <div className={styles.mobileInfoPerfil}>
-            <h2>NOME / XP/ VIDA / GOLD</h2>
+          <div className={styles.avatarConatinerMobile}>
+            <div className={styles.avatar}>
+              <img src="/avatar-icon.png" alt="Avatar" width="78px" />
+            </div>
+            <div className={styles.attributes}>
+              <div className={styles.attributesLine}>
+                <p className={`${styles.highlightedText} ${styles.hpColor}`}>HP</p>
+                <div
+                  className={styles.attributesBar}
+                  style={{ "--nivel-hp": `${hp}%` }}
+                >
+                  <div className={styles.attributesBarHpFill}></div>
+                </div>
+              </div>
+              <div className={styles.attributesLine}>
+                <p className={`${styles.highlightedText} ${styles.xpColor}`}>XP</p>
+                <div
+                  className={styles.attributesBar}
+                  style={{ "--nivel-xp": `${xp}%` }}
+                >
+                  <div className={styles.attributesBarXpFill}></div>
+                </div>
+              </div>
+            </div>
           </div>
-          <img className={styles.animatedAvatar} src="/avatar.png" alt="avatar" />
+          <img
+            className={styles.animatedAvatar}
+            src="/avatar.png"
+            alt="avatar"
+          />
           <div className={styles.firtContainer}>
             <div className={styles.avatarConatiner}>
               <div className={styles.avatar}>
@@ -37,7 +63,7 @@ export default function Home() {
                   </div>
                 </div>
                 <div className={styles.attributesLine}>
-                  <p className={styles.highlightedText}>XP</p>
+                  <p className={`${styles.highlightedText} ${styles.xpColor}`}>XP</p>
                   <div
                     className={styles.attributesBar}
                     style={{ "--nivel-xp": `${xp}%` }}
@@ -74,7 +100,9 @@ export default function Home() {
           </div>
 
           <div className={styles.thirdContainer}>
-            <p className={`${styles.highlightedText} ${styles.tittle} ${styles.tittleStore}`}>
+            <p
+              className={`${styles.highlightedText} ${styles.tittle} ${styles.tittleStore}`}
+            >
               Destaques da loja
             </p>
             <div className={styles.newItemsStore}>

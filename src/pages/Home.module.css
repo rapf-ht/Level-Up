@@ -9,21 +9,21 @@
 }
 
 .conteudoSeguro {
-  padding: 0 64px;
   padding-top: 100vh;
   display: flex;
   flex-direction: column;
   gap: clamp(1.5rem, 8.33vw, 7.5rem);
   font-size: 24px;
-  max-width: 1440px;}
+  max-width: 1440px;
+}
 .mobileInfoPerfil {
   display: none;
 }
 .animatedAvatar {
   width: 80px;
   position: fixed;
-  top: 700px;
-  left: 410px;
+  top: 85%;
+  left: 33.5%;
   z-index: 0;
 }
 .firtContainer {
@@ -32,6 +32,10 @@
   align-items: center;
   justify-content: space-between;
   gap: clamp(1.5rem, 8.33vw, 7.5rem);
+  z-index: 1;
+}
+.avatarConatinerMobile{
+  display: none;
 }
 .avatarConatiner {
   display: flex;
@@ -148,7 +152,6 @@
   display: flex;
   flex-direction: column;
   z-index: 1;
-
 }
 
 .thirdContainer {
@@ -202,7 +205,7 @@
     background-position-y: -16px;
     background-color: #0f1921;
   }
-  .animatedAvatar{
+  .animatedAvatar {
     top: 41%;
     left: 60px;
   }
@@ -246,7 +249,7 @@
   .avatarConatiner {
     display: none;
   }
-  .firtContainer{
+  .firtContainer {
     height: auto;
   }
   .secondContainer {
@@ -263,7 +266,7 @@
     z-index: 0;
     gap: 16px;
   }
-  .tittleStore{
+  .tittleStore {
     min-width: 358px;
     text-align: center;
     background-color: #f1e6fa90;
@@ -286,5 +289,40 @@
     margin: 20px auto;
     justify-items: center;
     background-color: #f1e6fa90;
+  }
+
+  .avatarConatinerMobile {
+    display: flex;
+  }
+  .avatar {
+    text-align: center;
+    width: auto;
+    height: auto;
+    border: none;
+  }
+  .attributes{
+    height: auto;
+  }
+  .highlightedText{
+    font-size: 24px;
+    font-family: "inter", sans-serif;
+      -webkit-text-stroke-width: 0;
+  }
+  .hpColor {
+    color: #A66AE1;
+  }
+  .xpColor {
+    color: #7284FA;
+  }
+  .attributesBar{
+    background-color: #FCFDFD;
+  }
+  .attributesBarHpFill{
+    background-color: #A66AE1;
+    border: none;
+  }
+  .attributesBarXpFill{
+    background-color: #7284FA;
+    border: none;
   }
 }
