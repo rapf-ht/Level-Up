@@ -84,10 +84,7 @@ export default function RootLayout() {
         </nav>
       </header>
 
-      {/* 2. CONTEÚDO PRINCIPAL */}
       <main className={styles.conteudoPrincipal}>
-        {/* O <Outlet /> é substituído pelo componente da rota atual 
-            (ex: <Home /> ou <Sobre />) */}
         <Outlet />
       </main>
 
