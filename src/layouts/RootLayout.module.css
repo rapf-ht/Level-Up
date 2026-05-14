@@ -1,17 +1,129 @@
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Press+Start+2P&display=swap");
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   text-decoration: none;
+  list-style: none;
   font-family: "Inter", sans-serif;
 }
 
 .container {
-    background-color: #141517;
+  background-color: #141517;
+  height: auto;
 }
 
+.header-body {
+  display: flex;
+  width: auto;
+  height: 64px;
+  align-items: center;
+  justify-content: space-between;
+  overflow: visible;
+}
 
+.logo-header {
+  width: auto;
+  height: 150px;
+  object-fit: contain;
+  margin: 0 20px 0 10px;
+}
 
+.logo-header-link {
+  display: flex;
+  align-items: center;
+}
+
+.navbar {
+  display: flex;
+  gap: 20px;
+}
+
+.btn-navbar {
+  color: #f4cc7c;
+  font-size: 16px;
+  font-family: "Cormorant Garamond", serif;
+  width: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-navbar:hover {
+  color: #f8b93b;
+  transition: color 0.3s ease;
+}
+
+.btnActive {
+  color: #f8b93b;
+  text-decoration: underline;
+}
+
+.stats {
+  display: flex;
+  gap: 20px;
+}
+
+.card-gc {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid #b8a782;
+  border-radius: 15px;
+  background-color: #111316;
+}
+
+.notification-icon {
+  display: flex;
+  align-items: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid #b8a782;
+  border-radius: 15px;
+  background-color: #111316;
+}
+
+.pfp-card {
+  overflow: visible;
+  display: flex;
+  border: 1px solid #b8a782;
+  border-radius: 15px;
+  margin-right: 10px;
+}
+
+.pfp {
+  margin-bottom: -5px;
+  width: 50px;
+  height: auto;
+  object-fit: contain;
+}
+
+.username {
+  color: #f4cc7c;
+  font-size: 14px;
+  font-family: "Cormorant Garamond", serif;
+  margin-top: 6px;
+}
+
+.xp-bar-fill {
+  width: 200px;
+  height: 6px;
+  background-color: #a4a4a4;
+  border-radius: 12px;
+  position: relative;
+  margin: 7px 10px 0 -5px;
+}
+
+.xp-bar-fill::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 70%;
+  height: 6px;
+  background-color: #3f9ce0;
+  border-radius: 12px;
+}
 /*@media screen and (max-width: 768px) {
   .header {
     width: 100%;

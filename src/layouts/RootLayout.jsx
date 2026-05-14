@@ -4,38 +4,58 @@ import styles from "./RootLayout.module.css";
 export default function RootLayout() {
   return (
     <div className={styles.container}>
-        
+
       <header className={styles['header-body']}>
-        <div className={styles.logo}>
-          <Link to="/home">
-            <img src="/Logo_Level_UP_Mid.png" alt="logo_lvl_up" />
-          </Link>
-        </div>
-          
         <nav className={styles.navbar}>
-          <ul className={styles['list-btns']}>
-            <li><Link to="/home">Inventário</Link></li>
-            <li><Link to="/home">Bazar Mágico</Link></li>
-            <li><Link to="/home">Taverna</Link></li>
-            <li><Link to="/home">Áreas da Vida</Link></li>
-          </ul>
-                   
-          <div className={styles.stats}>
-            <div className={styles.coins}>
-              <img src="" alt="" />
-                <p className={styles.gc}>0</p>
-            </div>
-            <div className={styles['notification-icon']}>
-              <img src="" alt="" />
-            </div>
-            <div className={styles['pfp-card']}>
-              <img src="" alt="" />
+          <Link className={styles['logo-header-link']} to="/home">
+            <img className={styles['logo-header']} src="/Logo_Level_UP_Mid.png" alt="logo_lvl_up" />
+          </Link>
+               
+          <NavLink 
+            to="/inventario" 
+            className={({ isActive }) => `${styles['btn-navbar']} ${isActive ? styles.btnActive : null} `}
+          >
+              Inventário
+          </NavLink>
+          <NavLink 
+            to="/bazar-magico" 
+            className={({ isActive }) => `${styles['btn-navbar']} ${isActive ? styles.btnActive : null} `}
+          >
+              Bazar Mágico
+          </NavLink>
+          <NavLink 
+            to="/taverna" 
+            className={({ isActive }) => `${styles['btn-navbar']} ${isActive ? styles.btnActive : null} `}
+          >
+              Taverna
+          </NavLink>
+          <NavLink 
+            to="/areas-da-vida" 
+            className={({ isActive }) => `${styles['btn-navbar']} ${isActive ? styles.btnActive : null} `}
+          >
+              Áreas da Vida
+          </NavLink>
+        </nav>
+
+        <nav className={styles.stats}>
+          <div className={styles["card-gc"]}>
+            <img className={styles['coins-gc']} src="" alt="" />
+            <p className={styles.gc}>0</p>
+          </div>
+          <div className={styles['notification-icon']}>
+            <img src="" alt="" />
+          </div>
+          <div className={styles['pfp-card']}>
+            <Link to="/inventario">
+              <img className={styles.pfp} src="/Logo_Level_UP_Favicon.png" alt="pfp" />
+            </Link>
+            <div className={styles['pfp-info']}>
               <p className={styles.username}>Username</p>
-              <div className={styles['xp-bar']}></div>
+              <div className={styles['xp-bar-fill']}></div>
             </div>
           </div>
-
         </nav>
+
       </header>
 
       <main className={styles.main}>
@@ -93,7 +113,7 @@ export default function RootLayout() {
           <div className={styles['pfp-card']}>
             <img src="" alt="" />
             <p className={styles.username}>Username</p>
-            <div className={styles['xp-bar']}></div>
+            <div className={styles['xp-bar-fill']}></div>
           </div>
           <div className={styles['pfp-card']}>
             <img src="" alt="" />
