@@ -67,7 +67,7 @@ export default function RootLayout() {
         <div className={styles.col1}>
           <div className={styles['logo-footer']}>
             <Link to="/home">
-              <img src="/Logo_Level_UP_BIG.png" alt="logo-lvlup" />
+              <img className={styles['logo-footer']} src="/Logo_Level_UP_Big.png" alt="logo-lvlup" />
             </Link>
           </div>
           <p className={styles['footer-caption']}>
@@ -77,36 +77,36 @@ export default function RootLayout() {
           </p>
         </div>
 
-        <div className={styles.col2}>
-          <h3 className={styles['col-navegation']}>Navegação</h3>
+        <div className={styles.columns}>
+          <h3 className={styles['col-title']}>Navegação</h3>
           <div className={styles['line-splitter']}>
             <hr className={styles.line} />
           </div>
           <ul className={styles['col2-ul']}>
-            <li><Link to="/home" className={styles['col2-list']}>Inventário</Link></li>
-            <li><Link to="/home" className={styles['col2-list']}>Bazar Mágico</Link></li>
-            <li><Link to="/home" className={styles['col2-list']}>Taverna</Link></li>
-            <li><Link to="/home" className={styles['col2-list']}>Áreas da Vida</Link></li>
+            <li><Link to="/inventario" className={styles['col-list']}>Inventário</Link></li>
+            <li><Link to="/bazar-magico" className={styles['col-list']}>Bazar Mágico</Link></li>
+            <li><Link to="/taverna" className={styles['col-list']}>Taverna</Link></li>
+            <li><Link to="/areas-da-vida" className={styles['col-list']}>Áreas da Vida</Link></li>
           </ul>
         </div>
 
-        <div className={styles.col3}>
-          <h3 className={styles['col-account']}>Conta</h3>
+        <div className={styles.columns}>
+          <h3 className={styles['col-title']}>Conta</h3>
           <div className={styles['line-splitter']}>
-            <hr className={styles.line} /> //Linha divisória entre o título e os links
+            <hr className={styles.line} />
           </div>
           <ul className={styles['col3-ul']}>
-            <li><Link to="/home" className={styles['col3-list']}>Meu Perfil</Link></li>
-            <li><Link to="/home" className={styles['col3-list']}>Configurações</Link></li>
-            <li><Link to="/home" className={styles['col3-list']}>Notificações</Link></li>
-            <li><Link to="/home" className={styles['col3-list']}>Estatísticas</Link></li>
-            <li><Link to="/home" className={styles['col3-list']}>Conquistas</Link></li>
-            <li><Link to="/home" className={styles['col3-list']}>Sair</Link></li>
+            <li><Link to="/perfil" className={styles['col-list']}>Meu Perfil</Link></li>
+            <li><Link to="/configuracoes" className={styles['col-list']}>Configurações</Link></li>
+            <li><Link to="/notificacoes" className={styles['col-list']}>Notificações</Link></li>
+            <li><Link to="/estatisticas" className={styles['col-list']}>Estatísticas</Link></li>
+            <li><Link to="/conquistas" className={styles['col-list']}>Conquistas</Link></li>
+            <li><Link to="/sair" className={styles['col-list']}>Sair</Link></li>
           </ul>
         </div>
 
-        <div className={styles.col4}>
-          <h3 className={styles['col-guild']}>Minha Guilda</h3>
+        <div className={styles.columns}>
+          <h3 className={styles['col-title']}>Minha Guilda</h3>
           <div className={styles['line-splitter']}>
             <hr className={styles.line} />
           </div>
@@ -126,10 +126,10 @@ export default function RootLayout() {
             <div className={styles['xp-bar']}></div>
           </div>
         </div>
-        <div className={styles['license-line']}>
-          <p className={styles['license']}>@ 2026 Level-UP</p>
-        </div>
       </footer>
+      <div className={styles['license-line']}>
+        <p className={styles['license']}>@ 2026 Level-UP</p>
+      </div>
     </div>
     )
 }

@@ -124,6 +124,75 @@
   background-color: #3f9ce0;
   border-radius: 12px;
 }
+
+.footer-body {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #141517;
+
+}
+
+.col1 {
+  margin-left: -50px;
+}
+
+.logo-footer {
+  width: auto;
+  height: 150px;
+  object-fit: contain;
+}
+
+.footer-caption {
+  color: #aba6a2;
+  font-size: 11px;
+  font-family: "Inter", sans-serif;
+  margin: -5px 10px 30px 0;
+}
+
+.columns {
+  display: flex;
+  flex-direction: column;
+  height: 150px;
+}
+
+.col-title {
+  font-family: "Cormorant Garamond", serif;
+  color: #f4cc7c;
+  font-size: 14px;
+}
+
+.line-splitter {
+  margin: 5px 0;
+}
+
+.line {
+  border: none;
+  height: 1px;
+  background-color: #f4cc7c;
+}
+
+.col-list {
+  color: #aba6a2;
+  font-family: "Inter", sans-serif;
+  font-size: 8px;
+}
+
+.col-list:hover {
+  color: #f8b93b;
+  transition: color 0.25s ease;
+}
+
+.license {
+  color: #aba6a2;
+  font-size: 8px;
+  font-family: "Inter", sans-serif;
+  display: flex;
+  justify-content: center;
+  margin: 10px 0 30px 0;
+  font-weight: lighter;
+  font-style: italic;
+}
 /*@media screen and (max-width: 768px) {
   .header {
     width: 100%;
