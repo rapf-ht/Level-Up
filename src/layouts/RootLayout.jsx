@@ -1,5 +1,6 @@
 import { Outlet, Link, NavLink } from "react-router-dom";
 import styles from "./RootLayout.module.css";
+import ProfileCard from "../components/profile_card/ProfileCard";
 
 export default function RootLayout() {
   return (
@@ -45,15 +46,7 @@ export default function RootLayout() {
           <div className={styles['notification-icon']}>
             <img src="" alt="" />
           </div>
-          <div className={styles['pfp-card']}>
-            <Link to="/inventario">
-              <img className={styles.pfp} src="/Logo_Level_UP_Favicon.png" alt="pfp" />
-            </Link>
-            <div className={styles['pfp-info']}>
-              <p className={styles.username}>Username</p>
-              <div className={styles['xp-bar-fill']}></div>
-            </div>
-          </div>
+          <ProfileCard />
         </nav>
 
       </header>
@@ -110,21 +103,9 @@ export default function RootLayout() {
           <div className={styles['line-splitter']}>
             <hr className={styles.line} />
           </div>
-          <div className={styles['pfp-card']}>
-            <img src="" alt="" />
-            <p className={styles.username}>Username</p>
-            <div className={styles['xp-bar-fill']}></div>
-          </div>
-          <div className={styles['pfp-card']}>
-            <img src="" alt="" />
-            <p className={styles.username}>Username</p>
-            <div className={styles['xp-bar']}></div>
-          </div>
-          <div className={styles['pfp-card']}>
-            <img src="" alt="" />
-            <p className={styles.username}>Username</p>
-            <div className={styles['xp-bar']}></div>
-          </div>
+          <ProfileCard />
+          <ProfileCard />
+          <ProfileCard />
         </div>
       </footer>
       <div className={styles['license-line']}>
