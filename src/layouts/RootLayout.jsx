@@ -44,7 +44,7 @@ export default function RootLayout() {
             <p className={styles.gc}>0</p>
           </div>
           <div className={styles['notification-icon']}>
-            <img src="" alt="" />
+            <img className={styles.bell} src="/bell.svg" alt="bell_icon" />
           </div>
           <ProfileCard />
         </nav>

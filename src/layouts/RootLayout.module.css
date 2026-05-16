@@ -77,11 +77,19 @@
 .notification-icon {
   display: flex;
   align-items: center;
+  justify-content: center;
   width: 34px;
   height: 34px;
   border: 1px solid #b8a782;
   border-radius: 15px;
   background-color: #111316;
+  margin-top: 10px;
+}
+
+.bell {
+  width: 16px;
+  height: auto;
+  object-fit: contain;
 }
 
 .pfp-card {
