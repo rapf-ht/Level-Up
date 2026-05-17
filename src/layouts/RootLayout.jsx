@@ -1,37 +1,48 @@
+import { useState } from "react";
 import { Outlet, Link, NavLink } from "react-router-dom";
 import styles from "./RootLayout.module.css";
 import ProfileCard from "../components/profile_card/ProfileCard";
 
 export default function RootLayout() {
+  const [menuOpen, setMenuOpen] = useState(false); // menuNavbarOpen é a função que altera o estado do menuNavbar
   return (
     <div className={styles.container}>
 
       <header className={styles['header-body']}>
+        <button
+          className={styles.hamburger}
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label="Menu"
+        >
+          <span className={`${styles['ham-line']} ${menuOpen ? styles['ham-open'] : ''}`}></span>
+          <span className={`${styles['ham-line']} ${menuOpen ? styles['ham-open'] : ''}`}></span>
+          <span className={`${styles['ham-line']} ${menuOpen ? styles['ham-open'] : ''}`}></span>
+        </button>
         <nav className={styles.navbar}>
           <Link className={styles['logo-header-link']} to="/home">
             <img className={styles['logo-header']} src="/Logo_Level_UP_Mid.png" alt="logo_lvl_up" />
           </Link>
                
           <NavLink 
-            to="/inventario" 
+            to="/inventario" onClick={() => setMenuOpen(false)}
             className={({ isActive }) => `${styles['btn-navbar']} ${isActive ? styles.btnActive : null} `}
           >
               Inventário
           </NavLink>
           <NavLink 
-            to="/bazar-magico" 
+            to="/bazar-magico" onClick={() => setMenuOpen(false)}
             className={({ isActive }) => `${styles['btn-navbar']} ${isActive ? styles.btnActive : null} `}
           >
               Bazar Mágico
           </NavLink>
           <NavLink 
-            to="/taverna" 
+            to="/taverna" onClick={() => setMenuOpen(false)}
             className={({ isActive }) => `${styles['btn-navbar']} ${isActive ? styles.btnActive : null} `}
           >
               Taverna
           </NavLink>
           <NavLink 
-            to="/areas-da-vida" 
+            to="/areas-da-vida" onClick={() => setMenuOpen(false)}
             className={({ isActive }) => `${styles['btn-navbar']} ${isActive ? styles.btnActive : null} `}
           >
               Áreas da Vida

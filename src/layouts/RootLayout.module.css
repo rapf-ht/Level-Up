@@ -201,46 +201,105 @@
   font-weight: lighter;
   font-style: italic;
 }
-/*@media screen and (max-width: 768px) {
-  .header {
-    width: 100%;
-    height: 72px;
-    padding: 0 16px;
+
+/* ── HAMBÚRGUER ── */
+.hamburger {
+  display: none;          /* escondido no desktop */
+  flex-direction: column;
+  gap: 5px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  z-index: 200;
+}
+
+.ham-line {
+  width: 22px;
+  height: 2px;
+  background-color: #f4cc7c;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+/* ── MOBILE ── */
+@media screen and (max-width: 768px) {
+
+  /* Header */
+  .header-body {
+    position: relative;
     justify-content: space-between;
-    font-size: 20px;
+    padding: 0 16px;
   }
-  .btnProfile {
-    display: block;
+
+  .hamburger {
+    display: flex;   /* aparece no mobile */
   }
+
+  /* Nav principal vira menu vertical */
   .navbar {
+    display: none;
+    position: absolute;
+    top: 64px;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    background-color: #111316;
+    border-top: 1px solid #b8a782;
+    padding: 12px 20px;
+    gap: 0;
+    z-index: 100;
+  }
+
+  /* Quando aberto */
+  .navbar-open {
+    display: flex;
+  }
+
+  /* Logo some do menu no mobile */
+  .logo-header-link {
     display: none;
   }
 
-  .footer {
+  /* Links viram full width */
+  .btn-navbar {
+    width: 100%;
+    justify-content: flex-start;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(184,167,130,0.15);
+    font-size: 18px;
+  }
+
+  /* Stats — moeda some, só sino e perfil */
+  .card-gc {
     display: none;
   }
-  .footerMobile {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem;
-    height: 88px;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background-color: #ffffff;
+
+  
+  .footer-body {
+    flex-direction: column; /* coluna vertical */
+    align-items: flex-start;
+    padding: 24px 20px;
+    gap: 24px;
   }
-  .btnFooterMobile {
-    width: 68px;
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    color: #000000;
+
+  .col1 {
+    margin-left: 0;
+  }
+
+  .columns {
+    width: 100%;
+    height: auto;
+  }
+
+  /* Footer — guilda some no mobile */
+  .columns:last-child {
+    display: none;
+  }
+
+  .col-list {
+    font-size: 13px;
+    line-height: 2;
   }
 }
-*/
