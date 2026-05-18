@@ -5,7 +5,7 @@ export default function ProfileCard() {
   return (
     <div className={styles['profile-card']}>
         <Link to="/inventario">
-          <img className={styles.pfp} src="/Logo_Level_UP_Favicon.png" alt="pfp" />
+          <img className={styles.pfp} src="/logos/Logo_LevelUp_Favicon.svg" alt="pfp" />
         </Link>
         <div className={styles['pfp-info']}>
           <p className={styles.username}>Username</p>

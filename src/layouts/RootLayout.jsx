@@ -14,13 +14,13 @@ export default function RootLayout() {
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Menu"
         >
-          <span className={`${styles['ham-line']} ${menuOpen ? styles['ham-open'] : ''}`}></span>
-          <span className={`${styles['ham-line']} ${menuOpen ? styles['ham-open'] : ''}`}></span>
-          <span className={`${styles['ham-line']} ${menuOpen ? styles['ham-open'] : ''}`}></span>
+          <span className={`${styles['ham-line']} ${menuOpen ? styles['ham-open'] : null}`}></span>
+          <span className={`${styles['ham-line']} ${menuOpen ? styles['ham-open'] : null}`}></span>
+          <span className={`${styles['ham-line']} ${menuOpen ? styles['ham-open'] : null}`}></span>
         </button>
         <nav className={styles.navbar}>
           <Link className={styles['logo-header-link']} to="/home">
-            <img className={styles['logo-header']} src="/Logo_Level_UP_Mid.png" alt="logo_lvl_up" />
+            <img className={styles['logo-header']} src="/logos/Logo_LevelUP_Mid.svg" alt="logo_lvl_up" />
           </Link>
                
           <NavLink 
@@ -51,11 +51,11 @@ export default function RootLayout() {
 
         <nav className={styles.stats}>
           <div className={styles["card-gc"]}>
-            <img className={styles['coins-gc']} src="" alt="" />
+            <img className={styles['coins-gc']} src="/icons/Coin_icon.svg" alt="" />
             <p className={styles.gc}>0</p>
           </div>
-          <div className={styles['notification-icon']}>
-            <img className={styles.bell} src="/bell.svg" alt="bell_icon" />
+          <div className={styles['notification-card']}>
+            <img className={styles.bell} src="/icons/Bell_icon.svg" alt="bell_icon" />
           </div>
           <ProfileCard />
         </nav>
@@ -71,7 +71,7 @@ export default function RootLayout() {
         <div className={styles.col1}>
           <div className={styles['logo-footer']}>
             <Link to="/home">
-              <img className={styles['logo-footer']} src="/Logo_Level_UP_Big.png" alt="logo-lvlup" />
+              <img className={styles['logo-footer']} src="/logos/Logo_Level_UP_Big.svg" alt="logo-lvlup" />
             </Link>
           </div>
           <p className={styles['footer-caption']}>
