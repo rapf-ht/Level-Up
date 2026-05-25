@@ -1,0 +1,45 @@
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Press+Start+2P&display=swap");
+
+.profile-card {
+  overflow: visible;
+  display: flex;
+  border: 1px solid #b8a782;
+  border-radius: 15px;
+  margin-right: 10px;
+  height: auto;
+  width: auto;
+  background-color: #111316;
+}
+
+.pfp {
+  margin-bottom: -5px;
+  width: 50px;
+  height: auto;
+  object-fit: contain;
+}
+
+.username {
+  color: #f4cc7c;
+  font-size: 14px;
+  font-family: "Cormorant Garamond", serif;
+  margin-top: 6px;
+}
+
+.xp-bar-fill {
+  width: 200px;
+  height: 6px;
+  background-color: #a4a4a4;
+  border-radius: 12px;
+  position: relative;
+  margin: 7px 10px 0 -5px;
+}
+
+.xp-bar-fill::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 70%;
+  height: 6px;
+  background-color: #3f9ce0;
+  border-radius: 12px;
+}
