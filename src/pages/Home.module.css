@@ -1,9 +1,9 @@
 .backgroundGif {
-  background-image: url("/background-home-gif.gif");
+  background-image: url("/background-home-gif-2.gif");
   background-attachment: fixed;
   background-size: cover;
   background-repeat: no-repeat;
-  background-position: center 10px;
+  background-position: center;
   min-height: 100vh;
   justify-items: center;
 }
