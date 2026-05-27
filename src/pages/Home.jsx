@@ -2,17 +2,34 @@ import { Link } from "react-router-dom";
 import styles from "./Home.module.css";
 import { CustomCheckbox } from "../components/CustomCheckbox";
 import { Calendar } from "../components/Calendar";
+import { useState } from "react";
 
 export default function Home() {
+
+  let [showLayout, setShowLayout] = useState(true)
+
   let name = "Dev_Br";
   let level = 4;
   let xp = 40;
   let hp = 80;
 
+  function alteraVisibilidade() {
+    showLayout ? setShowLayout(false) : setShowLayout(true);
+  }
+
   return (
     <div className={styles.mainContainer}>
       <div className={styles.backgroundGif}>
-        <div className={styles.conteudoSeguro}>
+        <button
+          className={styles.teste}
+          onClick={() => alteraVisibilidade()}
+        ></button>
+        <img
+          className={styles.animatedAvatar}
+          src="/avatar.png"
+          alt="avatar"
+        />
+        <div className={styles.conteudoSeguro} style={{ display: showLayout ? "flex" : "none" }}>
           <div className={styles.avatarConatinerMobile}>
             <div className={styles.avatar}>
               <img src="/avatar-icon.png" alt="Avatar" width="78px" />
@@ -38,11 +55,6 @@ export default function Home() {
               </div>
             </div>
           </div>
-          <img
-            className={styles.animatedAvatar}
-            src="/avatar.png"
-            alt="avatar"
-          />
           <div className={styles.firtContainer}>
             <div className={styles.avatarConatiner}>
               <div className={styles.avatar}>

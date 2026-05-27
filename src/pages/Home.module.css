@@ -8,22 +8,31 @@
   justify-items: center;
 }
 
+.teste {
+  width: 50px;
+  height: 50px;
+  border-radius: 50px;
+  position: absolute;
+  right: 10%;
+  top: 10%;
+}
+
 .conteudoSeguro {
-  padding-top: 100vh;
+  padding-top: 10vh;
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: clamp(1.5rem, 8.33vw, 7.5rem);
   font-size: 24px;
-  max-width: 1440px;
 }
 .mobileInfoPerfil {
   display: none;
 }
 .animatedAvatar {
-  width: 80px;
+  width: 100px;
   position: fixed;
-  top: 85%;
-  left: 33.5%;
+  top: 75%;
+  left: 43.5%;
   z-index: 0;
 }
 .firtContainer {
@@ -220,7 +229,7 @@
   .conteudoSeguro {
     padding: 0 16px;
     padding-top: 9vh;
-    display: flex;
+    display: var(--show-layout) !important;
     flex-direction: column;
     gap: 24px;
     font-size: 18px;
