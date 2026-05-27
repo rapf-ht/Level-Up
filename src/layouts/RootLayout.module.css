@@ -238,7 +238,8 @@
   .header-body {
     position: relative;
     justify-content: space-between;
-    padding: 0 16px;
+    font-size: 20px;
+    background-color: transparent;
   }
 
   .hamburger {
@@ -270,14 +271,18 @@
   .logo-header-link {
     display: none;
   }
-
-  /* Links viram full width */
-  .btn-navbar {
-    width: 100%;
-    justify-content: flex-start;
-    padding: 12px 0;
-    border-bottom: 1px solid rgba(184,167,130,0.15);
-    font-size: 18px;
+  .footerMobile {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    height: 88px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 999;
+    background-color: #ffffff;
   }
 
   /* Stats — moeda some, só sino e perfil */
