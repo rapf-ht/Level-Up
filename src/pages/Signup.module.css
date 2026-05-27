@@ -1,0 +1,170 @@
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Press+Start+2P&display=swap");
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container {
+    background-image: url('../assets/signup_in/background_cadastro.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed; /* Efeito Parallax */
+    width: 100vw;
+    height: 100vh;
+}
+
+.signup-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    background-color: #111316d1;
+    padding: 10px 20px;
+    backdrop-filter: blur(5px);
+    gap: 1.5em;
+    height: auto;
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 2em;
+}
+
+.title-intro {
+    color: #f4cc7c;
+    font-weight: bold;
+    font-size: 1.5em;
+    font-family: "Cormorant Garamond", serif;
+    font-style: italic;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: .5em;
+    width: 100%;
+}
+
+.form-label {
+    color: #f8ddaf;
+    font-weight: bold;
+    font-family: "Cormorant Garamond", serif;
+    margin-bottom: .25em;
+}
+
+.form-control {
+    border-radius: 5px;
+}
+
+.choose-class {
+    display: flex;
+    flex-direction: column;
+    gap: .75em;
+    width: 100%;
+    align-items: center;
+}
+
+.text-choice {
+    font-weight: lighter;
+    font-style: italic;
+    color: #ffc107;
+    font-size: 0.875em;
+}
+
+.list-classes {
+    display: flex;
+    justify-content: center;
+    gap: .5em;
+    width: 100%;
+}
+
+.class-btn {
+    background-color: transparent;
+    border: 1px solid #ffc107;
+    color: #ffc107;
+    padding: 0.6em 1em;
+    border-radius: 4px;
+    font-weight: bold;
+    font-family: "Cormorant Garamond", serif;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.95em;
+}
+
+.class-btn:hover {
+    background-color: #ffc107;
+    color: #000;
+}
+
+.span-disclaimer {
+    color: #fff7f779;
+    font-weight: lighter;
+    font-style: italic;
+    font-size: .875em;
+    margin-top: .25em;
+    font-size: 11px;
+}
+
+.signup-form input {
+    background-color: transparent;
+    border: 1px solid #b8a782;
+    color: #fff;
+    height: 30px;
+}
+
+.signup-form input::placeholder {
+    color: #ececec79;
+    font-size: 16px;
+}
+
+.grid {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.btn-enter {
+    background-color: #ffc107;
+    color: #000;
+    font-weight: bold;
+    border: none;
+    padding: 0.5em 1em;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+    font-family: "Cormorant Garamond", serif;
+    font-size: 1em;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-enter:hover {
+    background-color: #e0a800;
+}
+
+.text-center {
+    text-align: center;
+    width: 100%;
+}
+
+.btn-link {
+    color: #ffc107;
+    font-weight: bold;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: .25em;
+    transition: color 0.3s ease;
+}
+
+.btn-link:hover {
+    color: #f4cc7c;
+}
+
+.bi {
+    display: inline-block;
+}
