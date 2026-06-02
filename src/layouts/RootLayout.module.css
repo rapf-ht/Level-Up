@@ -145,6 +145,11 @@
   border-radius: 12px;
 }
 
+.main {
+  min-height: 75vh;
+  padding: 100px 24px 0;
+}
+
 .footer-body {
   display: flex;
   justify-content: space-around;

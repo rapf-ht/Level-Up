@@ -1,5 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import RootLayout from "../layouts/RootLayout";
+import AreasDaVidaLayout from "../layouts/AreasDaVidaLayout";
 import Home from "../pages/Home";
 import NotFound from "../pages/NotFound";
 import SignupForm from "../pages/Signup";
@@ -22,6 +23,10 @@ export const router = createBrowserRouter([
       {
         path: "/home",
         element: <Home />,
+      },
+      {
+        path: "areas-da-vida",
+        element: <AreasDaVidaLayout />,
       },
       { path: "*",
         element: <NotFound /> 
