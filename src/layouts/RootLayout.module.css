@@ -100,7 +100,7 @@
 
 .gc {
   color: #f4cc7c;
-  font-size: 13px;
+  font-size: 16px;
   font-family: "Inter", serif-sans;
 }
 
@@ -121,7 +121,7 @@
 
 .username {
   color: #f4cc7c;
-  font-size: 14px;
+  font-size: 16px;
   font-family: "Cormorant Garamond", serif;
   margin-top: 6px;
 }
@@ -147,7 +147,6 @@
 
 .main {
   min-height: 75vh;
-  padding: 100px 24px 0;
 }
 
 .footer-body {
@@ -178,7 +177,7 @@
 
 .footer-caption {
   color: #aba6a2;
-  font-size: 11px;
+  font-size: 16px;
   font-family: "Inter", sans-serif;
   margin: -5px 10px 30px 0;
 }
@@ -192,7 +191,7 @@
 .col-title {
   font-family: "Cormorant Garamond", serif;
   color: #f4cc7c;
-  font-size: 14px;
+  font-size: 24px;
 }
 
 .line-splitter {
@@ -208,7 +207,7 @@
 .col-list {
   color: #aba6a2;
   font-family: "Inter", sans-serif;
-  font-size: 8px;
+  font-size: 16px;
 }
 
 .col-list:hover {
@@ -218,7 +217,7 @@
 
 .license {
   color: #aba6a2;
-  font-size: 8px;
+  font-size: 16px;
   font-family: "Inter", sans-serif;
   display: flex;
   justify-content: center;
@@ -254,7 +253,7 @@
   .header-body {
     position: relative;
     justify-content: space-between;
-    font-size: 20px;
+    font-size: 24px;
     background-color: transparent;
   }
 
@@ -329,7 +328,7 @@
   }
 
   .col-list {
-    font-size: 13px;
+    font-size: 16px;
     line-height: 2;
   }
 }

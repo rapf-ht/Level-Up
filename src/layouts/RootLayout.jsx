@@ -60,7 +60,7 @@ export default function RootLayout() {
             Taverna
           </NavLink>
           <NavLink
-            to="/areas-da-vida"
+            to="/areas-da-vida/saude"
             onClick={() => setMenuOpen(false)}
             className={({ isActive }) =>
               `${styles["btn-navbar"]} ${isActive ? styles.btnActive : null} `
