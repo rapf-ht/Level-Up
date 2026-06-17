@@ -1,6 +1,6 @@
 package com.levelup.api.enums;
 
-public enum Class {
+public enum ClassPlayer {
     GUERREIRO,
     MAGO,
     LADINO
