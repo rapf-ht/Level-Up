@@ -13,11 +13,12 @@ public class AccountDTO {
     public Integer hp;
     public Integer gc;
 
-    public void AccountGetters (Account account) {
+    // Construtor
+    public AccountDTO (Account account) {
         this.idAccount = account.getIdAccount();
         this.user = account.getUser();
         this.email = account.getEmail();
-        this.classPlayer = account.getClass().toString(); //Wrapper para String
+        this.classPlayer = account.getClasses().toString(); //Wrapper para String
         this.level = account.getLevel();
         this.xp = account.getXp();
         this.hp = account.getHp();

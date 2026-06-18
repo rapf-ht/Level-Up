@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Locale;
 import java.util.Optional;
 
 @Service
@@ -31,7 +32,7 @@ public class AccountService {
         account.setPassword(passwordEncoder.encode(signup.password));
 
         // Transformando String em Enum
-        account.setClasses(ClassPlayer.valueOf(signup.classPlayer));
+        account.setClasses(ClassPlayer.valueOf(signup.classPlayer.toUpperCase()));
 
         return accountRepository.save(account);
     }
