@@ -158,18 +158,8 @@ export default function RootLayout() {
               </Link>
             </li>
             <li>
-              <Link to="/notificacoes" className={styles["col-list"]}>
-                Notificações
-              </Link>
-            </li>
-            <li>
               <Link to="/estatisticas" className={styles["col-list"]}>
                 Estatísticas
-              </Link>
-            </li>
-            <li>
-              <Link to="/conquistas" className={styles["col-list"]}>
-                Conquistas
               </Link>
             </li>
             <li>
@@ -181,13 +171,32 @@ export default function RootLayout() {
         </div>
 
         <div className={styles.columns}>
-          <h3 className={styles["col-title"]}>Minha Guilda</h3>
+          <h3 className={styles["col-title"]}>Suporte</h3>
           <div className={styles["line-splitter"]}>
             <hr className={styles.line} />
           </div>
-          <ProfileCard />
-          <ProfileCard />
-          <ProfileCard />
+          <ul className={styles["col4-ul"]}>
+            <li>
+              <Link to="/ajuda" className={styles["col-list"]}>
+                Perguntas Frequentes
+              </Link>
+            </li>
+            <li>
+              <Link to="/ajuda" className={styles["col-list"]}>
+                Reportar um problema
+              </Link>
+            </li>
+            <li>
+              <Link to="/ajuda" className={styles["col-list"]}>
+                Solicitar funcionalidade
+              </Link>
+            </li>
+            <li>
+              <Link to="/contato" className={styles["col-list"]}>
+                Contato
+              </Link>
+            </li>
+          </ul>
         </div>
       </footer>
       <div className={styles["license-line"]}>

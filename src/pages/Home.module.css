@@ -29,10 +29,10 @@
   display: none;
 }
 .animatedAvatar {
-  width: 100px;
+  width: 125px;
   position: fixed;
-  top: 75%;
-  left: 43.5%;
+  top: 70%;
+  left: 42%;
   z-index: 0;
 }
 .firtContainer {

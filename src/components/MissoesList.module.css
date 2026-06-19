@@ -1,6 +1,6 @@
 .wrapper {
   background: #12121a;
-  border: 1px solid #2a2a3a;
+  border: 1px solid #B8A782;
   border-radius: 12px;
   overflow: hidden;
 }
@@ -14,21 +14,21 @@
   margin: 0;
   font-size: 1rem;
   font-weight: 700;
-  color: #e8e0cc;
+  color: #F8DDAF;
 }
 
 .tabs {
   display: flex;
   gap: 0.5rem;
   padding: 0.75rem 1.2rem;
-  border-bottom: 1px solid #2a2a3a;
+  border-bottom: 1px solid #B8A782;
 }
 .tab {
   padding: 0.35rem 0.9rem;
-  border: 1px solid #2a2a3a;
+  border: 1px solid #B8A782;
   border-radius: 20px;
   background: transparent;
-  color: #7a7a8a;
+  color: #8a887a;
   font-size: 0.78rem;
   cursor: pointer;
   transition: all 0.2s;
@@ -39,7 +39,7 @@
 }
 .tabActive {
   background: #1e1e2e;
-  color: #e8e0cc;
+  color: #F8DDAF;
   border-color: #3a3a4a;
 }
 
@@ -65,7 +65,7 @@
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  border: 2px solid #3a3a4a;
+  border: 2px solid #8a887a;
   background: transparent;
   cursor: pointer;
   display: flex;
@@ -86,18 +86,18 @@
 }
 .missionTitle {
   font-size: 0.88rem;
-  color: #e8e0cc;
+  color: #F8DDAF;
 }
 .missionDone {
   text-decoration: line-through;
-  color: #5a5a6a;
+  color: #8a887a;
 }
 .missionTags {
   display: flex;
   gap: 0.4rem;
   margin-top: 0.2rem;
   font-size: 0.68rem;
-  color: #7a7a8a;
+  color: #8a887a;
 }
 .separator {
   margin: 0 0.15rem;
