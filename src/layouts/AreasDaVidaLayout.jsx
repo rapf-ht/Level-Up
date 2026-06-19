@@ -28,8 +28,13 @@ function AreasDaVidaContent() {
   const { areaInfo } = useArea();
   const areaTitle = areaInfo.title;
   const areaIcon = areaInfo.icon;
+  const areaBanner = areaInfo.banner;
   return (
     <div className={styles.page}>
+      {/* ── Banner ── */}
+      <div className={styles.banner}>
+        <img src={areaBanner} alt={areaTitle} className={styles.bannerImg} />
+      </div>
       {/* ── Breadcrumb ── */}
       <div className={styles.breadcrumb}>
         <Link to="/home">Home</Link> &gt;{" "}

@@ -50,7 +50,7 @@ export default function Estudos() {
   const mm = String(Math.floor(remaining / 60)).padStart(2, "0");
   const ss = String(remaining % 60).padStart(2, "0");
 
-  useAreaInfo("Área de Estudos", "📚");
+  useAreaInfo("Área de Estudos", "📚", "/banners/banner_estudos.png");
  
   return (
     <>

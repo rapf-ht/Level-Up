@@ -8,7 +8,7 @@ const organizacaoMissions = [
 ];
  
 export default function Organizacao() {
-  useAreaInfo("Área da Casa", "🏠");
+  useAreaInfo("Área da Casa", "🏠", "/banners/banner_organizacao.png");
   return (
       <MissoesList initialMissions={organizacaoMissions} />
   );

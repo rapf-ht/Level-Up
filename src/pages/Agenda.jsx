@@ -60,7 +60,7 @@ export default function Agenda() {
       current: false,
     });
 
-  useAreaInfo("Área da Agenda", "📅");
+  useAreaInfo("Área da Agenda", "📅", "/banners/banner_agenda.png");
 
   return (
     <>

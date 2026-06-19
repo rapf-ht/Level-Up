@@ -7,7 +7,7 @@ const lazerMissions = [
 ];
  
 export default function Lazer() {
-  useAreaInfo("Área do Lazer", "🖥️");
+  useAreaInfo("Área do Lazer", "🖥️", "/banners/banner_lazer.png");
   return (
       <MissoesList initialMissions={lazerMissions} />
   );

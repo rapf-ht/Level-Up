@@ -3,6 +3,7 @@
   background: #0e0e10;
   color: #e8e0cc;
   font-family: "Segoe UI", system-ui, sans-serif;
+  padding-top: 72px;
 }
 
 .heroBanner {
@@ -63,11 +64,14 @@
   font-style: italic;
 }
 
+.banner{
+  
+}
+
 .breadcrumb {
   padding: 0.5rem 2rem;
   font-size: 0.75rem;
   color: #6b6b7b;
-  padding-top: 72px;
 }
 .breadcrumb a {
   color: #6b6b7b;

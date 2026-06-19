@@ -8,7 +8,7 @@ const planejamentoMissions = [
 ];
  
 export default function Planejamento() {
-  useAreaInfo("Área de Plano", "✏️");
+  useAreaInfo("Área de Plano", "✏️", "/banners/banner_plano.png");
   return (
       <MissoesList initialMissions={planejamentoMissions} />
   );

@@ -8,7 +8,7 @@ const financasMissions = [
 ];
  
 export default function Financas() {
-  useAreaInfo("Área de Finanças", "💲");
+  useAreaInfo("Área de Finanças", "💲", "/banners/banner_financas.png");
   return (
       <MissoesList initialMissions={financasMissions} />
   );

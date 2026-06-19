@@ -35,6 +35,6 @@ const missions = [
 ];
 
 export default function Saude() {
-  useAreaInfo("Área da Saúde", "❤️");
+  useAreaInfo("Área da Saúde", "❤️", "/banners/banner_saude.png");
   return <MissoesList initialMissions={missions} />;
 }
