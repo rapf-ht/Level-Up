@@ -26,7 +26,7 @@
   align-items: center;
   gap: 0.25rem;
   color: #c8bfa8;
-  font-size: 0.75rem;
+  font-size: 1rem;
 }
 .potionHp {
   width: 48px;
@@ -38,7 +38,7 @@
   justify-content: center;
   color: white;
   font-weight: 700;
-  font-size: 0.8rem;
+  font-size: 1rem;
   box-shadow: 0 0 12px #a855f7;
 }
 .potionXp {
@@ -51,7 +51,7 @@
   justify-content: center;
   color: white;
   font-weight: 700;
-  font-size: 0.8rem;
+  font-size: 1rem;
   box-shadow: 0 0 12px #3b82f6;
 }
 .bannerScroll {
@@ -59,12 +59,12 @@
   border: 1px solid rgba(212, 175, 55, 0.3);
   border-radius: 4px;
   padding: 0.5rem 1rem;
-  font-size: 0.75rem;
+  font-size: 1rem;
   color: #d4af37;
   font-style: italic;
 }
 
-.bannerImg{
+.bannerImg {
   width: 100%;
   height: 300px;
   object-fit: cover;
@@ -72,7 +72,7 @@
 
 .breadcrumb {
   padding: 0.5rem 2rem;
-  font-size: 0.75rem;
+  font-size: 1rem;
   color: #8a887a;
 }
 .breadcrumb a {
@@ -89,12 +89,13 @@
   align-items: flex-start;
   gap: 2rem;
   flex-wrap: wrap;
+  margin-bottom: 8px;
 }
-.headerTopRow{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
+.headerTopRow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
 }
 .areaTitle {
   display: flex;
@@ -113,7 +114,7 @@
 }
 .areaMeta {
   margin: 0.15rem 0 0;
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   color: #8a887a;
 }
 
@@ -133,7 +134,7 @@
 }
 .statLabel {
   margin: 0 0 0.25rem;
-  font-size: 0.7rem;
+  font-size: 1rem;
   color: #8a887a;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -149,7 +150,7 @@
 }
 .statSub {
   margin: 0.2rem 0 0;
-  font-size: 0.68rem;
+  font-size: 0.88rem;
   color: #8a887a;
 }
 
@@ -184,7 +185,7 @@
   border: 1px solid #d4af37;
   border-radius: 8px;
   color: #d4af37;
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
   text-decoration: none;
@@ -211,7 +212,7 @@
 }
 .sidebarTitle {
   margin: 0 0 0.75rem;
-  font-size: 0.85rem;
+  font-size: 1rem;
   font-weight: 700;
   color: #d4af37;
   text-align: center;
@@ -230,7 +231,7 @@
   background: #16161f;
   color: #c8bfa8;
   text-decoration: none;
-  font-size: 0.82rem;
+  font-size: 1rem;
   text-align: center;
   transition: all 0.2s;
 }
@@ -249,14 +250,14 @@
 }
 .progressTitle {
   margin: 0 0 0.5rem;
-  font-size: 0.82rem;
+  font-size: 1rem;
   font-weight: 700;
   color: #d4af37;
   text-align: center;
 }
 .progressLabel {
   margin: 0.5rem 0 0.25rem;
-  font-size: 0.7rem;
+  font-size: 1rem;
   color: #8a887a;
 }
 .xpLabel {
@@ -281,7 +282,7 @@
 }
 .hpLabel {
   margin: 0 0 0.3rem;
-  font-size: 0.65rem;
+  font-size: 1rem;
   color: #ef4444;
   letter-spacing: 0.08em;
   font-weight: 700;
@@ -305,7 +306,7 @@
 }
 .rpLabel {
   margin: 0 0 0.6rem;
-  font-size: 0.65rem;
+  font-size: 1rem;
   color: #d4af37;
   letter-spacing: 0.08em;
   font-weight: 700;
@@ -329,7 +330,7 @@
   border-radius: 50%;
   background: #d4af37;
   color: #0e0e10;
-  font-size: 0.65rem;
+  font-size: 1rem;
   font-weight: 700;
   display: flex;
   align-items: center;
@@ -342,7 +343,7 @@
   background: #1e1e2e;
   border: 1px solid #b8a782;
   color: #8a887a;
-  font-size: 0.5rem;
+  font-size: 0.6rem;
   display: flex;
   align-items: center;
   justify-content: center;
