@@ -5,8 +5,7 @@ import { Calendar } from "../components/Calendar";
 import { useState } from "react";
 
 export default function Home() {
-
-  let [showLayout, setShowLayout] = useState(true)
+  let [showLayout, setShowLayout] = useState(true);
 
   let name = "Dev_Br";
   let level = 4;
@@ -14,22 +13,28 @@ export default function Home() {
   let hp = 80;
 
   function alteraVisibilidade() {
-    showLayout ? setShowLayout(false) : setShowLayout(true);
+    setShowLayout(!showLayout);
   }
 
   return (
     <div className={styles.mainContainer}>
       <div className={styles.backgroundGif}>
         <button
-          className={styles.teste}
-          onClick={() => alteraVisibilidade()}
-        ></button>
+          className={styles.btnHideUI}
+          onClick={alteraVisibilidade}
+        >
+          {showLayout ? "Ocultar Interface" : "Mostrar Interface"}
+        </button>
         <img
           className={styles.animatedAvatar}
           src="/avatar.png"
           alt="avatar"
         />
-        <div className={styles.conteudoSeguro} style={{ display: showLayout ? "flex" : "none" }}>
+        <div 
+          className={styles.conteudoSeguro} 
+          style={{ display: showLayout ? "grid" : "none" }}
+        >
+          {/* Mantendo estrutura Mobile intacta para a próxima etapa */}
           <div className={styles.avatarConatinerMobile}>
             <div className={styles.avatar}>
               <img src="/avatar-icon.png" alt="Avatar" width="78px" />
@@ -37,73 +42,61 @@ export default function Home() {
             <div className={styles.attributes}>
               <div className={styles.attributesLine}>
                 <p className={`${styles.highlightedText} ${styles.hpColor}`}>HP</p>
-                <div
-                  className={styles.attributesBar}
-                  style={{ "--nivel-hp": `${hp}%` }}
-                >
+                <div className={styles.attributesBar} style={{ "--nivel-hp": `${hp}%` }}>
                   <div className={styles.attributesBarHpFill}></div>
                 </div>
               </div>
               <div className={styles.attributesLine}>
                 <p className={`${styles.highlightedText} ${styles.xpColor}`}>XP</p>
-                <div
-                  className={styles.attributesBar}
-                  style={{ "--nivel-xp": `${xp}%` }}
-                >
+                <div className={styles.attributesBar} style={{ "--nivel-xp": `${xp}%` }}>
                   <div className={styles.attributesBarXpFill}></div>
                 </div>
               </div>
             </div>
           </div>
-          <div className={styles.firtContainer}>
-            <div className={styles.avatarConatiner}>
-              <div className={styles.avatar}>
-                <img src="/avatar-icon.png" alt="Avatar" width="130px" />
-                <p className={`${styles.highlightedText} ${styles.tittle}`}>
-                  {name}
-                </p>
-                <p className={styles.highlightedText}>Level {level}</p>
-              </div>
-              <div className={styles.attributes}>
-                <div className={styles.attributesLine}>
-                  <p className={styles.highlightedText}>HP</p>
-                  <div
-                    className={styles.attributesBar}
-                    style={{ "--nivel-hp": `${hp}%` }}
-                  >
-                    <div className={styles.attributesBarHpFill}></div>
-                  </div>
-                </div>
-                <div className={styles.attributesLine}>
-                  <p className={`${styles.highlightedText} ${styles.xpColor}`}>XP</p>
-                  <div
-                    className={styles.attributesBar}
-                    style={{ "--nivel-xp": `${xp}%` }}
-                  >
-                    <div className={styles.attributesBarXpFill}></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className={styles.goalsContainer}>
+
+          {/* 1. PERFIL (Alinhado à Esquerda) */}
+          <div className={styles.avatarConatiner}>
+            <div className={styles.avatar}>
+              <img src="/avatar-icon.png" alt="Avatar" width="130px" />
               <p className={`${styles.highlightedText} ${styles.tittle}`}>
-                Tarefas do Dia
+                {name}
               </p>
-              <div className={styles.goalsContainerLine}>
-                <CustomCheckbox text={"Completar Missão Diária"} />
-                <span className={styles.line} />
-
-                <CustomCheckbox text={"Beber 2L de Água"} />
-                <span className={styles.line} />
-
-                <CustomCheckbox text={"Estudar 30min"} />
-                <span className={styles.line} />
-
-                <CustomCheckbox text={"Ir a academia"} />
+              <p className={styles.highlightedText}>Level {level}</p>
+            </div>
+            <div className={styles.attributes}>
+              <div className={styles.attributesLine}>
+                <p className={styles.highlightedText}>HP</p>
+                <div className={styles.attributesBar} style={{ "--nivel-hp": `${hp}%` }}>
+                  <div className={styles.attributesBarHpFill}></div>
+                </div>
+              </div>
+              <div className={styles.attributesLine}>
+                <p className={`${styles.highlightedText} ${styles.xpColor}`}>XP</p>
+                <div className={styles.attributesBar} style={{ "--nivel-xp": `${xp}%` }}>
+                  <div className={styles.attributesBarXpFill}></div>
+                </div>
               </div>
             </div>
           </div>
 
+          {/* 2. MISSÕES (Ocupando Centro e Direita) */}
+          <div className={styles.goalsContainer}>
+            <p className={`${styles.highlightedText} ${styles.tittle}`}>
+              Tarefas do Dia
+            </p>
+            <div className={styles.goalsContainerLine}>
+              <CustomCheckbox text={"Completar Missão Diária"} />
+              <span className={styles.line} />
+              <CustomCheckbox text={"Beber 2L de Água"} />
+              <span className={styles.line} />
+              <CustomCheckbox text={"Estudar 30min"} />
+              <span className={styles.line} />
+              <CustomCheckbox text={"Ir a academia"} />
+            </div>
+          </div>
+
+          {/* 3. CALENDÁRIO (Logo abaixo, ocupando as 3 colunas) */}
           <div className={styles.secondContainer}>
             <p className={`${styles.highlightedText} ${styles.tittle}`}>
               Calendário
@@ -111,10 +104,9 @@ export default function Home() {
             <Calendar />
           </div>
 
+          {/* 4. LOJA (Embaixo do calendário, ocupando as 3 colunas e com fundo corrigido) */}
           <div className={styles.thirdContainer}>
-            <p
-              className={`${styles.highlightedText} ${styles.tittle} ${styles.tittleStore}`}
-            >
+            <p className={`${styles.highlightedText} ${styles.tittle} ${styles.tittleStore}`}>
               Destaques da loja
             </p>
             <div className={styles.newItemsStore}>
@@ -148,6 +140,7 @@ export default function Home() {
               </div>
             </div>
           </div>
+
         </div>
       </div>
     </div>

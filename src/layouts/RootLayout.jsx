@@ -33,6 +33,15 @@ export default function RootLayout() {
           </Link>
 
           <NavLink
+            to="/areas-da-vida/saude"
+            onClick={() => setMenuOpen(false)}
+            className={({ isActive }) =>
+              `${styles["btn-navbar"]} ${isActive ? styles.btnActive : null} `
+            }
+          >
+            Áreas da Vida
+          </NavLink>
+          <NavLink
             to="/inventario"
             onClick={() => setMenuOpen(false)}
             className={({ isActive }) =>
@@ -59,15 +68,6 @@ export default function RootLayout() {
           >
             Taverna
           </NavLink>
-          <NavLink
-            to="/areas-da-vida/saude"
-            onClick={() => setMenuOpen(false)}
-            className={({ isActive }) =>
-              `${styles["btn-navbar"]} ${isActive ? styles.btnActive : null} `
-            }
-          >
-            Áreas da Vida
-          </NavLink>
         </nav>
 
         <nav className={styles.stats}>
@@ -77,7 +77,7 @@ export default function RootLayout() {
               src="/icons/Coin_icon.svg"
               alt=""
             />
-            <p className={styles.gc}>0</p>
+            <p className={styles.gc}>1200</p>
           </div>
           <div className={styles["notification-card"]}>
             <img
