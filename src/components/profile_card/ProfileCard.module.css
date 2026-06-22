@@ -43,3 +43,9 @@
   background-color: #3f9ce0;
   border-radius: 12px;
 }
+
+@media screen and (max-width: 768px) {
+  .profile-card {
+    margin-right: 0;
+  }
+}

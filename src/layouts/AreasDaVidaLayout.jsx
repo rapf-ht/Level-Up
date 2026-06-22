@@ -32,23 +32,30 @@ function AreasDaVidaContent() {
   return (
     <div className={styles.page}>
       {/* ── MOBILE ONLY: Menu Horizontal de Áreas (Invisível no Desktop) ── */}
-      <nav className={styles.mobileAreaTabs}>
-        {areas.map((area) => (
-          <NavLink
-            key={area.to}
-            to={area.to}
-            className={({ isActive }) =>
-              `${styles.mobileAreaTab} ${isActive ? styles.mobileAreaTabActive : ""}`
-            }
-          >
-            <span className={styles.mobileAreaTabIcon}>{area.icon}</span>
-            <span className={styles.mobileAreaTabLabel}>{area.label}</span>
-          </NavLink>
-        ))}
-      </nav>
+      <div className={styles.mobileAreaTabsContainer}>
+        <nav className={styles.mobileAreaTabs}>
+          {areas.map((area) => (
+            <NavLink
+              key={area.to}
+              to={area.to}
+              className={({ isActive }) =>
+                `${styles.mobileAreaTab} ${isActive ? styles.mobileAreaTabActive : ""}`
+              }
+            >
+              <span className={styles.mobileAreaTabIcon}>{area.icon}</span>
+              <span className={styles.mobileAreaTabLabel}>{area.label}</span>
+            </NavLink>
+          ))}
+        </nav>
+      </div>
       {/* ── Banner ── */}
       <div className={styles.banner}>
-        <img src={areaBanner} alt={areaTitle} className={styles.bannerImg} />
+        {
+          console.log("areaBanner:", areaBanner),
+          areaBanner ? 
+            <img src={areaBanner} alt={areaTitle} className={styles.bannerImg} />
+          : ""
+        }
       </div>
       {/* ── Breadcrumb ── */}
       <div className={styles.breadcrumb}>

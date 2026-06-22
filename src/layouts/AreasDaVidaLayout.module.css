@@ -382,10 +382,15 @@
 
 @media (max-width: 768px) {
   .page {
-    padding-top: 0;
+    padding-top: 90px;
   }
   .breadcrumb {
     display: none;
+  }
+
+  .mobileAreaTabsContainer {
+    width: 100vw;
+    position: fixed;
   }
   .mobileAreaTabs {
     display: flex;
@@ -394,6 +399,8 @@
     border-bottom: 1px solid #2e2e40;
     background: #16161f;
     scrollbar-width: none;
+    margin-bottom: 0.5px;
+
   }
   .mobileAreaTabs::-webkit-scrollbar {
     display: none;
@@ -411,6 +418,8 @@
     border-bottom: 2px solid transparent;
     transition: all 0.15s;
     flex-shrink: 0;
+    margin-bottom: 0.5px;
+
   }
   .mobileAreaTabActive {
     color: #d4af37;
@@ -422,6 +431,7 @@
     align-items: flex-start;
     gap: 0.5rem;
     padding: 0.5rem 1rem 0;
+
   }
   .headerTopRow {
     flex-direction: row;

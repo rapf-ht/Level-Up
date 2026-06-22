@@ -22,7 +22,7 @@
   justify-content: space-between;
   overflow: visible;
   position: fixed;
-  background-color: #19181D;
+  background-color: #19181d;
   padding: 16px 24px;
   z-index: 999;
 }
@@ -45,15 +45,14 @@
 
 .btn-navbar {
   padding: 12px 16px;
-  color: #f4cc7c;
-  font-size:20px;
+  color: #8a887a;
+  font-size: 20px;
   font-family: "Cormorant Garamond", serif;
   font-weight: bold;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-
 .btn-navbar:hover {
   color: #f8b93b;
   transition: color 0.3s ease;
@@ -76,7 +75,7 @@
   gap: 8px;
   border: 1px solid #b8a782;
   border-radius: 30px;
-  background-color: #19181D;
+  background-color: #19181d;
   height: 57px;
   padding: 8px 16px;
 }
@@ -89,7 +88,7 @@
   height: 57px;
   border: 1px solid #b8a782;
   border-radius: 30px;
-  background-color: #19181D;
+  background-color: #19181d;
 }
 
 .bell {
@@ -154,12 +153,12 @@
   justify-content: space-between;
   padding: 0px 142px;
   align-items: center;
-  background-color: #19181D;
+  background-color: #19181d;
   position: relative;
   z-index: 999;
 }
 .license-line {
-  background-color: #19181D;
+  background-color: #19181d;
 }
 
 .footerMobile {
@@ -234,7 +233,7 @@
 
 /* ── HAMBÚRGUER ── */
 .hamburger {
-  display: none; /* escondido no desktop */
+  display: none;
   flex-direction: column;
   gap: 5px;
   background: transparent;
@@ -251,49 +250,87 @@
   border-radius: 2px;
   transition: all 0.3s ease;
 }
+.ham-open:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
 
+.ham-open:nth-child(2) {
+  opacity: 0;
+}
+
+.ham-open:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+.btn-navbar-home-mobile {
+  display: none;
+}
 /* ── MOBILE ── */
 @media screen and (max-width: 768px) {
   /* Header */
   .header-body {
-    position: relative;
     justify-content: space-between;
     font-size: 24px;
     background-color: transparent;
+    gap: 0.5rem;
+    position: fixed;
+    background-color: #141517;
   }
-
   .hamburger {
-    display: flex; /* aparece no mobile */
+    display: flex;
   }
 
   /* Nav principal vira menu vertical */
   .navbar {
-    display: none;
+    display: flex;
     position: absolute;
-    top: 64px;
+    top: 90px;
     left: 0;
     right: 0;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     background-color: #111316;
     border-top: 1px solid #b8a782;
     padding: 12px 20px;
     gap: 0;
     z-index: 100;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-15px);
+
+    transition:
+      opacity 0.3s ease,
+      transform 0.3s ease,
+      visibility 0.3s ease;
   }
 
-  /* Quando aberto */
   .navbar-open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .btn-navbar-home-mobile {
     display: flex;
   }
 
-  /* Logo some do menu no mobile */
+  .stats {
+    gap: 0.5rem;
+  }
+  .profile-card {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .notification-card {
+    order: 1;
+  }
+
   .logo-header-link {
     display: none;
   }
   .footerMobile {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     padding: 1rem;
     height: 88px;
@@ -302,19 +339,37 @@
     left: 0;
     right: 0;
     z-index: 999;
-    background-color: #ffffff;
+    background-color: #0e0e10;
+    border-top: 1px solid #f4cc7c;
   }
 
-  /* Stats — moeda some, só sino e perfil */
+  .footerMobile a {
+    text-align: center;
+  }
+  .btnFooterMobile {
+    color: #8a887a;
+  }
+
+  /* Adicione isso no seu RootLayout.module.css */
+
+  .activeMobileLink .btnFooterMobile {
+    color: #f8b93b;
+  }
+
+  /* Caso queira garantir que o clique no NavLink não fique com sublinhado padrão do HTML */
+  .activeMobileLink {
+    text-decoration: none;
+  }
+
   .card-gc {
     display: none;
   }
 
   .footer-body {
-    flex-direction: column; /* coluna vertical */
-    align-items: flex-start;
+    flex-direction: column;
     padding: 24px 20px;
     gap: 24px;
+    text-align: center;
   }
 
   .col1 {
