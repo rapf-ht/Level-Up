@@ -119,3 +119,9 @@
   font-size: 0.82rem;
   margin: 0;
 }
+
+@media (max-width: 768px) {
+  .tabs {
+    justify-content: space-between;
+  }
+}

@@ -31,6 +31,21 @@ function AreasDaVidaContent() {
   const areaBanner = areaInfo.banner;
   return (
     <div className={styles.page}>
+      {/* ── MOBILE ONLY: Menu Horizontal de Áreas (Invisível no Desktop) ── */}
+      <nav className={styles.mobileAreaTabs}>
+        {areas.map((area) => (
+          <NavLink
+            key={area.to}
+            to={area.to}
+            className={({ isActive }) =>
+              `${styles.mobileAreaTab} ${isActive ? styles.mobileAreaTabActive : ""}`
+            }
+          >
+            <span className={styles.mobileAreaTabIcon}>{area.icon}</span>
+            <span className={styles.mobileAreaTabLabel}>{area.label}</span>
+          </NavLink>
+        ))}
+      </nav>
       {/* ── Banner ── */}
       <div className={styles.banner}>
         <img src={areaBanner} alt={areaTitle} className={styles.bannerImg} />
@@ -76,7 +91,7 @@ function AreasDaVidaContent() {
           <div className={styles.statCard}>
             <p className={styles.statLabel}>Sequência atual</p>
             <p className={styles.statValue}>4</p>
-            <p className={styles.statSub}>Recorde Pessoal: 14 dias</p>
+            <p className={styles.statSub}>Recorde: 14 dias</p>
           </div>
         </div>
       </div>

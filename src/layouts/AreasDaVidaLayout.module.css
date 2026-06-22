@@ -379,3 +379,113 @@
   font-size: 0.6rem;
   color: #8a887a;
 }
+
+@media (max-width: 768px) {
+  .page {
+    padding-top: 0;
+  }
+  .breadcrumb {
+    display: none;
+  }
+  .mobileAreaTabs {
+    display: flex;
+    overflow-x: auto;
+    gap: 0;
+    border-bottom: 1px solid #2e2e40;
+    background: #16161f;
+    scrollbar-width: none;
+  }
+  .mobileAreaTabs::-webkit-scrollbar {
+    display: none;
+  }
+  .mobileAreaTab {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 6px;
+    padding: 12px 16px;
+    text-decoration: none;
+    color: #8a887a;
+    font-size: 0.85rem;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: all 0.15s;
+    flex-shrink: 0;
+  }
+  .mobileAreaTabActive {
+    color: #d4af37;
+    border-bottom-color: #d4af37;
+    font-weight: bold;
+  }
+  .pageHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem 0;
+  }
+  .headerTopRow {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+  .areaTitle {
+    min-width: 0;
+    gap: 0.5rem;
+  }
+  .areaName {
+    font-size: 1.4rem;
+  }
+  .newMissionBtn {
+    padding: 1.1rem 1rem;
+    min-width: 148px;
+  }
+  .statCard {
+    min-width: 0px;
+    text-align: center;
+    min-height: 110px;
+    align-content: center;
+  }
+  .body {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    padding: 0 1rem 1rem;
+  }
+  .sidebar {
+    display: none;
+  }
+  .tabs {
+    justify-content: space-between;
+  }
+  .pageHeader {
+    margin-bottom: 1rem;
+  }
+  .statCard {
+    padding: 12px 8px;
+  }
+  .statLabel {
+    font-size: 0.65rem;
+    line-height: 1.2;
+  }
+  .statValue {
+    font-size: 1.3rem;
+  }
+  .statSub {
+    font-size: 0.65rem;
+  }
+  .missionsTabs {
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+  .missTab {
+    padding: 6px 14px;
+    font-size: 0.8rem;
+  }
+  .rightBar {
+    width: 100%;
+    padding: 16px;
+    border-left: none;
+    border-top: 1px solid #2e2e40;
+    gap: 16px;
+  }
+}
