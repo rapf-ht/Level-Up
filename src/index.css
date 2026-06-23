@@ -12,11 +12,19 @@ body {
   /* ── TEMA ESCURO PADRÃO ── */
   --bg-main: #141517;
   --bg-header: #19181d;
-  
+  --bg-panels: #12121a;
+
   /* Cores base em RGB para o tema escuro */
-  --bg-panels-rgb: 20, 21, 23;      /* Equivalente a #141517 */
+  --bg-panels-rgb: 20, 21, 23; /* Equivalente a #141517 */
   --bg-store-rgb: 25, 27, 30;
   --border-gold-rgb: 184, 167, 130; /* Equivalente a #b8a782 */
+  /* Gradiente escuro */
+  --bg-hero-gradient: linear-gradient(
+    135deg,
+    #1a0e2e 0%,
+    #0e1a2e 50%,
+    #1a1a0e 100%
+  );
 
   --border-gold: #b8a782;
   --text-gold: #f4cc7c;
@@ -26,16 +34,24 @@ body {
 
 [data-theme="light"] {
   /* ── TEMA CLARO ADAPTADO ── */
-  --bg-main: #f5f2eb;          
-  --bg-header: #eaddca;        
-  
-  /* Cores base em RGB para o tema claro */
-  --bg-panels-rgb: 238, 226, 208;   /* Fundo pergaminho semi-transparente */
-  --bg-store-rgb: 226, 210, 185;
-  --border-gold-rgb: 166, 141, 96;  /* Bronze mais escuro (166, 141, 96) */
+  --bg-main: #f5f2eb;
+  --bg-header: #eaddca;
+  --bg-panels: #EEE2D0;
 
-  --border-gold: #a68d60;      
-  --text-gold: #5c4033;        
-  --text-highlight: #b45309;   
-  --text-muted: #6b5d52;       
+  /* Cores base em RGB para o tema claro */
+  --bg-panels-rgb: 238, 226, 208; /* Fundo pergaminho semi-transparente */
+  --bg-store-rgb: 226, 210, 185;
+  --border-gold-rgb: 166, 141, 96; /* Bronze mais escuro (166, 141, 96) */
+  /* Gradiente claro */
+  --bg-hero-gradient: linear-gradient(
+    135deg,
+    #eaddca 0%,
+    #f5f2eb 50%,
+    #d4c4a8 100%
+  );
+
+  --border-gold: #a68d60;
+  --text-gold: #5c4033;
+  --text-highlight: #b45309;
+  --text-muted: #6b5d52;
 }
