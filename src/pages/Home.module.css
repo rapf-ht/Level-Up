@@ -64,7 +64,7 @@
 }
 
 /* Distribuição das Sessões nas Colunas e Linhas */
-.avatarConatiner {
+.avatarContainer {
   grid-column: 1 / 2;
   width: 100%;
   height: 454px;
@@ -126,7 +126,7 @@
 }
 
 /* Estilização Base dos Painéis */
-.avatarConatiner,
+.avatarContainer,
 .goalsContainer,
 .secondContainer,
 .thirdContainer {
@@ -254,7 +254,7 @@
   background-color: rgba(var(--border-gold-rgb), 0.25);
 }
 
-.avatarConatinerMobile {
+.avatarContainerMobile {
   display: none;
 }
 
@@ -268,10 +268,10 @@
     grid-template-columns: 1fr;
     padding-top: 15vh;
   }
-  .avatarConatiner {
+  .avatarContainer {
     display: none;
   }
-  .avatarConatinerMobile {
+  .avatarContainerMobile {
     display: grid;
     grid-column: 1 / 4;
     width: 100%;

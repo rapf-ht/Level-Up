@@ -1,23 +1,35 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./MissoesList.module.css";
+import { MissionManager } from "../manager/MissionManager";
 
-const tabs = ["Ativas", "Concluídas", "Disponíveis"];
+const tabs = ["Ativas", "Concluídas", "Falhadas"];
 
-export function MissoesList({ initialMissions = [], headerExtra }) {
+export function MissoesList({ categoryFilter = null, headerExtra }) {
   const [activeTab, setActiveTab] = useState("Ativas");
-  const [missions, setMissions] = useState(
-    initialMissions.map((m) => ({ ...m }))
-  );
+  const [missions, setMissions] = useState([]);
 
-  function toggleMission(id) {
-    setMissions((prev) =>
-      prev.map((m) => (m.id === id ? { ...m, done: !m.done } : m))
-    );
+  useEffect(() => {
+    const load = () => {
+      const loadedMissions = categoryFilter
+        ? MissionManager.getMissionsByCategory(categoryFilter)
+        : MissionManager.getMissions();
+      setMissions(loadedMissions);
+    };
+
+    load();
+    window.addEventListener("playerStateUpdated", load);
+    return () => window.removeEventListener("playerStateUpdated", load);
+  }, [categoryFilter]);
+
+  function handleCompleteMission(id) {
+    MissionManager.completeMission(id);
+    window.dispatchEvent(new Event("playerStateUpdated"));
   }
 
   const visible = missions.filter((m) => {
-    if (activeTab === "Ativas") return !m.done;
-    if (activeTab === "Concluídas") return m.done;
+    if (activeTab === "Ativas") return m.status === "pending";
+    if (activeTab === "Concluídas") return m.status === "completed";
+    if (activeTab === "Falhadas") return m.status === "failed";
     return true;
   });
 
@@ -47,28 +59,26 @@ export function MissoesList({ initialMissions = [], headerExtra }) {
         {visible.map((mission) => (
           <div key={mission.id} className={styles.missionCard}>
             <button
-              className={`${styles.checkbox} ${mission.done ? styles.checkboxDone : ""}`}
-              onClick={() => toggleMission(mission.id)}
-              aria-label={`Marcar ${mission.title} como ${mission.done ? "não concluída" : "concluída"}`}
+              className={`${styles.checkbox} ${mission.status === "completed" ? styles.checkboxDone : ""}`}
+              onClick={() => handleCompleteMission(mission.id)}
+              disabled={mission.status === "completed" || mission.status === "failed"}
             >
-              {mission.done && "✓"}
+              {mission.status === "completed" && "✓"}
+              {mission.status === "failed" && "✗"}
             </button>
             <div className={styles.missionInfo}>
               <span
-                className={`${styles.missionTitle} ${mission.done ? styles.missionDone : ""}`}
+                className={`${styles.missionTitle} ${mission.status === "completed" ? styles.missionDone : ""} ${mission.status === "failed" ? styles.missionFailed : ""}`}
               >
                 {mission.title}
               </span>
               <div className={styles.missionTags}>
-                {mission.tags.map((tag, i) => (
-                  <span key={tag}>
-                    {i > 0 && <span className={styles.separator}>|</span>}
-                    {tag}
-                  </span>
-                ))}
+                <span>{mission.type.toUpperCase()}</span>
+                <span className={styles.separator}>|</span>
+                <span>{mission.category}</span>
               </div>
             </div>
-            <span className={styles.xpBadge}>{mission.xp} XP</span>
+            <span className={styles.xpBadge}>{mission.xpReward} XP</span>
           </div>
         ))}
       </div>

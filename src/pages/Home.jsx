@@ -2,15 +2,38 @@ import { Link } from "react-router-dom";
 import styles from "./Home.module.css";
 import { CustomCheckbox } from "../components/CustomCheckbox";
 import { Calendar } from "../components/Calendar";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { MissionManager } from "../manager/MissionManager";
 
 export default function Home() {
   let [showLayout, setShowLayout] = useState(true);
+  const [player, setPlayer] = useState(MissionManager.getPlayerState());
+  const [dailyMissions, setDailyMissions] = useState([]);
+  const name = "Jggranito";
+  const { level, xp, hp, maxHp, gold } = player;
+  const xpNeeded = level * 100;
+  const xpPercent = Math.min((xp / xpNeeded) * 100, 100);
+  const hpPercent = Math.min((hp / maxHp) * 100, 100);
 
-  let name = "Dev_Br";
-  let level = 4;
-  let xp = 40;
-  let hp = 80;
+  useEffect(() => {
+    const handleUpdate = () => {
+      setPlayer(MissionManager.getPlayerState());
+
+      const allMissions = MissionManager.getMissions();
+      const pendingDailies = allMissions.filter(
+        (m) => m.type === "daily" && m.status === "pending",
+      );
+      setDailyMissions(pendingDailies);
+    };
+
+    handleUpdate();
+
+    window.addEventListener("playerStateUpdated", handleUpdate);
+
+    return () => {
+      window.removeEventListener("playerStateUpdated", handleUpdate);
+    };
+  }, []);
 
   function alteraVisibilidade() {
     setShowLayout(!showLayout);
@@ -27,7 +50,7 @@ export default function Home() {
           className={`${styles.conteudoSeguro} ${!showLayout ? styles.conteudoOculto : ""}`}
         >
           {/* 1. PERFIL (Mobile) */}
-          <div className={styles.avatarConatinerMobile}>
+          <div className={styles.avatarContainerMobile}>
             <div className={styles.avatar}>
               <img src="/avatar-icon.png" alt="Avatar" width="130px" />
               <div className={styles.avatarStats}>
@@ -49,7 +72,7 @@ export default function Home() {
                     <p
                       className={`${styles.highlightedText} ${styles.attributesStats}`}
                     >
-                      {hp}/100
+                      {hp}/{maxHp}
                     </p>
                   </div>
                   <div className={styles.attributesLine}>
@@ -67,7 +90,7 @@ export default function Home() {
                     <p
                       className={`${styles.highlightedText} ${styles.attributesStats}`}
                     >
-                      {xp}/100
+                      {xp}/{xpNeeded}
                     </p>
                   </div>
                 </div>
@@ -76,7 +99,7 @@ export default function Home() {
           </div>
 
           {/* 1. PERFIL (Desktop) */}
-          <div className={styles.avatarConatiner}>
+          <div className={styles.avatarContainer}>
             <div className={styles.avatar}>
               <img src="/avatar-icon.png" alt="Avatar" width="130px" />
               <div className={styles.avatarStats}>
@@ -116,13 +139,26 @@ export default function Home() {
               Tarefas do Dia
             </p>
             <div className={styles.goalsContainerLine}>
-              <CustomCheckbox text={"Completar Missão Diária"} />
-              <span className={styles.line} />
-              <CustomCheckbox text={"Beber 2L de Água"} />
-              <span className={styles.line} />
-              <CustomCheckbox text={"Estudar 30min"} />
-              <span className={styles.line} />
-              <CustomCheckbox text={"Ir a academia"} />
+              {dailyMissions.length === 0 ? (
+                <p className={styles.text}>
+                  Nenhuma tarefa diária pendente! Vai à Taverna criar novas
+                  missões.
+                </p>
+              ) : (
+                dailyMissions.map((mission) => (
+                  <div key={mission.id} style={{ width: "100%" }}>
+                    <CustomCheckbox
+                      text={mission.title}
+                      checked={mission.status === "completed"}
+                      onToggle={() => {
+                        MissionManager.completeMission(mission.id);
+                        window.dispatchEvent(new Event("playerStateUpdated"));
+                      }}
+                    />
+                    <span className={styles.line} />
+                  </div>
+                ))
+              )}
             </div>
           </div>
 

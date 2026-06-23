@@ -3,10 +3,17 @@ import { Outlet, Link, NavLink, ScrollRestoration } from "react-router-dom";
 import styles from "./RootLayout.module.css";
 import ProfileCard from "../components/profile_card/ProfileCard";
 import { useTheme } from "../contexts/ThemeContext";
+import { useEffect } from "react";
+import { MissionManager } from "../manager/MissionManager";
 
 export default function RootLayout() {
   const [menuOpen, setMenuOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
+  const [player, setPlayer] = useState(MissionManager.getPlayerState());
+
+  useEffect(() => {
+    MissionManager.checkFailedDailies();
+  }, []);
 
   return (
     <div className={styles.container}>
@@ -36,7 +43,6 @@ export default function RootLayout() {
               alt="logo_lvl_up"
             />
           </Link>
-
 
           <NavLink
             to="/home"
@@ -135,7 +141,7 @@ export default function RootLayout() {
               src="/icons/Coin_icon.svg"
               alt=""
             />
-            <p className={styles.gc}>1200</p>
+            <p className={styles.gc}>{player.gold}</p>
           </div>
           <div className={styles["notification-card"]}>
             <img
