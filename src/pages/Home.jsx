@@ -24,8 +24,7 @@ export default function Home() {
         </button>
         <img className={styles.animatedAvatar} src="/avatar.png" alt="avatar" />
         <div
-          className={styles.conteudoSeguro}
-          style={{ display: showLayout ? "grid" : "none" }}
+          className={`${styles.conteudoSeguro} ${!showLayout ? styles.conteudoOculto : ""}`}
         >
           {/* 1. PERFIL (Mobile) */}
           <div className={styles.avatarConatinerMobile}>
@@ -47,7 +46,11 @@ export default function Home() {
                     >
                       <div className={styles.attributesBarHpFill}></div>
                     </div>
-                    <p className={`${styles.highlightedText} ${styles.attributesStats}`}>{hp}/100</p>
+                    <p
+                      className={`${styles.highlightedText} ${styles.attributesStats}`}
+                    >
+                      {hp}/100
+                    </p>
                   </div>
                   <div className={styles.attributesLine}>
                     <p
@@ -61,7 +64,11 @@ export default function Home() {
                     >
                       <div className={styles.attributesBarXpFill}></div>
                     </div>
-                     <p className={`${styles.highlightedText} ${styles.attributesStats}`}>{xp}/100</p>
+                    <p
+                      className={`${styles.highlightedText} ${styles.attributesStats}`}
+                    >
+                      {xp}/100
+                    </p>
                   </div>
                 </div>
               </div>

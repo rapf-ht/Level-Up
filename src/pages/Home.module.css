@@ -39,6 +39,18 @@
   padding-inline: 32px;
   box-sizing: border-box;
   align-items: start;
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease,
+    visibility 0.5s ease;
+}
+.conteudoOculto {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(30px);
 }
 
 .animatedAvatar {
@@ -247,6 +259,11 @@
 }
 
 @media screen and (max-width: 768px) {
+  .animatedAvatar {
+    top: 65%;
+    left: 35%;
+  }
+
   .conteudoSeguro {
     grid-template-columns: 1fr;
     padding-top: 15vh;
@@ -316,5 +333,15 @@
     width: 100%;
     height: auto;
     padding: 24px 32px;
+    text-align: center;
+  }
+  .secondContainer {
+    text-align: center;
+  }
+  .thirdContainer {
+    text-align: center;
+  }
+  .tittleStore {
+    font-size: 44px;
   }
 }
