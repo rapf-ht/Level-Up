@@ -679,7 +679,7 @@
   .sidebar {
     border-right: none;
     border-bottom: 1px solid var(--border-gold);
-    flex-direction: row;
+    flex-direction: column;
     flex-wrap: wrap;
     gap: 16px;
     padding: 14px;
