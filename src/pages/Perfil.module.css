@@ -66,10 +66,10 @@
 /*  PAINEL DO PERSONAGEM  */
 .characterPanel {
   display: grid;
-  grid-template-columns: 160px 1fr 160px;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 16px;
   margin-bottom: 16px;
-  align-items: start;
+  justify-items: center;
 }
 
 /* Colunas de slots */
@@ -84,7 +84,7 @@
   width: 100%;
   aspect-ratio: 1 / 1;
   background: var(--bg-secondary);
-  border: 1px solid var(--border-color, #333);
+  border: 1px solid var(--border-gold);
   border-radius: 10px;
   display: flex;
   align-items: center;
@@ -98,7 +98,7 @@
 
 .slot:hover {
   border-color: var(--text-gold);
-  background: var(--bg-tertiary, #222);
+  background: var(--bg-tertiary);
 }
 
 .slotFilled {
@@ -118,7 +118,7 @@
 
 .slotLabel {
   font-size: 0.7rem;
-  color: var(--text-muted, #666);
+  color: var(--text-muted);
   text-align: center;
 }
 
@@ -126,8 +126,8 @@
 .characterCenter {
   border-radius: 12px;
   overflow: hidden;
-  background: var(--bg-secondary, #1a1a1a);
-  border: 1px solid var(--border-color, #333);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-gold);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -144,7 +144,7 @@
 
 /*  Popup equipar  */
 .equipPopup {
-  background: var(--bg-secondary, #1a1a1a);
+  background: var(--bg-secondary);
   border: 1px solid #64b5f6;
   border-radius: 12px;
   padding: 16px 20px;
@@ -174,19 +174,19 @@
 .equipPopupTitle {
   flex: 1;
   font-size: 0.9rem;
-  color: var(--text-secondary, #ccc);
+  color: var(--text-secondary);
   margin: 0;
 }
 
 .equipPopupTitle strong {
-  color: var(--text-primary, #f0e6c8);
+  color: var(--text-primary);
   text-transform: capitalize;
 }
 
 .equipPopupClose {
   background: none;
   border: none;
-  color: var(--text-muted, #888);
+  color: var(--text-muted);
   font-size: 1rem;
   cursor: pointer;
   padding: 2px 6px;
@@ -195,7 +195,7 @@
 }
 
 .equipPopupClose:hover {
-  color: var(--text-primary, #f0e6c8);
+  color: var(--text-primary);
 }
 
 .unequipBtn {
@@ -215,7 +215,7 @@
 
 .equipEmpty {
   font-size: 0.85rem;
-  color: var(--text-muted, #888);
+  color: var(--text-muted);
   margin: 0;
   padding: 8px 0;
 }
@@ -232,12 +232,12 @@
   align-items: center;
   gap: 6px;
   padding: 10px 14px;
-  background: var(--bg-tertiary, #222);
-  border: 1px solid var(--border-color, #333);
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-gold);
   border-radius: 10px;
   cursor: pointer;
   font-size: 0.8rem;
-  color: var(--text-primary, #f0e6c8);
+  color: var(--text-primary);
   transition: border-color 0.2s;
   min-width: 80px;
 }
@@ -267,7 +267,7 @@
   display: grid;
   grid-template-columns: 220px 1fr;
   gap: 0;
-  border: 1px solid var(--border-color, #2a2a2a);
+  border: 1px solid var(--border-gold);
   border-radius: 12px;
   overflow: hidden;
 }
@@ -275,8 +275,8 @@
 /*  Sidebar  */
 .sidebar {
   padding: 24px 18px;
-  border-right: 1px solid var(--border-color, #2a2a2a);
-  background: var(--bg-secondary, #1a1a1a);
+  border-right: 1px solid var(--border-gold);
+  background: var(--bg-secondary);
   display: flex;
   flex-direction: column;
   gap: 24px;
@@ -301,12 +301,12 @@
   font-size: 0.95rem;
   font-weight: 700;
   margin: 6px 0 0;
-  color: var(--text-primary, #f0e6c8);
+  color: var(--text-primary);
 }
 
 .profileLevel {
   font-size: 0.78rem;
-  color: var(--text-muted, #888);
+  color: var(--text-muted);
   margin: 0;
 }
 
@@ -343,7 +343,7 @@
 .barTrack {
   flex: 1;
   height: 7px;
-  background: var(--bg-tertiary, #111);
+  background: var(--bg-tertiary);
   border-radius: 4px;
   overflow: hidden;
 }
@@ -371,13 +371,13 @@
 .filterTitle {
   font-size: 0.82rem;
   font-weight: 700;
-  color: var(--text-primary, #f0e6c8);
+  color: var(--text-primary);
   margin: 0;
 }
 
 .filterSub {
   font-size: 0.72rem;
-  color: var(--text-muted, #888);
+  color: var(--text-muted);
   margin: 0 0 4px;
 }
 
@@ -392,20 +392,20 @@
   align-items: center;
   gap: 9px;
   font-size: 0.82rem;
-  color: var(--text-secondary, #bbb);
+  color: var(--text-secondary);
   cursor: pointer;
   transition: color .2s;
 }
 
 .filterItem:hover {
-  color: var(--text-primary, #f0e6c8);
+  color: var(--text-primary);
 }
 
 .radio {
   appearance: none;
   width: 15px;
   height: 15px;
-  border: 2px solid var(--border-color, #444);
+  border: 2px solid var(--border-gold);
   border-radius: 50%;
   background: transparent;
   cursor: pointer;
@@ -433,7 +433,7 @@
 /*  Main  */
 .main {
   padding: 24px 28px;
-  background: var(--bg-primary, #111);
+  background: var(--bg-primary);
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -443,7 +443,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 2px solid var(--border-color, #2a2a2a);
+  border-bottom: 2px solid var(--border-gold);
   padding-bottom: 0;
 }
 
@@ -457,7 +457,7 @@
   padding: 10px 24px;
   font-size: 0.95rem;
   font-weight: 600;
-  color: var(--text-muted, #888);
+  color: var(--text-muted);
   cursor: pointer;
   position: relative;
   transition: color .2s;
@@ -475,7 +475,7 @@
 }
 
 .tabActive {
-  color: var(--text-primary, #f0e6c8);
+  color: var(--text-primary);
 }
 
 .tabActive::after {
@@ -486,8 +486,8 @@
   display: flex;
   align-items: center;
   gap: 7px;
-  background: var(--bg-secondary, #1a1a1a);
-  border: 1px solid var(--border-color, #2a2a2a);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-gold);
   border-radius: 999px;
   padding: 7px 16px;
   margin-bottom: 2px;
@@ -502,7 +502,7 @@
 .badgeStat {
   font-size: 0.85rem;
   font-weight: 700;
-  color: var(--text-primary, #f0e6c8);
+  color: var(--text-primary);
 }
 
 .badgeGold {
@@ -519,8 +519,8 @@
 }
 
 .itemCard {
-  background: var(--bg-secondary, #1a1a1a);
-  border: 1px solid var(--border-color, #2a2a2a);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-gold);
   border-radius: 12px;
   padding: 18px 14px 14px;
   display: flex;
@@ -573,7 +573,7 @@
 .itemName {
   font-size: 0.88rem;
   font-weight: 700;
-  color: var(--text-primary, #f0e6c8);
+  color: var(--text-primary);
   text-align: center;
   margin: 0;
 }
@@ -609,7 +609,7 @@
 
 .noSlotTag {
   font-size: 0.7rem;
-  color: var(--text-muted, #666);
+  color: var(--text-muted);
   margin-top: auto;
   text-transform: capitalize;
 }
@@ -678,7 +678,7 @@
 
   .sidebar {
     border-right: none;
-    border-bottom: 1px solid var(--border-color, #2a2a2a);
+    border-bottom: 1px solid var(--border-gold);
     flex-direction: row;
     flex-wrap: wrap;
     gap: 16px;

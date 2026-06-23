@@ -67,7 +67,7 @@
 /*  SIDEBAR  */
 .sidebar {
   padding: 28px 20px;
-  border-right: 1px solid var(--border-color, #2a2a2a);
+  border-right: 1px solid var(--border-gold);
   display: flex;
   flex-direction: column;
   gap: 28px;
@@ -85,20 +85,20 @@
   width: 72px;
   height: 72px;
   border-radius: 50%;
-  border: 2px solid var(--gold, #c9a84c);
+  border: 2px solid var(--text-gold);
   object-fit: cover;
 }
 
 .profileName {
   font-size: 1rem;
   font-weight: 700;
-  color: var(--text-primary, #f0e6c8);
+  color: var(--text-primary);
   margin: 4px 0 0;
 }
 
 .profileLevel {
   font-size: 0.8rem;
-  color: var(--text-muted, #888);
+  color: var(--text-muted);
   margin: 0;
 }
 
@@ -131,7 +131,7 @@
 .barTrack {
   flex: 1;
   height: 8px;
-  background: var(--bg-tertiary, #222);
+  background: var(--btn-sell-color);
   border-radius: 4px;
   overflow: hidden;
 }
@@ -160,13 +160,13 @@
 .filterTitle {
   font-size: 0.85rem;
   font-weight: 700;
-  color: var(--text-primary, #f0e6c8);
+  color: var(--text-primary);
   margin: 0;
 }
 
 .filterSubtitle {
   font-size: 0.75rem;
-  color: var(--text-muted, #888);
+  color: var(--text-muted);
   margin: 0 0 4px;
 }
 
@@ -181,20 +181,20 @@
   align-items: center;
   gap: 10px;
   font-size: 0.85rem;
-  color: var(--text-secondary, #bbb);
+  color: var(--text-secondary);
   cursor: pointer;
   transition: color 0.2s;
 }
 
 .filterItem:hover {
-  color: var(--text-primary, #f0e6c8);
+  color: var(--text-primary);
 }
 
 .radio {
   appearance: none;
   width: 16px;
   height: 16px;
-  border: 2px solid var(--border-color, #444);
+  border: 2px solid var(--border-gold);
   border-radius: 50%;
   background: transparent;
   cursor: pointer;
@@ -204,7 +204,7 @@
 }
 
 .radio:checked {
-  border-color: var(--gold, #c9a84c);
+  border-color: var(--text-gold);
 }
 
 .radio:checked::after {
@@ -216,7 +216,7 @@
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: var(--gold, #c9a84c);
+  background: var(--text-gold);
 }
 
 /*  MAIN  */
@@ -237,7 +237,7 @@
 .tabs {
   display: flex;
   gap: 0;
-  border-bottom: 2px solid var(--border-color, #2a2a2a);
+  border-bottom: 2px solid var(--border-gold);
 }
 
 .tab {
@@ -246,7 +246,7 @@
   padding: 10px 28px;
   font-size: 1rem;
   font-weight: 600;
-  color: var(--text-muted, #888);
+  color: var(--text-muted);
   cursor: pointer;
   position: relative;
   transition: color 0.2s;
@@ -264,11 +264,11 @@
 }
 
 .tabActive {
-  color: var(--text-primary, #f0e6c8);
+  color: var(--text-primary);
 }
 
 .tabActive::after {
-  background: var(--gold, #c9a84c);
+  background: var(--text-gold);
 }
 
 /* Saldo */
@@ -276,8 +276,8 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  background: var(--bg-secondary, #1a1a1a);
-  border: 1px solid var(--border-color, #2a2a2a);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-gold);
   border-radius: 999px;
   padding: 8px 18px;
 }
@@ -291,13 +291,13 @@
 .badgeStat {
   font-size: 0.9rem;
   font-weight: 700;
-  color: var(--text-primary, #f0e6c8);
+  color: var(--text-primary);
 }
 
 .badgeGold {
   font-size: 1rem;
   font-weight: 700;
-  color: var(--gold, #c9a84c);
+  color: var(--text-gold);
 }
 
 /*  Grid de itens  */
@@ -309,8 +309,8 @@
 
 /*  Card de item  */
 .itemCard {
-  background: var(--bg-secondary, #1a1a1a);
-  border: 1px solid var(--border-color, #2a2a2a);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-gold);
   border-radius: 12px;
   padding: 20px 16px 16px;
   display: flex;
@@ -322,7 +322,7 @@
 }
 
 .itemCard:hover {
-  border-color: var(--gold, #c9a84c);
+  border-color: var(--text-gold);
   transform: translateY(-2px);
 }
 
@@ -331,7 +331,7 @@
   position: absolute;
   top: 10px;
   right: 10px;
-  background: var(--gold, #c9a84c);
+  background: var(--text-gold);
   color: #111;
   font-size: 0.7rem;
   font-weight: 800;
@@ -348,14 +348,14 @@
 .itemName {
   font-size: 0.95rem;
   font-weight: 700;
-  color: var(--text-primary, #f0e6c8);
+  color: var(--text-primary);
   text-align: center;
   margin: 0;
 }
 
 .itemDesc {
   font-size: 0.75rem;
-  color: var(--text-muted, #888);
+  color: var(--text-muted);
   text-align: center;
   margin: 0;
   line-height: 1.4;
@@ -428,7 +428,7 @@
 
   .sidebar {
     border-right: none;
-    border-bottom: 1px solid var(--border-color, #2a2a2a);
+    border-bottom: 1px solid var(--border-gold);
     flex-direction: row;
     flex-wrap: wrap;
     gap: 20px;
