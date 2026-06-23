@@ -1,4 +1,4 @@
-import styles from './Taverna.module.css';
+import styles from './Tavern.module.css';
 import { useState } from 'react';
 
 const gruposDemo = [
@@ -14,7 +14,7 @@ const gruposDemo = [
   { id: 10, nome: 'Nome do grupo', lider: 'usuario master' },
 ];
 
-export default function Taverna() {
+export default function Tavern() {
   const [abaAtiva, setAbaAtiva] = useState('grupo');
   const [busca, setBusca] = useState('');
 

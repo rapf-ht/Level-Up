@@ -12,6 +12,7 @@ import Planejamento from "../pages/Planejamento";
 import Organizacao from "../pages/Organizacao";
 import Lazer from "../pages/Lazer";
 import Financas from "../pages/Financas";
+import Tavern from "../pages/Tavern";
 
 export const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ export const router = createBrowserRouter([
       {
         path: "/home",
         element: <Home />,
+      },
+      {
+        path: "/tavern",
+        element: <Tavern />,
       },
       {
         path: "/areas-da-vida",
