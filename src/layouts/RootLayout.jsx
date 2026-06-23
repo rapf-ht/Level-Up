@@ -2,9 +2,12 @@ import { useState } from "react";
 import { Outlet, Link, NavLink } from "react-router-dom";
 import styles from "./RootLayout.module.css";
 import ProfileCard from "../components/profile_card/ProfileCard";
+import { useTheme } from "../contexts/ThemeContext";
 
 export default function RootLayout() {
-  const [menuOpen, setMenuOpen] = useState(false); // menuNavbarOpen é a função que altera o estado do menuNavbar
+  const [menuOpen, setMenuOpen] = useState(false);
+  const { theme, toggleTheme } = useTheme();
+
   return (
     <div className={styles.container}>
       <header className={styles["header-body"]}>
@@ -71,6 +74,49 @@ export default function RootLayout() {
         </nav>
 
         <nav className={styles.stats}>
+          <button
+            onClick={toggleTheme}
+            className={styles.themeToggleBtn}
+            aria-label="Alternar Tema"
+          >
+            {theme === "dark" ? (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <circle cx="12" cy="12" r="5"></circle>
+                <line x1="12" y1="1" x2="12" y2="3"></line>
+                <line x1="12" y1="21" x2="12" y2="23"></line>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                <line x1="1" y1="12" x2="3" y2="12"></line>
+                <line x1="21" y1="12" x2="23" y2="12"></line>
+                <line x1="4.22" y1="19.22" x2="5.64" y2="17.8"></line>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+              </svg>
+            ) : (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+              </svg>
+            )}
+          </button>
           <div className={styles["card-gc"]}>
             <img
               className={styles["coins-gc"]}

@@ -242,6 +242,25 @@
   transition: all 0.3s ease;
 }
 
+.themeToggleBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border: 1px solid var(--border-gold);
+  border-radius: 30px;
+  background-color: var(--bg-header);
+  color: var(--text-gold);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.themeToggleBtn:hover {
+  color: var(--text-highlight);
+  background-color: var(--bg-main);
+}
+
 /* ── MOBILE ── */
 @media screen and (max-width: 768px) {
 
