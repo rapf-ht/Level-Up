@@ -1,0 +1,80 @@
+.pomodoroCard {
+  background: #12121a;
+  border: 1px solid #2a2a3a;
+  border-radius: 12px;
+  padding: 1rem 1.2rem;
+  margin-bottom: 1rem;
+}
+.pomodoroTabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+.pomTab {
+  padding: 0.35rem 0.9rem;
+  border: 1px solid #2a2a3a;
+  border-radius: 20px;
+  background: transparent;
+  color: #7a7a8a;
+  font-size: 0.78rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.pomTabActive {
+  background: #1e1e2e;
+  color: #d4af37;
+  border-color: #d4af37;
+}
+.timerRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.timerDisplay {
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: #d4af37;
+  font-variant-numeric: tabular-nums;
+}
+.timerControls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.startBtn {
+  padding: 0.4rem 1.2rem;
+  background: #1e1e2e;
+  border: 1px solid #3a3a4a;
+  border-radius: 6px;
+  color: #e8e0cc;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.startBtn:hover {
+  background: #2a2a3a;
+}
+.iconBtn {
+  background: none;
+  border: none;
+  font-size: 1.1rem;
+  cursor: pointer;
+  color: #7a7a8a;
+  padding: 0.25rem;
+  transition: color 0.2s;
+}
+.iconBtn:hover {
+  color: #d4af37;
+}
+.newBtn {
+  padding: 0.3rem 0.8rem;
+  border: 1px solid #d4af37;
+  border-radius: 6px;
+  background: transparent;
+  color: #d4af37;
+  font-size: 0.78rem;
+  cursor: pointer;
+}
+.newBtn:hover {
+  background: rgba(212, 175, 55, 0.1);
+}
