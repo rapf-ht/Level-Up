@@ -7,9 +7,9 @@ export default function SigninForm() {
       
       <div className={styles['signin-form']}>
 
-            <h4 className={styles['title-intro']}>
+            <h1 className={styles['title-intro']}>
               🧙 Bem-vindo, Aventureiro(a)
-            </h4>
+            </h1>
 
             <div className={styles['form-group']}>
               <label htmlFor="signin-email" className={styles['form-label']}>Email:</label>

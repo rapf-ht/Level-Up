@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Outlet, Link, NavLink } from "react-router-dom";
+import { Outlet, Link, NavLink, ScrollRestoration } from "react-router-dom";
 import styles from "./RootLayout.module.css";
 import ProfileCard from "../components/profile_card/ProfileCard";
 import { useTheme } from "../contexts/ThemeContext";
@@ -17,16 +17,18 @@ export default function RootLayout() {
           aria-label="Menu"
         >
           <span
-            className={`${styles["ham-line"]} ${menuOpen ? styles["ham-open"] : null}`}
+            className={`${styles["ham-line"]} ${menuOpen ? styles["ham-open"] : ""}`}
           ></span>
           <span
-            className={`${styles["ham-line"]} ${menuOpen ? styles["ham-open"] : null}`}
+            className={`${styles["ham-line"]} ${menuOpen ? styles["ham-open"] : ""}`}
           ></span>
           <span
-            className={`${styles["ham-line"]} ${menuOpen ? styles["ham-open"] : null}`}
+            className={`${styles["ham-line"]} ${menuOpen ? styles["ham-open"] : ""}`}
           ></span>
         </button>
-        <nav className={styles.navbar}>
+        <nav
+          className={`${styles.navbar} ${menuOpen ? styles["navbar-open"] : ""}`}
+        >
           <Link className={styles["logo-header-link"]} to="/home">
             <img
               className={styles["logo-header"]}
@@ -35,6 +37,25 @@ export default function RootLayout() {
             />
           </Link>
 
+
+          <NavLink
+            to="/home"
+            onClick={() => setMenuOpen(false)}
+            className={({ isActive }) =>
+              `${styles["btn-navbar"]} ${styles["btn-navbar-home-mobile"]} ${isActive ? styles.btnActive : null} `
+            }
+          >
+            Home
+          </NavLink>
+          <NavLink
+            to="/areas-da-vida/"
+            onClick={() => setMenuOpen(false)}
+            className={({ isActive }) =>
+              `${styles["btn-navbar"]} ${isActive ? styles.btnActive : null} `
+            }
+          >
+            Áreas da Vida
+          </NavLink>
           <NavLink
             to="/inventario"
             onClick={() => setMenuOpen(false)}
@@ -61,15 +82,6 @@ export default function RootLayout() {
             }
           >
             Taverna
-          </NavLink>
-          <NavLink
-            to="/areas-da-vida"
-            onClick={() => setMenuOpen(false)}
-            className={({ isActive }) =>
-              `${styles["btn-navbar"]} ${isActive ? styles.btnActive : null} `
-            }
-          >
-            Áreas da Vida
           </NavLink>
         </nav>
 
@@ -123,7 +135,7 @@ export default function RootLayout() {
               src="/icons/Coin_icon.svg"
               alt=""
             />
-            <p className={styles.gc}>0</p>
+            <p className={styles.gc}>1200</p>
           </div>
           <div className={styles["notification-card"]}>
             <img
@@ -137,6 +149,7 @@ export default function RootLayout() {
       </header>
 
       <main className={styles.main}>
+        <ScrollRestoration />
         <Outlet />
       </main>
 
@@ -204,18 +217,8 @@ export default function RootLayout() {
               </Link>
             </li>
             <li>
-              <Link to="/notificacoes" className={styles["col-list"]}>
-                Notificações
-              </Link>
-            </li>
-            <li>
               <Link to="/estatisticas" className={styles["col-list"]}>
                 Estatísticas
-              </Link>
-            </li>
-            <li>
-              <Link to="/conquistas" className={styles["col-list"]}>
-                Conquistas
               </Link>
             </li>
             <li>
@@ -227,51 +230,142 @@ export default function RootLayout() {
         </div>
 
         <div className={styles.columns}>
-          <h3 className={styles["col-title"]}>Minha Guilda</h3>
+          <h3 className={styles["col-title"]}>Suporte</h3>
           <div className={styles["line-splitter"]}>
             <hr className={styles.line} />
           </div>
-          <ProfileCard />
-          <ProfileCard />
-          <ProfileCard />
+          <ul className={styles["col4-ul"]}>
+            <li>
+              <Link to="/ajuda" className={styles["col-list"]}>
+                Perguntas Frequentes
+              </Link>
+            </li>
+            <li>
+              <Link to="/ajuda" className={styles["col-list"]}>
+                Reportar um problema
+              </Link>
+            </li>
+            <li>
+              <Link to="/ajuda" className={styles["col-list"]}>
+                Solicitar funcionalidade
+              </Link>
+            </li>
+            <li>
+              <Link to="/contato" className={styles["col-list"]}>
+                Contato
+              </Link>
+            </li>
+          </ul>
         </div>
       </footer>
       <div className={styles["license-line"]}>
         <p className={styles["license"]}>@ 2026 Level-UP</p>
       </div>
       <footer className={styles.footerMobile}>
-        <Link to="/Taverna">
+        <NavLink
+          to="/taverna"
+          className={({ isActive }) =>
+            isActive ? styles.activeMobileLink : ""
+          }
+        >
           <div className={styles.btnFooterMobile}>
-            <img src="/icons-mobile/social-icon.png" alt="Taverna" width={40} />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="40"
+              height="40"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M16 4H4a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2v4l4-4h6a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z" />
+              <path d="M18 9h2a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2h-2v4l-4-4h-3a2 2 0 0 1-2-2v-2" />
+            </svg>
+
             <p>Taverna</p>
           </div>
-        </Link>
-        <Link to="/Categorias">
+        </NavLink>
+        <NavLink
+          to="/areas-da-vida"
+          className={({ isActive }) =>
+            isActive ? styles.activeMobileLink : ""
+          }
+        >
           <div className={styles.btnFooterMobile}>
-            <img
-              src="/icons-mobile/category-icon.png"
-              alt="Categorias"
-              width={40}
-            />
-            <p>Categorias</p>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="40"
+              height="40"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <rect x="4" y="4" width="6" height="6" rx="1.5" />
+              <rect x="14" y="4" width="6" height="6" rx="1.5" />
+              <rect x="14" y="14" width="6" height="6" rx="1.5" />
+              <rect x="4" y="14" width="6" height="6" rx="1.5" />
+            </svg>
+
+            <p>Áreas</p>
           </div>
-        </Link>
-        <Link to="/">
+        </NavLink>
+        <NavLink
+          to="/home"
+          className={({ isActive }) =>
+            isActive ? styles.activeMobileLink : ""
+          }
+        >
           <div className={styles.btnFooterMobile}>
-            <img src="/icons-mobile/home-icon.png" alt="Home" width={40} />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="40"
+              height="40"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+              <polyline points="9 22 9 12 15 12 15 22" />
+            </svg>
+
             <p>Home</p>
           </div>
-        </Link>
-        <Link to="/Bazar do Hélio">
+        </NavLink>
+        <NavLink
+          to="/bazar-do-helio"
+          className={({ isActive }) =>
+            isActive ? styles.activeMobileLink : ""
+          }
+        >
           <div className={styles.btnFooterMobile}>
-            <img
-              src="/icons-mobile/store-icon.png"
-              alt="Bazar do Hélio"
-              width={40}
-            />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="40"
+              height="40"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M3 9l2-5h14l2 5" />
+              <path d="M3 9h18" />
+              <path d="M3 9a3 3 0 0 0 6 0 3 3 0 0 0 6 0 3 3 0 0 0 6 0" />
+              <path d="M4 12v8a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-8" />
+            </svg>
+
             <p>Bazar</p>
           </div>
-        </Link>
+        </NavLink>
       </footer>
     </div>
   );

@@ -13,7 +13,10 @@
     background-repeat: no-repeat;
     background-attachment: fixed; /* Efeito Parallax */
     width: 100vw;
-    height: 100vh;
+    height: 75vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .signin-form {
@@ -23,14 +26,8 @@
     align-items: center;
     border-radius: 8px;
     background-color: #111316d1;
-    padding: 10px 20px;
     backdrop-filter: blur(5px);
     gap: 1.5em;
-    height: auto;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     padding: 2em;
 }
 
@@ -54,7 +51,7 @@
     font-weight: bold;
     font-family: "Cormorant Garamond", serif;
     margin-bottom: .25em;
-
+    font-size: 18px;
 }
 
 .form-control {
@@ -62,12 +59,12 @@
 }
 
 .span-disclaimer {
-    color: #fff7f779;
+    color: #fff7f7da;
     font-weight: lighter;
     font-style: italic;
     font-size: .875em;
     margin-top: .25em;
-    font-size: 11px;
+    font-size: 14px;
 }
 
 .signin-form input {
