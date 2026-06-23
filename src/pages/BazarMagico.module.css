@@ -1,7 +1,7 @@
 .page {
   min-height: 100vh;
-  background: var(--bg-primary, #111);
-  color: var(--text-primary, #f0e6c8);
+  background: var(--bg-main);
+  color: var(--text-gold);
   position: relative;
 }
 
@@ -32,21 +32,21 @@
   font-weight: 600;
   font-size: 0.95rem;
   z-index: 9999;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 4px 20px var(--shadow-toast);
   animation: fadeInOut 2.5s ease forwards;
   white-space: nowrap;
 }
 
 .toastSuccess {
-  background: #2a4a2a;
-  border: 1px solid #4caf50;
-  color: #a5d6a7;
+  background: var(--toast-bg-success);
+  border: 1px solid var(--toast-border-success);
+  color: var(--toast-text-success);
 }
 
 .toastError {
-  background: #4a2020;
-  border: 1px solid #e53935;
-  color: #ef9a9a;
+  background: var(--toast-bg-error);
+  border: 1px solid var(--toast-border-error);
+  color: var(--toast-text-error);
 }
 
 @keyframes fadeInOut {
@@ -367,9 +367,9 @@
   width: 100%;
   padding: 10px 0;
   background: transparent;
-  border: 1px solid var(--gold, #c9a84c);
+  border: 1px solid var(--border-gold);
   border-radius: 8px;
-  color: var(--gold, #c9a84c);
+  color: var(--border-gold);
   font-size: 0.9rem;
   font-weight: 700;
   cursor: pointer;
@@ -377,8 +377,8 @@
 }
 
 .buyBtn:hover:not(:disabled) {
-  background: var(--gold, #c9a84c);
-  color: #111;
+  background: var(--border-gold);
+  color: var(--bg-main);
 }
 
 .buyBtnDisabled {
@@ -388,18 +388,19 @@
 
 /* Botão vender */
 .sellBtn {
-  border-color: #64b5f6;
-  color: #64b5f6;
+  border-color: var(--btn-sell-color);
+  color: var(--btn-sell-color);
 }
 
 .sellBtn:hover:not(:disabled) {
-  background: #64b5f6;
-  color: #111;
+  background: var(--btn-sell-color);
+  color: var(--bg-main);
 }
 
 /* Vazio */
 .empty {
-  color: var(--text-muted, #888);
+  color: var(--text-gold);
+  opacity: 0.7;
   font-size: 0.9rem;
   padding: 40px 0;
   text-align: center;
@@ -408,7 +409,7 @@
 .linkBtn {
   background: none;
   border: none;
-  color: var(--gold, #c9a84c);
+  color: var(--text-highlight);
   cursor: pointer;
   font-size: 0.9rem;
   text-decoration: underline;
