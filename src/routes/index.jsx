@@ -14,6 +14,7 @@ import Lazer from "../pages/Lazer";
 import Financas from "../pages/Financas";
 import BazarMagico from "../pages/BazarMagico";
 import Perfil from "../pages/Perfil";
+import Tavern from "../pages/Tavern";
 
 export const router = createBrowserRouter([
   {
@@ -32,6 +33,10 @@ export const router = createBrowserRouter([
       {
         path: "/home",
         element: <Home />,
+      },
+      {
+        path: "/tavern",
+        element: <Tavern />,
       },
       {
         path: "/areas-da-vida",
