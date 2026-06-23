@@ -14,6 +14,8 @@ public class AccountDTO {
     public Integer gc;
 
     // Construtor
+    // Este construtor atua como um "conversor". Ele pega a Entidade (Account)
+    // que veio do banco de dados e a transforma no DTO, extraindo apenas os dados seguros.
     public AccountDTO (Account account) {
         this.idAccount = account.getIdAccount();
         this.username = account.getUsername();
