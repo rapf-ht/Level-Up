@@ -1,37 +1,37 @@
 @import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Press+Start+2P&display=swap");
 
 .profile-card {
-  overflow: visible;
-  display: flex;
-  border: 1px solid #b8a782;
-  border-radius: 15px;
+  border: 1px solid var(--border-gold);
+  border-radius: 30px;
   margin-right: 10px;
+  padding: 8px 16px;
   height: auto;
   width: auto;
-  background-color: #111316;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
 }
 
 .pfp {
-  margin-bottom: -5px;
-  width: 50px;
-  height: auto;
+  width: 35px;
+  height: 35px;
   object-fit: contain;
 }
 
 .username {
-  color: #f4cc7c;
-  font-size: 14px;
+  color: var(--text-gold);
+  font-size: 24px;
   font-family: "Cormorant Garamond", serif;
-  margin-top: 6px;
 }
 
 .xp-bar-fill {
   width: 200px;
   height: 6px;
-  background-color: #a4a4a4;
+  background-color: rgba(var(--border-gold-rgb), 0.4);
   border-radius: 12px;
   position: relative;
-  margin: 7px 10px 0 -5px;
 }
 
 .xp-bar-fill::before {
@@ -42,4 +42,13 @@
   height: 6px;
   background-color: #3f9ce0;
   border-radius: 12px;
+}
+
+@media screen and (max-width: 768px) {
+  .profile-card {
+    margin-right: 0;
+  }
+  .xp-bar-fill{
+    width: 100px;
+  }
 }

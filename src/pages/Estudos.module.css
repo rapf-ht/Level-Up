@@ -1,0 +1,82 @@
+.pomodoroCard {
+  background: var(--bg-panels);
+  border: 1px solid var(--border-gold);
+  border-radius: 12px;
+  padding: 1rem 1.2rem;
+  margin-bottom: 1rem;
+}
+.pomodoroTabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  justify-content: space-between;
+}
+.pomTab {
+  padding: 0.35rem 0.9rem;
+  border: 1px solid var(--border-gold);
+  border-radius: 20px;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.pomTabActive {
+  background: rgba(var(--border-gold-rgb), 0.2);
+  color: var(--text-highlight);
+  border-color: var(--text-highlight);
+}
+.timerRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.timerDisplay {
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: var(--text-highlight);
+  font-variant-numeric: tabular-nums;
+}
+.timerControls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.startBtn {
+  min-width: 80px;
+  padding: 0.4rem 1.2rem;
+  background: rgba(var(--bg-panels-rgb), 0.5);
+  border: 1px solid var(--border-gold);
+  border-radius: 20px;
+  color: var(--text-gold);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.startBtn:hover {
+  background: rgba(var(--border-gold-rgb), 0.15);
+}
+.iconBtn {
+  background: none;
+  border: none;
+  font-size: 1.1rem;
+  cursor: pointer;
+  color: var(--text-muted);
+  padding: 0.25rem;
+  transition: color 0.2s;
+}
+.iconBtn:hover {
+  color: var(--text-highlight);
+}
+.newBtn {
+  padding: 0.3rem 0.8rem;
+  border: 1px solid var(--text-highlight);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-highlight);
+  font-size: 0.78rem;
+  cursor: pointer;
+}
+.newBtn:hover {
+  background: rgba(var(--border-gold-rgb), 0.15);
+}

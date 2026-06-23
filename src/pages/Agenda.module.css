@@ -1,0 +1,65 @@
+.calendarCard {
+  background: var(--bg-panels);
+  border: 2px solid var(--border-gold);
+  border-radius: 8px;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+}
+.calHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+.navBtn {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  color: var(--text-gold);
+  cursor: pointer;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+}
+.navBtn:hover {
+  background: rgba(var(--border-gold-rgb), 0.15);
+}
+.monthLabel {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-highlight);
+  text-transform: capitalize;
+}
+.calGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 1px;
+}
+.weekDay {
+  text-align: center;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  padding: 0.3rem 0;
+}
+.calCell {
+  text-align: center;
+  padding: 0.35rem 0;
+  font-size: 0.78rem;
+  color: var(--text-gold);
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.15s;
+}
+.calCell:hover {
+  background: rgba(var(--border-gold-rgb), 0.3);
+}
+.otherMonth {
+  color: var(--text-muted);
+  opacity: 0.5;
+}
+.todayCell {
+  background: rgba(var(--border-gold-rgb), 0.4);
+  border: 1px solid var(--text-highlight);
+  color: var(--text-highlight);
+  font-weight: 700;
+}
