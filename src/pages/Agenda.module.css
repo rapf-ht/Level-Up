@@ -1,6 +1,6 @@
 .calendarCard {
-  background: #f5f0e0;
-  border: 2px solid #c8a96e;
+  background: var(--bg-panels);
+  border: 2px solid var(--border-gold);
   border-radius: 8px;
   padding: 0.75rem;
   margin-bottom: 1rem;
@@ -15,18 +15,18 @@
   background: none;
   border: none;
   font-size: 1.2rem;
-  color: #5a3e1b;
+  color: var(--text-gold);
   cursor: pointer;
   padding: 0.2rem 0.5rem;
   border-radius: 4px;
 }
 .navBtn:hover {
-  background: rgba(90, 62, 27, 0.1);
+  background: rgba(var(--border-gold-rgb), 0.15);
 }
 .monthLabel {
   font-size: 0.85rem;
   font-weight: 700;
-  color: #3a2a0e;
+  color: var(--text-highlight);
   text-transform: capitalize;
 }
 .calGrid {
@@ -38,26 +38,28 @@
   text-align: center;
   font-size: 0.7rem;
   font-weight: 700;
-  color: #7a5c2e;
+  color: var(--text-muted);
   padding: 0.3rem 0;
 }
 .calCell {
   text-align: center;
   padding: 0.35rem 0;
   font-size: 0.78rem;
-  color: #2a1a0e;
+  color: var(--text-gold);
   cursor: pointer;
   border-radius: 4px;
   transition: background 0.15s;
 }
 .calCell:hover {
-  background: rgba(200, 169, 110, 0.3);
+  background: rgba(var(--border-gold-rgb), 0.3);
 }
 .otherMonth {
-  color: #b0a080;
+  color: var(--text-muted);
+  opacity: 0.5;
 }
 .todayCell {
-  background: rgba(212, 175, 55, 0.3);
-  border: 1px solid #d4af37;
+  background: rgba(var(--border-gold-rgb), 0.4);
+  border: 1px solid var(--text-highlight);
+  color: var(--text-highlight);
   font-weight: 700;
 }

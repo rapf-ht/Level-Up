@@ -25,14 +25,14 @@
     justify-content: center;
     align-items: center;
     border-radius: 8px;
-    background-color: #111316d1;
+    background-color: rgba(var(--bg-panels-rgb), 0.85);
     backdrop-filter: blur(5px);
     gap: 1.5em;
     padding: 2em;
 }
 
 .title-intro {
-    color: #f4cc7c;
+    color: var(--text-gold);
     font-weight: bold; 
     font-size: 1.5em;
     font-family: "Cormorant Garamond", serif;
@@ -47,7 +47,7 @@
 }
 
 .form-label {
-    color: #f8ddaf;
+    color: var(--text-gold);
     font-weight: bold;
     font-family: "Cormorant Garamond", serif;
     margin-bottom: .25em;
@@ -59,45 +59,51 @@
 }
 
 .span-disclaimer {
-    color: #fff7f7da;
+    color: var(--text-muted);
     font-weight: lighter;
     font-style: italic;
-    font-size: .875em;
     margin-top: .25em;
     font-size: 14px;
 }
 
 .signin-form input {
     background-color: transparent;
-    border: 1px solid #b8a782;
-    color: #fff;
+    border: 1px solid var(--border-gold);
+    color: var(--text-gold);
     height: 30px;
 }
 
 .signin-form input::placeholder {
-    color: #ececec79;
+    color: var(--text-muted);
     font-size: 16px;
 }
 
 .btn-enter {
-    background-color: #ffc107;
-    color: #000;
+    background-color: var(--text-highlight);
+    color: var(--bg-main);
     font-weight: bold;
-    border: none;
+    border: 1px solid var(--text-highlight);
     padding: 0.5em 1em;
     border-radius: 4px;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease;
+    cursor: pointer;
 }
 
 .btn-enter:hover {
-    background-color: #e0a800;
+    background-color: transparent;
+    color: var(--text-highlight);
 }
 
 .btn-link {
-    color: #ffc107;
+    color: var(--text-highlight);
     font-weight: bold;
     text-decoration: none;
     display: inline-flex;
     align-items: center;
     gap: .25em;
+    transition: color 0.2s;
+}
+
+.btn-link:hover {
+    color: var(--text-gold);
 }

@@ -10,7 +10,7 @@
 }
 
 .container {
-  background-color: #141517;
+  background-color: var(--bg-main);
   height: 100vh;
 }
 
@@ -22,7 +22,7 @@
   justify-content: space-between;
   overflow: visible;
   position: fixed;
-  background-color: #19181d;
+  background-color: var(--bg-header);
   padding: 16px 24px;
   z-index: 999;
 }
@@ -40,7 +40,8 @@
 
 .navbar {
   display: flex;
-  gap: 32px;
+  width: 100%;
+  justify-content: space-between;
 }
 
 .btn-navbar {
@@ -54,12 +55,12 @@
   justify-content: center;
 }
 .btn-navbar:hover {
-  color: #f8b93b;
+  color: var(--text-highlight);
   transition: color 0.3s ease;
 }
 
 .btnActive {
-  color: #f8b93b;
+  color: var(--text-highlight);
   text-decoration: underline;
 }
 
@@ -73,9 +74,9 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  border: 1px solid #b8a782;
+  border: 1px solid var(--border-gold);
   border-radius: 30px;
-  background-color: #19181d;
+  background-color: var(--bg-header);
   height: 57px;
   padding: 8px 16px;
 }
@@ -86,9 +87,9 @@
   justify-content: center;
   width: 57px;
   height: 57px;
-  border: 1px solid #b8a782;
+  border: 1px solid var(--border-gold);
   border-radius: 30px;
-  background-color: #19181d;
+  background-color: var(--bg-header);
 }
 
 .bell {
@@ -98,7 +99,7 @@
 }
 
 .gc {
-  color: #f4cc7c;
+  color: var(--text-gold);
   font-size: 16px;
   font-family: "Inter", serif-sans;
 }
@@ -106,7 +107,7 @@
 .pfp-card {
   overflow: visible;
   display: flex;
-  border: 1px solid #b8a782;
+  border: 1px solid var(--border-gold);
   border-radius: 15px;
   margin-right: 10px;
 }
@@ -119,7 +120,7 @@
 }
 
 .username {
-  color: #f4cc7c;
+  color: var(--text-gold);
   font-size: 16px;
   font-family: "Cormorant Garamond", serif;
   margin-top: 6px;
@@ -153,12 +154,12 @@
   justify-content: space-between;
   padding: 0px 142px;
   align-items: center;
-  background-color: #19181d;
+  background-color: var(--bg-header);
   position: relative;
   z-index: 999;
 }
 .license-line {
-  background-color: #19181d;
+  background-color: var(--bg-header);
 }
 
 .footerMobile {
@@ -177,7 +178,7 @@
 }
 
 .footer-caption {
-  color: #aba6a2;
+  color: var(--text-muted);
   font-size: 14px;
   font-family: "Inter", sans-serif;
   margin: -5px 10px 30px 0;
@@ -192,7 +193,7 @@
 .col-title {
   font-family: "Cormorant Garamond", serif;
   font-weight: bold;
-  color: #f4cc7c;
+  color: var(--text-gold);
   font-size: 20px;
 }
 
@@ -203,25 +204,25 @@
 .line {
   border: none;
   height: 1px;
-  background-color: #f4cc7c;
+  background-color: var(--text-gold);
 }
 
 .columns ul li {
   margin: 0 0 0.5rem;
 }
 .col-list {
-  color: #aba6a2;
+  color: var(--text-muted);
   font-family: "Inter", sans-serif;
   font-size: 14px;
 }
 
 .col-list:hover {
-  color: #f8b93b;
+  color: var(--text-highlight);
   transition: color 0.25s ease;
 }
 
 .license {
-  color: #aba6a2;
+  color: var(--text-muted);
   font-size: 16px;
   font-family: "Inter", sans-serif;
   display: flex;
@@ -246,7 +247,7 @@
 .ham-line {
   width: 22px;
   height: 2px;
-  background-color: #f4cc7c;
+  background-color: var(--text-gold);
   border-radius: 2px;
   transition: all 0.3s ease;
 }
@@ -264,6 +265,25 @@
 .btn-navbar-home-mobile {
   display: none;
 }
+
+.themeToggleBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 57px;
+  height: 57px;
+  border: 1px solid var(--border-gold);
+  border-radius: 30px;
+  background-color: var(--bg-header);
+  color: var(--text-gold);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.themeToggleBtn:hover {
+  color: var(--text-highlight);
+  background-color: var(--bg-main);
+}
 /* ── MOBILE ── */
 @media screen and (max-width: 768px) {
   /* Header */
@@ -273,13 +293,12 @@
     background-color: transparent;
     gap: 0.5rem;
     position: fixed;
-    background-color: #141517;
+    background-color: var(--bg-header);
   }
   .hamburger {
     display: flex;
   }
 
-  /* Nav principal vira menu vertical */
   .navbar {
     display: flex;
     position: absolute;
@@ -288,8 +307,8 @@
     right: 0;
     flex-direction: column;
     align-items: center;
-    background-color: #111316;
-    border-top: 1px solid #b8a782;
+    background-color: var(--bg-header);
+    border-top: 1px solid var(--border-gold);
     padding: 12px 20px;
     gap: 0;
     z-index: 100;
@@ -313,9 +332,6 @@
     display: flex;
   }
 
-  .stats {
-    gap: 0.5rem;
-  }
   .profile-card {
     display: flex;
     align-items: center;
@@ -339,8 +355,8 @@
     left: 0;
     right: 0;
     z-index: 999;
-    background-color: #0e0e10;
-    border-top: 1px solid #f4cc7c;
+    background-color: var(--bg-header);
+    border-top: 1px solid var(--border-gold);
   }
 
   .footerMobile a {
@@ -350,13 +366,10 @@
     color: #8a887a;
   }
 
-  /* Adicione isso no seu RootLayout.module.css */
-
   .activeMobileLink .btnFooterMobile {
-    color: #f8b93b;
+    color: var(--text-highlight);
   }
 
-  /* Caso queira garantir que o clique no NavLink não fique com sublinhado padrão do HTML */
   .activeMobileLink {
     text-decoration: none;
   }
@@ -381,7 +394,6 @@
     height: auto;
   }
 
-  /* Footer — guilda some no mobile */
   .columns:last-child {
     display: none;
   }

@@ -1,6 +1,6 @@
 .wrapper {
-  background: #12121a;
-  border: 1px solid #B8A782;
+  background: var(--bg-panels);
+  border: 1px solid var(--border-gold);
   border-radius: 12px;
   overflow: hidden;
 }
@@ -14,33 +14,33 @@
   margin: 0;
   font-size: 1rem;
   font-weight: 700;
-  color: #F8DDAF;
+  color: var(--text-gold);
 }
 
 .tabs {
   display: flex;
   gap: 0.5rem;
   padding: 0.75rem 1.2rem;
-  border-bottom: 1px solid #B8A782;
+  border-bottom: 1px solid var(--border-gold);
 }
 .tab {
   padding: 0.35rem 0.9rem;
-  border: 1px solid #B8A782;
+  border: 1px solid var(--border-gold);
   border-radius: 20px;
   background: transparent;
-  color: #8a887a;
+  color: var(--text-muted);
   font-size: 0.78rem;
   cursor: pointer;
   transition: all 0.2s;
 }
 .tab:hover {
-  border-color: #d4af37;
-  color: #d4af37;
+  border-color: var(--text-highlight);
+  color: var(--text-highlight);
 }
 .tabActive {
-  background: #1e1e2e;
-  color: #F8DDAF;
-  border-color: #3a3a4a;
+  background: rgba(var(--border-gold-rgb), 0.2);
+  color: var(--text-highlight);
+  border-color: var(--text-highlight);
 }
 
 .list {
@@ -51,11 +51,11 @@
   align-items: center;
   gap: 1rem;
   padding: 0.8rem 1.2rem;
-  border-bottom: 1px solid #1e1e2e;
+  border-bottom: 1px solid rgba(var(--border-gold-rgb), 0.25);
   transition: background 0.15s;
 }
 .missionCard:hover {
-  background: #16161f;
+  background: rgba(var(--border-gold-rgb), 0.1);
 }
 .missionCard:last-child {
   border-bottom: none;
@@ -65,20 +65,20 @@
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  border: 2px solid #8a887a;
+  border: 2px solid var(--text-muted);
   background: transparent;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #0e0e10;
+  color: var(--bg-main);
   font-size: 0.7rem;
   flex-shrink: 0;
   transition: all 0.2s;
 }
 .checkboxDone {
-  background: #d4af37;
-  border-color: #d4af37;
+  background: var(--text-highlight);
+  border-color: var(--text-highlight);
 }
 
 .missionInfo {
@@ -86,36 +86,36 @@
 }
 .missionTitle {
   font-size: 0.88rem;
-  color: #F8DDAF;
+  color: var(--text-gold);
 }
 .missionDone {
   text-decoration: line-through;
-  color: #8a887a;
+  color: var(--text-muted);
 }
 .missionTags {
   display: flex;
   gap: 0.4rem;
   margin-top: 0.2rem;
   font-size: 0.68rem;
-  color: #8a887a;
+  color: var(--text-muted);
 }
 .separator {
   margin: 0 0.15rem;
 }
 
 .xpBadge {
-  background: #1e1e2e;
-  border: 1px solid #3a3a4a;
+  background: rgba(var(--bg-panels-rgb), 0.8);
+  border: 1px solid var(--border-gold);
   border-radius: 6px;
   padding: 0.2rem 0.55rem;
   font-size: 0.72rem;
-  color: #b0a88f;
+  color: var(--text-muted);
   white-space: nowrap;
 }
 .empty {
   padding: 2rem;
   text-align: center;
-  color: #5a5a6a;
+  color: var(--text-muted);
   font-size: 0.82rem;
   margin: 0;
 }
