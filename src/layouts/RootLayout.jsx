@@ -75,7 +75,7 @@ export default function RootLayout() {
             Bazar Mágico
           </NavLink>
           <NavLink
-            to="/taverna"
+            to="/tavern"
             onClick={() => setMenuOpen(false)}
             className={({ isActive }) =>
               `${styles["btn-navbar"]} ${isActive ? styles.btnActive : null} `
@@ -188,7 +188,7 @@ export default function RootLayout() {
               </Link>
             </li>
             <li>
-              <Link to="/taverna" className={styles["col-list"]}>
+              <Link to="/tavern" className={styles["col-list"]}>
                 Taverna
               </Link>
             </li>
@@ -263,7 +263,7 @@ export default function RootLayout() {
       </div>
       <footer className={styles.footerMobile}>
         <NavLink
-          to="/taverna"
+          to="/tavern"
           className={({ isActive }) =>
             isActive ? styles.activeMobileLink : ""
           }
