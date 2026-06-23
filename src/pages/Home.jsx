@@ -19,68 +19,91 @@ export default function Home() {
   return (
     <div className={styles.mainContainer}>
       <div className={styles.backgroundGif}>
-        <button
-          className={styles.btnHideUI}
-          onClick={alteraVisibilidade}
-        >
+        <button className={styles.btnHideUI} onClick={alteraVisibilidade}>
           {showLayout ? "Ocultar Interface" : "Mostrar Interface"}
         </button>
-        <img
-          className={styles.animatedAvatar}
-          src="/avatar.png"
-          alt="avatar"
-        />
-        <div 
-          className={styles.conteudoSeguro} 
+        <img className={styles.animatedAvatar} src="/avatar.png" alt="avatar" />
+        <div
+          className={styles.conteudoSeguro}
           style={{ display: showLayout ? "grid" : "none" }}
         >
-          {/* Mantendo estrutura Mobile intacta para a próxima etapa */}
+          {/* 1. PERFIL (Mobile) */}
           <div className={styles.avatarConatinerMobile}>
             <div className={styles.avatar}>
-              <img src="/avatar-icon.png" alt="Avatar" width="78px" />
-            </div>
-            <div className={styles.attributes}>
-              <div className={styles.attributesLine}>
-                <p className={`${styles.highlightedText} ${styles.hpColor}`}>HP</p>
-                <div className={styles.attributesBar} style={{ "--nivel-hp": `${hp}%` }}>
-                  <div className={styles.attributesBarHpFill}></div>
+              <img src="/avatar-icon.png" alt="Avatar" width="130px" />
+              <div className={styles.avatarStats}>
+                <div className={styles.avatarStatsMobile}>
+                  <p className={`${styles.highlightedText} ${styles.tittle}`}>
+                    {name}
+                  </p>
+                  <p className={styles.highlightedText}>Level {level}</p>
                 </div>
-              </div>
-              <div className={styles.attributesLine}>
-                <p className={`${styles.highlightedText} ${styles.xpColor}`}>XP</p>
-                <div className={styles.attributesBar} style={{ "--nivel-xp": `${xp}%` }}>
-                  <div className={styles.attributesBarXpFill}></div>
+                <div className={styles.attributes}>
+                  <div className={styles.attributesLine}>
+                    <p className={styles.highlightedText}>HP</p>
+                    <div
+                      className={styles.attributesBar}
+                      style={{ "--nivel-hp": `${hp}%` }}
+                    >
+                      <div className={styles.attributesBarHpFill}></div>
+                    </div>
+                    <p className={`${styles.highlightedText} ${styles.attributesStats}`}>{hp}/100</p>
+                  </div>
+                  <div className={styles.attributesLine}>
+                    <p
+                      className={`${styles.highlightedText} ${styles.xpColor}`}
+                    >
+                      XP
+                    </p>
+                    <div
+                      className={styles.attributesBar}
+                      style={{ "--nivel-xp": `${xp}%` }}
+                    >
+                      <div className={styles.attributesBarXpFill}></div>
+                    </div>
+                     <p className={`${styles.highlightedText} ${styles.attributesStats}`}>{xp}/100</p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* 1. PERFIL (Alinhado à Esquerda) */}
+          {/* 1. PERFIL (Desktop) */}
           <div className={styles.avatarConatiner}>
             <div className={styles.avatar}>
               <img src="/avatar-icon.png" alt="Avatar" width="130px" />
-              <p className={`${styles.highlightedText} ${styles.tittle}`}>
-                {name}
-              </p>
-              <p className={styles.highlightedText}>Level {level}</p>
+              <div className={styles.avatarStats}>
+                <p className={`${styles.highlightedText} ${styles.tittle}`}>
+                  {name}
+                </p>
+                <p className={styles.highlightedText}>Level {level}</p>
+              </div>
             </div>
             <div className={styles.attributes}>
               <div className={styles.attributesLine}>
                 <p className={styles.highlightedText}>HP</p>
-                <div className={styles.attributesBar} style={{ "--nivel-hp": `${hp}%` }}>
+                <div
+                  className={styles.attributesBar}
+                  style={{ "--nivel-hp": `${hp}%` }}
+                >
                   <div className={styles.attributesBarHpFill}></div>
                 </div>
               </div>
               <div className={styles.attributesLine}>
-                <p className={`${styles.highlightedText} ${styles.xpColor}`}>XP</p>
-                <div className={styles.attributesBar} style={{ "--nivel-xp": `${xp}%` }}>
+                <p className={`${styles.highlightedText} ${styles.xpColor}`}>
+                  XP
+                </p>
+                <div
+                  className={styles.attributesBar}
+                  style={{ "--nivel-xp": `${xp}%` }}
+                >
                   <div className={styles.attributesBarXpFill}></div>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* 2. MISSÕES (Ocupando Centro e Direita) */}
+          {/* 2. MISSÕES */}
           <div className={styles.goalsContainer}>
             <p className={`${styles.highlightedText} ${styles.tittle}`}>
               Tarefas do Dia
@@ -96,7 +119,7 @@ export default function Home() {
             </div>
           </div>
 
-          {/* 3. CALENDÁRIO (Logo abaixo, ocupando as 3 colunas) */}
+          {/* 3. CALENDÁRIO */}
           <div className={styles.secondContainer}>
             <p className={`${styles.highlightedText} ${styles.tittle}`}>
               Calendário
@@ -104,9 +127,11 @@ export default function Home() {
             <Calendar />
           </div>
 
-          {/* 4. LOJA (Embaixo do calendário, ocupando as 3 colunas e com fundo corrigido) */}
+          {/* 4. LOJA */}
           <div className={styles.thirdContainer}>
-            <p className={`${styles.highlightedText} ${styles.tittle} ${styles.tittleStore}`}>
+            <p
+              className={`${styles.highlightedText} ${styles.tittle} ${styles.tittleStore}`}
+            >
               Destaques da loja
             </p>
             <div className={styles.newItemsStore}>
@@ -140,7 +165,6 @@ export default function Home() {
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </div>

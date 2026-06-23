@@ -50,12 +50,11 @@ function AreasDaVidaContent() {
       </div>
       {/* ── Banner ── */}
       <div className={styles.banner}>
-        {
-          console.log("areaBanner:", areaBanner),
-          areaBanner ? 
-            <img src={areaBanner} alt={areaTitle} className={styles.bannerImg} />
-          : ""
-        }
+        {areaBanner ? (
+          <img src={areaBanner} alt={areaTitle} className={styles.bannerImg} />
+        ) : (
+          ""
+        )}
       </div>
       {/* ── Breadcrumb ── */}
       <div className={styles.breadcrumb}>
