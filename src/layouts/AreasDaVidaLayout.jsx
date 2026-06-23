@@ -1,15 +1,27 @@
-import { NavLink, Outlet, Link } from "react-router-dom";
+import { NavLink, Outlet, Link, useLocation } from "react-router-dom";
 import styles from "./AreasDaVidaLayout.module.css";
 import { AreaProvider, useArea } from "../contexts/AreaContext";
+import { MissionManager } from "../manager/MissionManager";
+import { useState } from "react";
+import { MissoesList } from "../components/MissoesList";
+import { MissionModal } from "../components/MissionModal";
 
 const areas = [
-  { label: "Saúde", to: "/areas-da-vida/saude" },
-  { label: "Estudos", to: "/areas-da-vida/estudos" },
-  { label: "Agenda", to: "/areas-da-vida/agenda" },
-  { label: "Planejamento", to: "/areas-da-vida/planejamento" },
-  { label: "Organização", to: "/areas-da-vida/organizacao" },
-  { label: "Lazer", to: "/areas-da-vida/lazer" },
-  { label: "Finanças", to: "/areas-da-vida/financas" },
+  { label: "Saúde", to: "/areas-da-vida/saude", value: "saude" },
+  { label: "Estudos", to: "/areas-da-vida/estudos", value: "estudos" },
+  { label: "Agenda", to: "/areas-da-vida/agenda", value: "agenda" },
+  {
+    label: "Planejamento",
+    to: "/areas-da-vida/planejamento",
+    value: "planejamento",
+  },
+  {
+    label: "Organização",
+    to: "/areas-da-vida/organizacao",
+    value: "organizacao",
+  },
+  { label: "Lazer", to: "/areas-da-vida/lazer", value: "lazer" },
+  { label: "Finanças", to: "/areas-da-vida/financas", value: "financas" },
 ];
 
 const weekDays = ["D", "S", "T", "Q", "Q", "S", "S"];
@@ -26,12 +38,18 @@ const xpBars = [
 
 function AreasDaVidaContent() {
   const { areaInfo } = useArea();
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const areaTitle = areaInfo.title;
   const areaIcon = areaInfo.icon;
   const areaBanner = areaInfo.banner;
+  const location = useLocation();
+
+  const currentArea = areas.find((area) => location.pathname.includes(area.to));
+  const activeCategory = currentArea ? currentArea.value : "outros";
+
   return (
     <div className={styles.page}>
-      {/* ── MOBILE ONLY: Menu Horizontal de Áreas (Invisível no Desktop) ── */}
+      {/* ── MOBILE ── */}
       <div className={styles.mobileAreaTabsContainer}>
         <nav className={styles.mobileAreaTabs}>
           {areas.map((area) => (
@@ -48,6 +66,7 @@ function AreasDaVidaContent() {
           ))}
         </nav>
       </div>
+
       {/* ── Banner ── */}
       <div className={styles.banner}>
         {areaBanner ? (
@@ -56,6 +75,7 @@ function AreasDaVidaContent() {
           ""
         )}
       </div>
+
       {/* ── Breadcrumb ── */}
       <div className={styles.breadcrumb}>
         <Link to="/home">Home</Link> &gt;{" "}
@@ -75,9 +95,18 @@ function AreasDaVidaContent() {
               </p>
             </div>
           </div>
-          <Link to="#" className={styles.newMissionBtn}>
+          <button
+            className={styles.newMissionBtn}
+            onClick={() => setIsModalOpen(true)}
+          >
             + Nova Missão
-          </Link>
+          </button>
+
+          <MissionModal
+            isOpen={isModalOpen}
+            onClose={() => setIsModalOpen(false)}
+            category={activeCategory}
+          />
         </div>
 
         <div className={styles.statsRow}>
@@ -141,7 +170,7 @@ function AreasDaVidaContent() {
           </div>
         </aside>
 
-        {/* Main content — pages inject here */}
+        {/* Main */}
         <main className={styles.content}>
           <Outlet />
         </main>

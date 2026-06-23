@@ -1,27 +1,9 @@
 import { useState } from "react";
 import agendaStyles from "./Agenda.module.css";
-import AreasDaVidaLayout from "../layouts/AreasDaVidaLayout";
 import { MissoesList } from "../components/MissoesList";
 import { useAreaInfo } from "../hooks/useAreaInfo";
 
 const WEEK_DAYS_CAL = ["S", "T", "Q", "Q", "S", "S", "D"];
-
-const agendaMissions = [
-  {
-    id: 1,
-    title: "Organizar agenda semanal",
-    tags: ["Semanal"],
-    xp: 50,
-    done: false,
-  },
-  {
-    id: 2,
-    title: "Revisar compromissos",
-    tags: ["Diário"],
-    xp: 50,
-    done: false,
-  },
-];
 
 export default function Agenda() {
   const today = new Date();
@@ -87,14 +69,21 @@ export default function Agenda() {
               key={i}
               className={`${agendaStyles.calCell}
                 ${!cell.current ? agendaStyles.otherMonth : ""}
-                ${cell.current && cell.day === today.getDate() && month === today.getMonth() && year === today.getFullYear() ? agendaStyles.todayCell : ""}`}
+                ${
+                  cell.current &&
+                  cell.day === today.getDate() &&
+                  month === today.getMonth() &&
+                  year === today.getFullYear()
+                    ? agendaStyles.todayCell
+                    : ""
+                }`}
             >
               {cell.day}
             </div>
           ))}
         </div>
       </div>
-      <MissoesList initialMissions={agendaMissions} />
+      <MissoesList categoryFilter="agenda" />
     </>
   );
 }

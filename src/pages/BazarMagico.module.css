@@ -1,0 +1,470 @@
+.page {
+  min-height: 100vh;
+  background: var(--bg-main);
+  color: var(--text-gold);
+  position: relative;
+}
+
+/* ── Banner ── */
+.banner {
+  width: 100%;
+  height: 300px;
+  overflow: hidden;
+  position: relative;
+}
+
+.bannerImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
+
+/* ── Toast ── */
+.toast {
+  position: fixed;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  z-index: 9999;
+  box-shadow: 0 4px 20px var(--shadow-toast);
+  animation: fadeInOut 2.5s ease forwards;
+  white-space: nowrap;
+}
+
+.toastSuccess {
+  background: var(--toast-bg-success);
+  border: 1px solid var(--toast-border-success);
+  color: var(--toast-text-success);
+}
+
+.toastError {
+  background: var(--toast-bg-error);
+  border: 1px solid var(--toast-border-error);
+  color: var(--toast-text-error);
+}
+
+@keyframes fadeInOut {
+  0%   { opacity: 0; transform: translateX(-50%) translateY(-8px); }
+  10%  { opacity: 1; transform: translateX(-50%) translateY(0); }
+  80%  { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* ── Layout geral ── */
+.layout {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 0;
+  min-height: calc(100vh - 300px);
+}
+
+/*  SIDEBAR  */
+.sidebar {
+  padding: 28px 20px;
+  border-right: 1px solid var(--border-gold);
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+/* Perfil */
+.profileCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  border: 2px solid var(--text-gold);
+  object-fit: cover;
+}
+
+.profileName {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 4px 0 0;
+}
+
+.profileLevel {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.bars {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.barRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.barLabel {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #e57373;
+  width: 18px;
+  flex-shrink: 0;
+}
+
+.xpColor {
+  color: #64b5f6;
+}
+
+.barTrack {
+  flex: 1;
+  height: 8px;
+  background: var(--btn-sell-color);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.barFillHp {
+  height: 100%;
+  background: linear-gradient(90deg, #c62828, #e57373);
+  border-radius: 4px;
+  transition: width 0.4s ease;
+}
+
+.barFillXp {
+  height: 100%;
+  background: linear-gradient(90deg, #1565c0, #64b5f6);
+  border-radius: 4px;
+  transition: width 0.4s ease;
+}
+
+/* Filtros */
+.filterSection {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.filterTitle {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.filterSubtitle {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin: 0 0 4px;
+}
+
+.filterList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.filterItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.filterItem:hover {
+  color: var(--text-primary);
+}
+
+.radio {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--border-gold);
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  position: relative;
+  flex-shrink: 0;
+  transition: border-color 0.2s;
+}
+
+.radio:checked {
+  border-color: var(--text-gold);
+}
+
+.radio:checked::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--text-gold);
+}
+
+/*  MAIN  */
+.main {
+  padding: 28px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/*  Shop header  */
+.shopHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 2px solid var(--border-gold);
+}
+
+.tab {
+  background: none;
+  border: none;
+  padding: 10px 28px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  position: relative;
+  transition: color 0.2s;
+}
+
+.tab::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: transparent;
+  transition: background 0.2s;
+}
+
+.tabActive {
+  color: var(--text-primary);
+}
+
+.tabActive::after {
+  background: var(--text-gold);
+}
+
+/* Saldo */
+.balanceBadge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-gold);
+  border-radius: 999px;
+  padding: 8px 18px;
+}
+
+.badgeIcon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+.badgeStat {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.badgeGold {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-gold);
+}
+
+/*  Grid de itens  */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 20px;
+}
+
+/*  Card de item  */
+.itemCard {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-gold);
+  border-radius: 12px;
+  padding: 20px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+  transition: border-color 0.2s, transform 0.15s;
+}
+
+.itemCard:hover {
+  border-color: var(--text-gold);
+  transform: translateY(-2px);
+}
+
+/* Badge de quantidade */
+.ownedBadge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: var(--text-gold);
+  color: #111;
+  font-size: 0.7rem;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: 999px;
+}
+
+.itemIcon {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+}
+
+.itemName {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  text-align: center;
+  margin: 0;
+}
+
+.itemDesc {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-align: center;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Botão comprar */
+.buyBtn {
+  margin-top: auto;
+  width: 100%;
+  padding: 10px 0;
+  background: transparent;
+  border: 1px solid var(--border-gold);
+  border-radius: 8px;
+  color: var(--border-gold);
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.buyBtn:hover:not(:disabled) {
+  background: var(--border-gold);
+  color: var(--bg-main);
+}
+
+.buyBtnDisabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Botão vender */
+.sellBtn {
+  border-color: var(--btn-sell-color);
+  color: var(--btn-sell-color);
+}
+
+.sellBtn:hover:not(:disabled) {
+  background: var(--btn-sell-color);
+  color: var(--bg-main);
+}
+
+/* Vazio */
+.empty {
+  color: var(--text-gold);
+  opacity: 0.7;
+  font-size: 0.9rem;
+  padding: 40px 0;
+  text-align: center;
+}
+
+.linkBtn {
+  background: none;
+  border: none;
+  color: var(--text-highlight);
+  cursor: pointer;
+  font-size: 0.9rem;
+  text-decoration: underline;
+  padding: 0;
+}
+
+/*  RESPONSIVO  */
+@media (max-width: 768px) {
+  .banner {
+    height: 180px;
+  }
+
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    border-right: none;
+    border-bottom: 1px solid var(--border-gold);
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 16px;
+  }
+
+  .profileCard {
+    flex-direction: row;
+    gap: 12px;
+    align-items: flex-start;
+    flex: 1;
+    min-width: 200px;
+  }
+
+  .avatar {
+    width: 52px;
+    height: 52px;
+  }
+
+  .filterSection {
+    flex: 1;
+    min-width: 140px;
+  }
+
+  .filterList {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+  }
+
+  .main {
+    padding: 16px;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+}

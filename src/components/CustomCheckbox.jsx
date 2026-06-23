@@ -1,15 +1,12 @@
-import { useState } from "react";
 import styles from "./CustomCheckbox.module.css";
 
-export function CustomCheckbox({ text }) {
-  const [checked, setChecked] = useState(false);
-
+export function CustomCheckbox({ text, checked, onToggle }) {
   return (
     <label className={styles.checkboxContainer}>
       <input
         type="checkbox"
         checked={checked}
-        onChange={() => setChecked(!checked)}
+        onChange={onToggle}
         className={styles.hiddenInput}
       />
       <div
@@ -17,7 +14,13 @@ export function CustomCheckbox({ text }) {
       >
         {checked && <span className={styles.checkmark}>L</span>}
       </div>
-      {text ? <p className={`${styles.text} ${checked ? styles.textChecked : styles.textUnchecked}`}>{text}</p> : null}
+      {text ? (
+        <p
+          className={`${styles.text} ${checked ? styles.textChecked : styles.textUnchecked}`}
+        >
+          {text}
+        </p>
+      ) : null}
     </label>
   );
 }

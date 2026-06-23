@@ -12,6 +12,8 @@ import Planejamento from "../pages/Planejamento";
 import Organizacao from "../pages/Organizacao";
 import Lazer from "../pages/Lazer";
 import Financas from "../pages/Financas";
+import BazarMagico from "../pages/BazarMagico";
+import Perfil from "../pages/Perfil";
 import Tavern from "../pages/Tavern";
 
 export const router = createBrowserRouter([
@@ -56,6 +58,14 @@ export const router = createBrowserRouter([
           { path: "lazer",        element: <Lazer /> },
           { path: "financas",     element: <Financas /> },
         ],
+      },
+      {
+        path: "/bazar-magico",
+        element: <BazarMagico />,
+      },
+      {
+        path: "/inventario",
+        element: <Perfil />,
       },
       { path: "*", element: <NotFound /> },
     ],

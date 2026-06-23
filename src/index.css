@@ -15,21 +15,32 @@ body {
   --bg-panels: #12121a;
 
   /* Cores base em RGB para o tema escuro */
-  --bg-panels-rgb: 20, 21, 23; /* Equivalente a #141517 */
+  --bg-panels-rgb: 20, 21, 23;
+  /* Equivalente a #141517 */
   --bg-store-rgb: 25, 27, 30;
-  --border-gold-rgb: 184, 167, 130; /* Equivalente a #b8a782 */
+  --border-gold-rgb: 184, 167, 130;
+  /* Equivalente a #b8a782 */
   /* Gradiente escuro */
-  --bg-hero-gradient: linear-gradient(
-    135deg,
-    #1a0e2e 0%,
-    #0e1a2e 50%,
-    #1a1a0e 100%
-  );
+  --bg-hero-gradient: linear-gradient(135deg,
+      #1a0e2e 0%,
+      #0e1a2e 50%,
+      #1a1a0e 100%);
 
   --border-gold: #b8a782;
   --text-gold: #f4cc7c;
   --text-highlight: #f8b93b;
   --text-muted: #aba6a2;
+
+  --toast-bg-success: #1b3a1b;
+  --toast-border-success: #4caf50;
+  --toast-text-success: #a5d6a7;
+
+  --toast-bg-error: #3a1b1b;
+  --toast-border-error: #e53935;
+  --toast-text-error: #ef9a9a;
+
+  --btn-sell-color: #3f9ce0;
+  --shadow-toast: rgba(0, 0, 0, 0.5);
 }
 
 [data-theme="light"] {
@@ -39,19 +50,30 @@ body {
   --bg-panels: #EEE2D0;
 
   /* Cores base em RGB para o tema claro */
-  --bg-panels-rgb: 238, 226, 208; /* Fundo pergaminho semi-transparente */
+  --bg-panels-rgb: 238, 226, 208;
+  /* Fundo pergaminho semi-transparente */
   --bg-store-rgb: 226, 210, 185;
-  --border-gold-rgb: 166, 141, 96; /* Bronze mais escuro (166, 141, 96) */
+  --border-gold-rgb: 166, 141, 96;
+  /* Bronze mais escuro (166, 141, 96) */
   /* Gradiente claro */
-  --bg-hero-gradient: linear-gradient(
-    135deg,
-    #eaddca 0%,
-    #f5f2eb 50%,
-    #d4c4a8 100%
-  );
+  --bg-hero-gradient: linear-gradient(135deg,
+      #eaddca 0%,
+      #f5f2eb 50%,
+      #d4c4a8 100%);
 
   --border-gold: #a68d60;
   --text-gold: #5c4033;
   --text-highlight: #b45309;
   --text-muted: #6b5d52;
+
+  --toast-bg-success: #e8f5e9;
+  --toast-border-success: #388e3c;
+  --toast-text-success: #1b5e20;
+
+  --toast-bg-error: #ffebee;
+  --toast-border-error: #d32f2f;
+  --toast-text-error: #b71c1c;
+
+  --btn-sell-color: #1976d2;
+  --shadow-toast: rgba(0, 0, 0, 0.15);
 }

@@ -1,0 +1,89 @@
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.modalContent {
+  background: var(--bg-panels);
+  padding: 24px;
+  border-radius: 15px;
+  border: 1px solid var(--border-gold);
+  width: 90%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.inputModal {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid var(--border-gold);
+  background: var(--bg-main);
+  color: var(--text-gold);
+  width: 100%;
+}
+
+.modalActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.btnPrimary,
+.btnSecondary {
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  border: none;
+}
+
+.btnPrimary {
+  background: var(--text-highlight);
+  color: var(--bg-main);
+}
+.btnSecondary {
+  background: transparent;
+  border: 1px solid var(--text-highlight);
+  color: var(--text-highlight);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  color: var(--bg-main);
+}
+
+.errorInput {
+  border: 1px solid #ff4d4d !important;
+}
+
+.errorText {
+  color: #ff4d4d;
+  font-size: 12px;
+}
+
+.row {
+  display: flex;
+  gap: 15px;
+  width: 100%;
+}
+
+.row .inputGroup {
+  flex: 1;
+}
