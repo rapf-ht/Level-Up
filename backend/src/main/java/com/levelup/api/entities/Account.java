@@ -21,7 +21,7 @@ public class Account {
     private Long idAccount;
 
     @Column(nullable = false, unique = true, length = 25)
-    private String user;
+    private String username;
 
     @Column(nullable = false, unique = true) //lenght padrão -> 255
     private String email;

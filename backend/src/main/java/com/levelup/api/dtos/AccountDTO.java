@@ -4,7 +4,7 @@ import com.levelup.api.entities.Account;
 
 public class AccountDTO {
     public Long idAccount;
-    public String user;
+    public String username;
     public String email;
     // SEM SENHA, LGPD - RESPONSABILIDADE COM O USUÁRIO
     public String classPlayer;
@@ -16,7 +16,7 @@ public class AccountDTO {
     // Construtor
     public AccountDTO (Account account) {
         this.idAccount = account.getIdAccount();
-        this.user = account.getUser();
+        this.username = account.getUsername();
         this.email = account.getEmail();
         this.classPlayer = account.getClasses().toString(); //Wrapper para String
         this.level = account.getLevel();

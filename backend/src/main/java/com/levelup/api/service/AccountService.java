@@ -25,7 +25,7 @@ public class AccountService {
         }
 
         Account account = new Account();
-        account.setUser(signup.user);
+        account.setUsername(signup.username);
         account.setEmail(signup.email);
 
         // Senha -> decodificar primeiro

@@ -1,4 +1,4 @@
-package com.levelup.api.service;
+package com.levelup.api;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
