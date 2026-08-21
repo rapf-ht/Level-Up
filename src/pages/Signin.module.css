@@ -78,7 +78,7 @@
     font-size: 16px;
 }
 
-.btn-enter {
+/* .btn-enter {
     background-color: var(--text-highlight);
     color: var(--bg-main);
     font-weight: bold;
@@ -106,4 +106,4 @@
 
 .btn-link:hover {
     color: var(--text-gold);
-}
+} */

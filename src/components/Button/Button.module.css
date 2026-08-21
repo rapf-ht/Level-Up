@@ -1,0 +1,43 @@
+/* Reset local para remover estilos padrões do navegador (bordas 3D, fundos e cores de link) */
+.button{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25em;
+  padding: 0.5em 1em;
+  border-radius: 4px;
+  font-weight: bold;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: inherit;
+  width: 100%;
+}
+
+/* Variante Principal (Entrar) */
+.primary {
+  background-color: var(--text-highlight);
+  color: var(--bg-main);
+  border: 1px solid var(--text-highlight);
+}
+
+.primary:hover {
+  background-color: transparent;
+  color: var(--text-highlight);
+  border-color: var(--text-highlight);
+}
+
+/* Variante Secundária (Não tenho cadastro) */
+.secondary {
+  background-color: transparent;
+  color: var(--text-highlight);
+}
+
+.secondary:hover {
+  color: var(--text-gold);
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

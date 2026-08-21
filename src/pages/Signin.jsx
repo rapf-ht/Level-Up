@@ -1,5 +1,6 @@
 import styles from './Signin.module.css'
 import { Link } from 'react-router-dom'
+import Button from '../components/Button/Button'
 
 export default function SigninForm() {
   return (
@@ -38,20 +39,37 @@ export default function SigninForm() {
               </span>
             </div>
 
-            <div className={styles.grid}>
+            {/* <div className={styles.grid}>
               <Link to="/home" className={styles['btn-enter']}>
+                ⚔ Entrar
+              </Link>
+            </div> */}
+
+            {/* Botão Principal de Entrar usando a tag <Link> */}
+            <div className={styles.grid}>
+              <Link to="/home" className={styles}>
                 ⚔ Entrar
               </Link>
             </div>
 
+            {/* Botão Secundário de Cadastro usando a tag <Link> */}
             <div className={styles['text-center']}>
+              <Link to="/signup" variant="secondary" >
+                Não tenho cadastro
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+                  <path d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+                </svg>
+              </Link>
+            </div>
+            
+            {/* <div className={styles['text-center']}>
               <Link to="/signup" className={styles['btn-link']}>
                 Não tenho cadastro
                 <svg xmlns="http://www.w3.org/2000/svg" className={styles['bi']} width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
                   <path d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
                 </svg>
               </Link>
-            </div>
+            </div> */}
 
       </div>
 
