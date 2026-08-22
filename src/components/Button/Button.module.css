@@ -1,4 +1,3 @@
-/* Reset local para remover estilos padrões do navegador (bordas 3D, fundos e cores de link) */
 .button{
   display: inline-flex;
   align-items: center;
@@ -14,11 +13,31 @@
   width: 100%;
 }
 
-/* Variante Principal (Entrar) */
 .primary {
   background-color: var(--text-highlight);
   color: var(--bg-main);
   border: 1px solid var(--text-highlight);
+}
+
+.primaryVariant {
+  background-color: transparent;
+  border: 1px solid var(--text-highlight);
+  color: var(--text-highlight);
+  padding: 0.6em 1em;
+  border-radius: 4px;
+  font-weight: bold;
+  font-family: "Cormorant Garamond", serif;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.95em;
+
+  width: auto; /* Clipa o Sobrescreve o width: 100%*/
+  white-space: nowrap;
+}
+
+.primaryVariant:hover {
+  background-color: var(--text-highlight);
+  color: var(--bg-main);
 }
 
 .primary:hover {
@@ -27,10 +46,10 @@
   border-color: var(--text-highlight);
 }
 
-/* Variante Secundária (Não tenho cadastro) */
 .secondary {
   background-color: transparent;
   color: var(--text-highlight);
+  border: none;
 }
 
 .secondary:hover {

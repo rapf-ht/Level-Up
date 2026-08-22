@@ -1,5 +1,7 @@
 import styles from './Signup.module.css'
 import { Link } from 'react-router-dom'
+import Button from '../components/Button/Button'
+import buttonStyles from '../components/Button/Button.module.css'
 
 export default function SignupForm() {
   return (
@@ -18,9 +20,9 @@ export default function SignupForm() {
             Escolha sua classe para começar a aventura:
           </h6>
           <div className={styles['list-classes']}>
-            <button className={styles['class-btn']}>Guerreiro ⚔️</button>
-            <button className={styles['class-btn']}>Mago 🔮</button>
-            <button className={styles['class-btn']}>Ladino 🏹</button>
+            <Button variant='primaryVariant'>Guerreiro ⚔️</Button>
+            <Button variant='primaryVariant'>Mago 🔮</Button>
+            <Button variant='primaryVariant'>Ladino 🏹</Button>
           </div>
         </div>
 
@@ -64,20 +66,19 @@ export default function SignupForm() {
         </div>
 
         <div className={styles['grid']}>
-          <button type="submit" className={styles['btn-enter']}>
+          <Button type="submit" variant="primary">
             ⚔ Começar sua jornada ⚔
-          </button>
+          </Button>
         </div>
 
         <div className={styles['text-center']}>
-          <Link to="/signin" className={styles['btn-link']}>
+          <Link to="/signin" className={`${buttonStyles.button} ${buttonStyles.secondary}`}>
             Já tenho cadastro
             <svg xmlns="http://www.w3.org/2000/svg" className={styles['bi']} width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
               <path d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
             </svg>
           </Link>
         </div>
-
       </div>
     </div>
   )
