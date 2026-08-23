@@ -128,41 +128,7 @@
   justify-content: center;
 }
 
-.btn-enter {
-  background-color: var(--text-highlight);
-  color: var(--bg-main);
-  font-weight: bold;
-  border: 1px solid var(--text-highlight);
-  padding: 0.5em 1em;
-  border-radius: 4px;
-  transition: all 0.3s ease;
-  cursor: pointer;
-}
-
-.btn-enter:hover {
-  background-color: transparent;
-  color: var(--text-highlight);
-}
-
 .text-center {
   text-align: center;
   width: 100%;
-}
-
-.btn-link {
-  color: var(--text-highlight);
-  font-weight: bold;
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25em;
-  transition: color 0.2s;
-}
-
-.btn-link:hover {
-  color: var(--text-gold);
-}
-
-.bi {
-  display: inline-block;
 }
