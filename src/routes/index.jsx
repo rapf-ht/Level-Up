@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import RootLayout from "../layouts/RootLayout";
 import AreasDaVidaLayout from "../layouts/AreasDaVidaLayout";
 import Home from "../pages/Home";
@@ -17,56 +17,30 @@ import Perfil from "../pages/Perfil";
 import Tavern from "../pages/Tavern";
 
 export const router = createBrowserRouter([
+  { path: "/", element: <SigninForm />, errorElement: <NotFound /> },
+  { path: "/signup", element: <SignupForm />, errorElement: <NotFound /> },
   {
-    path: "/",
     element: <RootLayout />,
     errorElement: <NotFound />,
     children: [
-      {
-        path: "/",
-        element: <SigninForm />,
-      },
-      {
-        path: "/signup",
-        element: <SignupForm />,
-      },
-      {
-        path: "/home",
-        element: <Home />,
-      },
-      {
-        path: "/tavern",
-        element: <Tavern />,
-      },
+      { path: "/home", element: <Home /> },
+      { path: "/tavern", element: <Tavern /> },
       {
         path: "/areas-da-vida",
-        element: <AreasDaVidaLayout areaTitle="Áreas da Vida" areaIcon="🎯" />,
+        element: <AreasDaVidaLayout />,
         children: [
-          {
-            path: "",
-            element: (
-              <div style={{ padding: "20px", textAlign: "center" }}>
-                Selecione uma área para ver suas missões
-              </div>
-            ),
-          },
-          { path: "saude",        element: <Saude /> },
-          { path: "estudos",      element: <Estudos /> },
-          { path: "agenda",       element: <Agenda /> },
+          { index: true, element: <Navigate to="saude" replace /> },
+          { path: "saude", element: <Saude /> },
+          { path: "estudos", element: <Estudos /> },
+          { path: "agenda", element: <Agenda /> },
           { path: "planejamento", element: <Planejamento /> },
-          { path: "organizacao",  element: <Organizacao /> },
-          { path: "lazer",        element: <Lazer /> },
-          { path: "financas",     element: <Financas /> },
+          { path: "organizacao", element: <Organizacao /> },
+          { path: "lazer", element: <Lazer /> },
+          { path: "financas", element: <Financas /> },
         ],
       },
-      {
-        path: "/bazar-magico",
-        element: <BazarMagico />,
-      },
-      {
-        path: "/inventario",
-        element: <Perfil />,
-      },
+      { path: "/bazar-magico", element: <BazarMagico /> },
+      { path: "/inventario", element: <Perfil /> },
       { path: "*", element: <NotFound /> },
     ],
   },

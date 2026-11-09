@@ -1,417 +1,193 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import styles from "./Perfil.module.css";
-import { MissionManager } from "../manager/MissionManager";
-import {
-  ItemManager,
-  SHOP_CATALOG,
-  EQUIPMENT_SLOTS,
-  ITEM_TYPE_LABELS,
-} from "../manager/ItemManager";
+import { ItemManager, EQUIPMENT_SLOTS } from "../manager/ItemManager";
+import { useGameData } from "../hooks/useGameData";
+import { getProfile } from "../data/profile";
+import { PlayerBars } from "../components/PixelBar";
+import { CheckIcon, CloseIcon } from "../components/PixelIcons";
 
-const PLAYER_NAME = "Jggranito";
-const PLAYER_AVATAR = "/avatar-icon.png";
-const PLAYER_CHARACTER = "/avatar.png";
+const BACKPACK_SIZE = 24;
 
-const FILTER_TYPES = Object.keys(ITEM_TYPE_LABELS);
+function capitalize(text) {
+  return text.charAt(0).toUpperCase() + text.slice(1);
+}
 
-function computeStats(player) {
-  const missions = MissionManager.getMissions();
-  const completed = missions.filter((m) => m.status === "completed");
-  const failed = missions.filter((m) => m.status === "failed");
-  const totalXp = completed.reduce((acc, m) => acc + (m.xpReward || 0), 0);
-  const totalGold = completed.reduce((acc, m) => acc + (m.goldReward || 0), 0);
-
-  return [
-    { label: "Nível atual", value: player.level },
-    { label: "XP total acumulado", value: `${totalXp} XP` },
-    { label: "Ouro acumulado", value: `${totalGold} G` },
-    { label: "Missões concluídas", value: completed.length },
-    { label: "Missões falhadas", value: failed.length },
-    { label: "Total de missões", value: missions.length },
-    { label: "Ouro em carteira", value: `${player.gold} G` },
-    { label: "HP atual", value: `${player.hp} / ${player.maxHp}` },
-  ];
+function Slot({ slot, selected, onSelect }) {
+  const item = ItemManager.getEquippedItemInSlot(slot.id);
+  const name = capitalize(slot.label);
+  return (
+    <button
+      type="button"
+      aria-label={`${name}: ${item ? item.name : "vazio"}`}
+      aria-expanded={selected}
+      className={`${styles.slot} ${item ? styles.slotFilled : ""} ${selected ? styles.slotSelected : ""}`}
+      onClick={() => onSelect(selected ? null : slot.id)}
+    >
+      {item ? <img src={item.icon} alt="" /> : slot.label.toUpperCase()}
+    </button>
+  );
 }
 
 export default function Perfil() {
-  const [activeTab, setActiveTab] = useState("inventario");
-  const [activeFilter, setActiveFilter] = useState(null);
-  const [player, setPlayer] = useState(MissionManager.getPlayerState());
-  const [inventory, setInventory] = useState([]);
-  const [equipped, setEquipped] = useState(ItemManager.getEquipped());
-  const [toast, setToast] = useState(null);
+  const { player, missions } = useGameData();
+  const profile = getProfile();
   const [selectedSlot, setSelectedSlot] = useState(null);
+  const [toast, setToast] = useState(null);
 
   useEffect(() => {
-    const sync = () => {
-      setPlayer(MissionManager.getPlayerState());
-      setInventory(ItemManager.getInventoryWithDetails());
-      setEquipped(ItemManager.getEquipped());
-    };
-    sync();
-    window.addEventListener("playerStateUpdated", sync);
-    return () => window.removeEventListener("playerStateUpdated", sync);
-  }, []);
-
-  useEffect(() => {
-    if (!toast) return;
-    const t = setTimeout(() => setToast(null), 2500);
-    return () => clearTimeout(t);
+    if (!toast) return undefined;
+    const timer = setTimeout(() => setToast(null), 3000);
+    return () => clearTimeout(timer);
   }, [toast]);
 
-  function showToast(msg, success) {
-    setToast({ message: msg, success });
-  }
+  const inventory = ItemManager.getInventoryWithDetails();
+  const equipped = ItemManager.getEquipped();
+  const completed = missions.filter((m) => m.status === "completed");
+  const failed = missions.filter((m) => m.status === "failed");
+  const totalXp = completed.reduce((sum, m) => sum + (m.xpReward || 0), 0);
+  const totalGold = completed.reduce((sum, m) => sum + (m.goldReward || 0), 0);
 
-  function handleSlotClick(slotId) {
-    const currentItem = ItemManager.getEquippedItemInSlot(slotId);
-    if (currentItem) {
-      if (selectedSlot === slotId) {
-        const res = ItemManager.unequipSlot(slotId);
-        if (res.success) showToast(`${currentItem.name} removido.`, true);
-        setSelectedSlot(null);
-      } else {
-        setSelectedSlot(slotId);
-      }
-    } else {
-      setSelectedSlot(selectedSlot === slotId ? null : slotId);
-    }
-  }
+  const stats = [
+    { label: "XP acumulado", value: totalXp },
+    { label: "Ouro acumulado", value: `${totalGold} G`, color: "var(--gold)" },
+    { label: "Missões concluídas", value: completed.length, color: "var(--ok-text)" },
+    { label: "Missões falhadas", value: failed.length, color: "var(--hp-text)" },
+    { label: "Ouro em carteira", value: `${player.gold} G`, color: "var(--gold)" },
+  ];
 
-  function handleEquip(itemId) {
-    const res = ItemManager.equipItem(itemId);
-    showToast(res.message, res.success);
+  const left = EQUIPMENT_SLOTS.filter((slot) => slot.side === "left");
+  const right = EQUIPMENT_SLOTS.filter((slot) => slot.side === "right");
+  const slotItems = inventory.filter((item) => item.slot === selectedSlot);
+  const inSlot = selectedSlot ? ItemManager.getEquippedItemInSlot(selectedSlot) : null;
+  const selectedLabel = EQUIPMENT_SLOTS.find((slot) => slot.id === selectedSlot)?.label;
+
+  function equip(item) {
+    setToast(ItemManager.equipItem(item.id));
     setSelectedSlot(null);
   }
 
-  function handleUnequip(slotId) {
-    const item = ItemManager.getEquippedItemInSlot(slotId);
+  function unequip(slotId, item) {
     ItemManager.unequipSlot(slotId);
-    if (item) showToast(`${item.name} desequipado.`, true);
+    setToast({ success: true, message: `${item.name} desequipado.` });
     setSelectedSlot(null);
   }
-
-  const equipableForSlot = selectedSlot
-    ? inventory.filter((i) => i.slot === selectedSlot)
-    : [];
-
-  const visibleInventory = activeFilter
-    ? inventory.filter((i) => i.type === activeFilter)
-    : inventory;
-
-  const xpNeeded = player.level * 100;
-  const hpPct = Math.min((player.hp / player.maxHp) * 100, 100);
-  const xpPct = Math.min((player.xp / xpNeeded) * 100, 100);
-
-  const leftSlots = EQUIPMENT_SLOTS.filter((s) => s.side === "left");
-  const rightSlots = EQUIPMENT_SLOTS.filter((s) => s.side === "right");
 
   return (
-    <div className={styles.page}>
-      {/*  Toast  */}
+    <div className="page">
+      <section>
+        <p className="eyebrow">NÍVEL {player.level} · {profile.playerClass.toUpperCase()}</p>
+        <h1 className="title">{profile.name}</h1>
+      </section>
+
+      <div className={styles.top}>
+        <section aria-label="Equipamento" className={`panel ${styles.equipment}`}>
+          <div className={styles.stageRow}>
+            <div className={styles.slots}>
+              {left.map((slot) => (
+                <Slot key={slot.id} slot={slot} selected={selectedSlot === slot.id} onSelect={setSelectedSlot} />
+              ))}
+            </div>
+            <div className={styles.stage}>
+              <div className={styles.floor} />
+              <img src="/ui/hero.png" alt={`Personagem ${profile.playerClass}`} className="pixel-img" />
+            </div>
+            <div className={styles.slots}>
+              {right.map((slot) => (
+                <Slot key={slot.id} slot={slot} selected={selectedSlot === slot.id} onSelect={setSelectedSlot} />
+              ))}
+            </div>
+          </div>
+
+          {selectedSlot && (
+            <div className={styles.picker}>
+              <div className={styles.pickerHead}>
+                <h2 className={styles.pickerTitle}>{capitalize(selectedLabel)}</h2>
+                <button type="button" aria-label="Fechar" className={styles.pickerClose} onClick={() => setSelectedSlot(null)}>
+                  <CloseIcon size={14} />
+                </button>
+              </div>
+              {slotItems.length === 0 ? (
+                <p className={styles.pickerEmpty}>Você não tem itens para este espaço. Procure no Bazar.</p>
+              ) : (
+                <div className={styles.pickerItems}>
+                  {slotItems.map((item) =>
+                    inSlot?.id === item.id ? (
+                      <button key={item.id} type="button" className="btn btn-sm" onClick={() => unequip(selectedSlot, item)}>
+                        <img src={item.icon} alt="" width="24" height="24" />
+                        Desequipar {item.name}
+                      </button>
+                    ) : (
+                      <button key={item.id} type="button" className="btn btn-sm btn-outline" onClick={() => equip(item)}>
+                        <img src={item.icon} alt="" width="24" height="24" />
+                        Equipar {item.name}
+                      </button>
+                    ),
+                  )}
+                </div>
+              )}
+            </div>
+          )}
+        </section>
+
+        <section className={`panel ${styles.attributes}`}>
+          <h2 className="h2">Atributos</h2>
+          <PlayerBars player={player} />
+          <dl className={styles.statList}>
+            {stats.map((stat) => (
+              <div key={stat.label} className={styles.statRow}>
+                <dt>{stat.label}</dt>
+                <dd style={stat.color ? { color: stat.color } : undefined}>{stat.value}</dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+      </div>
+
+      <section className={`panel ${styles.backpack}`}>
+        <div className={styles.backpackHead}>
+          <h2 className="h2">Mochila</h2>
+          <span className="meta">{inventory.length} / {BACKPACK_SIZE} ESPAÇOS</span>
+        </div>
+        <div className={styles.backpackGrid}>
+          {inventory.map((item) => {
+            const isEquipped = item.slot && equipped[item.slot] === item.id;
+            const content = (
+              <>
+                <img src={item.icon} alt="" />
+                <span className={styles.quantity}>{item.quantity}</span>
+                {isEquipped && <span className={styles.equippedMark}><CheckIcon size={10} /></span>}
+              </>
+            );
+            const label = `${item.name}, ${item.quantity} ${item.quantity === 1 ? "unidade" : "unidades"}`;
+            return item.slot ? (
+              <button
+                key={item.id}
+                type="button"
+                aria-label={`${label}. ${isEquipped ? "Desequipar" : "Equipar"}`}
+                title={item.name}
+                className={`${styles.cell} ${styles.cellAction}`}
+                onClick={() => (isEquipped ? unequip(item.slot, item) : equip(item))}
+              >
+                {content}
+              </button>
+            ) : (
+              <div key={item.id} role="img" aria-label={label} title={item.name} className={styles.cell}>
+                {content}
+              </div>
+            );
+          })}
+          {Array.from({ length: Math.max(BACKPACK_SIZE - inventory.length, 0) }, (_, i) => (
+            <div key={i} className={styles.cellEmpty} />
+          ))}
+        </div>
+      </section>
+
       {toast && (
-        <div
-          className={`${styles.toast} ${toast.success ? styles.toastSuccess : styles.toastError}`}
-        >
+        <div role="status" className={`toast ${toast.success ? "" : "toast-error"}`}>
+          {toast.success && <CheckIcon size={16} />}
           {toast.message}
         </div>
       )}
-
-      {/*  Título  */}
-      <h1 className={styles.pageTitle}>Perfil</h1>
-
-      {/*  PAINEL DO PERSONAGEM  */}
-      <div className={styles.characterPanel}>
-        {/* Coluna esquerda — slots */}
-        <div className={styles.slotColumn}>
-          {leftSlots.map((slot) => {
-            const item = ItemManager.getEquippedItemInSlot(slot.id);
-            const isSelected = selectedSlot === slot.id;
-            return (
-              <button
-                key={slot.id}
-                className={`${styles.slot} ${item ? styles.slotFilled : ""} ${isSelected ? styles.slotSelected : ""}`}
-                onClick={() => handleSlotClick(slot.id)}
-                title={
-                  item
-                    ? `${item.name} — clique para desequipar`
-                    : `Slot: ${slot.label}`
-                }
-              >
-                {item ? (
-                  <img
-                    src={item.icon}
-                    alt={item.name}
-                    className={styles.slotIcon}
-                  />
-                ) : (
-                  <span className={styles.slotLabel}>[{slot.label}]</span>
-                )}
-              </button>
-            );
-          })}
-        </div>
-
-        {/* Avatar central */}
-        <div className={styles.characterCenter}>
-          <img
-            src={PLAYER_CHARACTER}
-            alt="Personagem"
-            className={styles.characterImg}
-          />
-        </div>
-
-        {/* Coluna direita — slots */}
-        <div className={styles.slotColumn}>
-          {rightSlots.map((slot) => {
-            const item = ItemManager.getEquippedItemInSlot(slot.id);
-            const isSelected = selectedSlot === slot.id;
-            return (
-              <button
-                key={slot.id}
-                className={`${styles.slot} ${item ? styles.slotFilled : ""} ${isSelected ? styles.slotSelected : ""}`}
-                onClick={() => handleSlotClick(slot.id)}
-                title={
-                  item
-                    ? `${item.name} — clique para desequipar`
-                    : `Slot: ${slot.label}`
-                }
-              >
-                {item ? (
-                  <img
-                    src={item.icon}
-                    alt={item.name}
-                    className={styles.slotIcon}
-                  />
-                ) : (
-                  <span className={styles.slotLabel}>[{slot.label}]</span>
-                )}
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Popup de itens equipáveis para o slot selecionado */}
-      {selectedSlot && (
-        <div className={styles.equipPopup}>
-          <div className={styles.equipPopupHeader}>
-            <p className={styles.equipPopupTitle}>
-              Equipar no slot <strong>{selectedSlot}</strong>
-            </p>
-            {ItemManager.getEquippedItemInSlot(selectedSlot) && (
-              <button
-                className={styles.unequipBtn}
-                onClick={() => handleUnequip(selectedSlot)}
-              >
-                Desequipar atual
-              </button>
-            )}
-            <button
-              className={styles.equipPopupClose}
-              onClick={() => setSelectedSlot(null)}
-            >
-              ✕
-            </button>
-          </div>
-          {equipableForSlot.length === 0 ? (
-            <p className={styles.equipEmpty}>
-              Nenhum item no inventário para este slot.
-            </p>
-          ) : (
-            <div className={styles.equipGrid}>
-              {equipableForSlot.map((item) => (
-                <button
-                  key={item.id}
-                  className={`${styles.equipOption} ${equipped[item.slot] === item.id ? styles.equipOptionActive : ""}`}
-                  onClick={() => handleEquip(item.id)}
-                >
-                  <img
-                    src={item.icon}
-                    alt={item.name}
-                    className={styles.equipOptionIcon}
-                  />
-                  <span>{item.name}</span>
-                  {equipped[item.slot] === item.id && (
-                    <span className={styles.equippedTag}>✓ Equipado</span>
-                  )}
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
-      )}
-
-      {/*  PAINEL INFERIOR  */}
-      <div className={styles.lowerPanel}>
-        {/*  Sidebar  */}
-        <aside className={styles.sidebar}>
-          {/* Mini perfil */}
-          <div className={styles.profileCard}>
-            <img src={PLAYER_AVATAR} alt="Avatar" className={styles.avatar} />
-            <p className={styles.profileName}>{PLAYER_NAME}</p>
-            <p className={styles.profileLevel}>Level {player.level}</p>
-            <div className={styles.bars}>
-              <div className={styles.barRow}>
-                <span className={styles.barLabelHp}>HP</span>
-                <div className={styles.barTrack}>
-                  <div
-                    className={styles.barFillHp}
-                    style={{ width: `${hpPct}%` }}
-                  />
-                </div>
-              </div>
-              <div className={styles.barRow}>
-                <span className={styles.barLabelXp}>XP</span>
-                <div className={styles.barTrack}>
-                  <div
-                    className={styles.barFillXp}
-                    style={{ width: `${xpPct}%` }}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Filtros */}
-          <div className={styles.filterSection}>
-            <p className={styles.filterTitle}>Filtrar</p>
-            <p className={styles.filterSub}>Tipo</p>
-            <div className={styles.filterList}>
-              <label className={styles.filterItem}>
-                <input
-                  type="radio"
-                  name="pf"
-                  checked={activeFilter === null}
-                  onChange={() => setActiveFilter(null)}
-                  className={styles.radio}
-                />
-                <span>Todos</span>
-              </label>
-              {FILTER_TYPES.map((t) => (
-                <label key={t} className={styles.filterItem}>
-                  <input
-                    type="radio"
-                    name="pf"
-                    checked={activeFilter === t}
-                    onChange={() => setActiveFilter(t)}
-                    className={styles.radio}
-                  />
-                  <span>{ITEM_TYPE_LABELS[t]}</span>
-                </label>
-              ))}
-            </div>
-          </div>
-        </aside>
-
-        {/*  Conteúdo principal  */}
-        <main className={styles.main}>
-          {/* Header tabs + saldo */}
-          <div className={styles.tabsRow}>
-            <div className={styles.tabs}>
-              <button
-                className={`${styles.tab} ${activeTab === "inventario" ? styles.tabActive : ""}`}
-                onClick={() => setActiveTab("inventario")}
-              >
-                Inventário
-              </button>
-              <button
-                className={`${styles.tab} ${activeTab === "estatistica" ? styles.tabActive : ""}`}
-                onClick={() => setActiveTab("estatistica")}
-              >
-                Estatística
-              </button>
-            </div>
-            <div className={styles.balanceBadge}>
-              <img
-                src="/icons/sword_icon.svg"
-                alt=""
-                className={styles.badgeIcon}
-                onError={(e) => {
-                  e.currentTarget.style.display = "none";
-                }}
-              />
-              <span className={styles.badgeStat}>4</span>
-              <img
-                src="/icons/Coin_icon.svg"
-                alt="ouro"
-                className={styles.badgeIcon}
-              />
-              <span className={styles.badgeGold}>{player.gold}</span>
-            </div>
-          </div>
-
-          {/*  Aba Inventário  */}
-          {activeTab === "inventario" && (
-            <>
-              {visibleInventory.length === 0 ? (
-                <p className={styles.empty}>
-                  {activeFilter
-                    ? "Nenhum item desta categoria no inventário."
-                    : "Inventário vazio. Vá ao Bazar Mágico!"}
-                </p>
-              ) : (
-                <div className={styles.grid}>
-                  {visibleInventory.map((item) => {
-                    const isEquipped =
-                      item.slot && equipped[item.slot] === item.id;
-                    return (
-                      <div
-                        key={item.id}
-                        className={`${styles.itemCard} ${isEquipped ? styles.itemCardEquipped : ""}`}
-                      >
-                        {item.quantity > 1 && (
-                          <span className={styles.qtyBadge}>
-                            {item.quantity}x
-                          </span>
-                        )}
-                        {isEquipped && (
-                          <span className={styles.equippedBadge}>✓</span>
-                        )}
-                        <img
-                          src={item.icon}
-                          alt={item.name}
-                          className={styles.itemIcon}
-                          onError={(e) => {
-                            e.currentTarget.src = "/pocao.png";
-                          }}
-                        />
-                        <p className={styles.itemName}>{item.name}</p>
-                        {item.slot ? (
-                          <button
-                            className={`${styles.actionBtn} ${isEquipped ? styles.actionBtnUnequip : ""}`}
-                            onClick={() =>
-                              isEquipped
-                                ? handleUnequip(item.slot)
-                                : handleEquip(item.id)
-                            }
-                          >
-                            {isEquipped ? "Desequipar" : "Equipar"}
-                          </button>
-                        ) : (
-                          <span className={styles.noSlotTag}>{item.type}</span>
-                        )}
-                      </div>
-                    );
-                  })}
-                </div>
-              )}
-            </>
-          )}
-
-          {/*  Aba Estatística  */}
-          {activeTab === "estatistica" && (
-            <div className={styles.statsGrid}>
-              {computeStats(player).map((stat) => (
-                <div key={stat.label} className={styles.statCard}>
-                  <p className={styles.statValue}>{stat.value}</p>
-                  <p className={styles.statLabel}>{stat.label}</p>
-                </div>
-              ))}
-            </div>
-          )}
-        </main>
-      </div>
     </div>
   );
 }

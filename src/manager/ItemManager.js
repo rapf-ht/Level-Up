@@ -7,7 +7,7 @@ export const SHOP_CATALOG = [
     slot: null,
     price: 50,
     sellPrice: 25,
-    icon: "/pocao.png",
+    icon: "/ui/pocao.png",
     effect: { stat: "hp", value: 20 },
   },
   {
@@ -18,7 +18,7 @@ export const SHOP_CATALOG = [
     slot: null,
     price: 150,
     sellPrice: 75,
-    icon: "/pergaminho.png",
+    icon: "/ui/pergaminho.png",
     effect: { stat: "xp", value: 50 },
   },
   {
@@ -29,7 +29,7 @@ export const SHOP_CATALOG = [
     slot: "arma",
     price: 350,
     sellPrice: 175,
-    icon: "/espada_curta.png",
+    icon: "/ui/espada.png",
     effect: null,
   },
   {
@@ -40,7 +40,7 @@ export const SHOP_CATALOG = [
     slot: "armadura",
     price: 200,
     sellPrice: 100,
-    icon: "/escudo.png",
+    icon: "/ui/escudo.png",
     effect: null,
   },
 ];
@@ -153,7 +153,7 @@ export const ItemManager = {
     ItemManager.saveInventory(inv);
 
     window.dispatchEvent(new Event("playerStateUpdated"));
-    return { success: true, message: `${item.name} comprado com sucesso!` };
+    return { success: true, message: item.slot ? `${item.name} comprado! Equipe no inventário.` : `${item.name} comprado!` };
   },
 
   sellItem: (itemId) => {

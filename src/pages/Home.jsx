@@ -1,215 +1,168 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import styles from "./Home.module.css";
-import { CustomCheckbox } from "../components/CustomCheckbox";
-import { Calendar } from "../components/Calendar";
-import { useState, useEffect } from "react";
 import { MissionManager } from "../manager/MissionManager";
+import { useGameData } from "../hooks/useGameData";
+import { getArea, MISSION_TYPES } from "../data/areas";
+import { getProfile } from "../data/profile";
+import { MissionModal } from "../components/MissionModal";
+import { PlayerBars } from "../components/PixelBar";
+import { CheckIcon, PlusIcon } from "../components/PixelIcons";
+
+const WEEK_DAYS = ["D", "S", "T", "Q", "Q", "S", "S"];
+
+function greeting(date) {
+  const hour = date.getHours();
+  if (hour < 12) return "Bom dia";
+  if (hour < 18) return "Boa tarde";
+  return "Boa noite";
+}
+
+function formatDate(date) {
+  const weekday = date.toLocaleDateString("pt-BR", { weekday: "long" }).split("-")[0];
+  const day = date.toLocaleDateString("pt-BR", { day: "numeric", month: "long" });
+  return `${weekday} · ${day}`.toUpperCase();
+}
+
+function isToday(iso) {
+  return Boolean(iso) && new Date(iso).toDateString() === new Date().toDateString();
+}
+
+function complete(id) {
+  MissionManager.completeMission(id);
+  window.dispatchEvent(new Event("playerStateUpdated"));
+}
+
+function MissionRow({ mission }) {
+  const area = getArea(mission.category);
+  const done = mission.status === "completed";
+  const inputId = `home-${mission.id}`;
+  return (
+    <li className={styles.row}>
+      <input
+        id={inputId}
+        type="checkbox"
+        className="px-check"
+        checked={done}
+        disabled={done}
+        onChange={() => complete(mission.id)}
+      />
+      <label htmlFor={inputId} className={styles.rowText}>
+        <span className={`${styles.rowTitle} ${done ? styles.rowDone : ""}`}>{mission.title}</span>
+        <span className={`${styles.rowMeta} ${done ? styles.rowMetaDone : ""}`}>
+          <span className="dot" style={{ "--area": area.color }} />
+          {area.label.toUpperCase()}
+          <span className={styles.desktopOnly}> · {MISSION_TYPES[mission.type]?.label.toUpperCase()}</span>
+        </span>
+      </label>
+      {done ? (
+        <span className={styles.rowDoneTag}>CONCLUÍDA</span>
+      ) : (
+        <>
+          <span className="reward-xp">
+            +{mission.xpReward}<span className={styles.desktopOnly}> XP</span>
+          </span>
+          <span className={`reward-gold ${styles.desktopOnlyFlex}`}>
+            <img src="/ui/coin.svg" alt="" width="14" height="14" className="pixel-img" />+{mission.goldReward}
+          </span>
+        </>
+      )}
+    </li>
+  );
+}
 
 export default function Home() {
-  let [showLayout, setShowLayout] = useState(true);
-  const [player, setPlayer] = useState(MissionManager.getPlayerState());
-  const [dailyMissions, setDailyMissions] = useState([]);
-  const name = "Jggranito";
-  const { level, xp, hp, maxHp, gold } = player;
-  const xpNeeded = level * 100;
-  const xpPercent = Math.min((xp / xpNeeded) * 100, 100);
-  const hpPercent = Math.min((hp / maxHp) * 100, 100);
+  const { player, missions } = useGameData();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const profile = getProfile();
+  const now = new Date();
+  const streak = MissionManager.getStreak();
 
-  useEffect(() => {
-    const handleUpdate = () => {
-      setPlayer(MissionManager.getPlayerState());
+  const pending = missions.filter((m) => m.status === "pending");
+  const doneToday = missions.filter((m) => m.status === "completed" && isToday(m.completedAt));
+  const list = [...pending, ...doneToday];
 
-      const allMissions = MissionManager.getMissions();
-      const pendingDailies = allMissions.filter(
-        (m) => m.type === "daily" && m.status === "pending",
-      );
-      setDailyMissions(pendingDailies);
-    };
+  const lead =
+    pending.length === 0
+      ? "Nenhuma missão pendente. Crie uma para ganhar XP e ouro."
+      : `${pending.length} ${pending.length === 1 ? "missão" : "missões"} para hoje. Complete todas para manter a sequência.`;
 
-    handleUpdate();
-
-    window.addEventListener("playerStateUpdated", handleUpdate);
-
-    return () => {
-      window.removeEventListener("playerStateUpdated", handleUpdate);
-    };
-  }, []);
-
-  function alteraVisibilidade() {
-    setShowLayout(!showLayout);
-  }
+  const newMission = (
+    <button type="button" className={`btn btn-primary ${styles.newMission}`} onClick={() => setIsModalOpen(true)}>
+      <PlusIcon size={14} />
+      Nova missão
+    </button>
+  );
 
   return (
-    <div className={styles.mainContainer}>
-      <div className={styles.backgroundGif}>
-        <button className={styles.btnHideUI} onClick={alteraVisibilidade}>
-          {showLayout ? "Ocultar Interface" : "Mostrar Interface"}
-        </button>
-        <img className={styles.animatedAvatar} src="/avatar.png" alt="avatar" />
-        <div
-          className={`${styles.conteudoSeguro} ${!showLayout ? styles.conteudoOculto : ""}`}
-        >
-          {/* 1. PERFIL (Mobile) */}
-          <div className={styles.avatarContainerMobile}>
-            <div className={styles.avatar}>
-              <img src="/avatar-icon.png" alt="Avatar" width="130px" />
-              <div className={styles.avatarStats}>
-                <div className={styles.avatarStatsMobile}>
-                  <p className={`${styles.highlightedText} ${styles.tittle}`}>
-                    {name}
-                  </p>
-                  <p className={styles.highlightedText}>Level {level}</p>
-                </div>
-                <div className={styles.attributes}>
-                  <div className={styles.attributesLine}>
-                    <p className={styles.highlightedText}>HP</p>
-                    <div
-                      className={styles.attributesBar}
-                      style={{ "--nivel-hp": `${hp}%` }}
-                    >
-                      <div className={styles.attributesBarHpFill}></div>
-                    </div>
-                    <p
-                      className={`${styles.highlightedText} ${styles.attributesStats}`}
-                    >
-                      {hp}/{maxHp}
-                    </p>
-                  </div>
-                  <div className={styles.attributesLine}>
-                    <p
-                      className={`${styles.highlightedText} ${styles.xpColor}`}
-                    >
-                      XP
-                    </p>
-                    <div
-                      className={styles.attributesBar}
-                      style={{ "--nivel-xp": `${xp}%` }}
-                    >
-                      <div className={styles.attributesBarXpFill}></div>
-                    </div>
-                    <p
-                      className={`${styles.highlightedText} ${styles.attributesStats}`}
-                    >
-                      {xp}/{xpNeeded}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* 1. PERFIL (Desktop) */}
-          <div className={styles.avatarContainer}>
-            <div className={styles.avatar}>
-              <img src="/avatar-icon.png" alt="Avatar" width="130px" />
-              <div className={styles.avatarStats}>
-                <p className={`${styles.highlightedText} ${styles.tittle}`}>
-                  {name}
-                </p>
-                <p className={styles.highlightedText}>Level {level}</p>
-              </div>
-            </div>
-            <div className={styles.attributes}>
-              <div className={styles.attributesLine}>
-                <p className={styles.highlightedText}>HP</p>
-                <div
-                  className={styles.attributesBar}
-                  style={{ "--nivel-hp": `${hp}%` }}
-                >
-                  <div className={styles.attributesBarHpFill}></div>
-                </div>
-              </div>
-              <div className={styles.attributesLine}>
-                <p className={`${styles.highlightedText} ${styles.xpColor}`}>
-                  XP
-                </p>
-                <div
-                  className={styles.attributesBar}
-                  style={{ "--nivel-xp": `${xp}%` }}
-                >
-                  <div className={styles.attributesBarXpFill}></div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* 2. MISSÕES */}
-          <div className={styles.goalsContainer}>
-            <p className={`${styles.highlightedText} ${styles.tittle}`}>
-              Tarefas do Dia
-            </p>
-            <div className={styles.goalsContainerLine}>
-              {dailyMissions.length === 0 ? (
-                <p className={styles.text}>
-                  Nenhuma tarefa diária pendente! Vai à Taverna criar novas
-                  missões.
-                </p>
-              ) : (
-                dailyMissions.map((mission) => (
-                  <div key={mission.id} style={{ width: "100%" }}>
-                    <CustomCheckbox
-                      text={mission.title}
-                      checked={mission.status === "completed"}
-                      onToggle={() => {
-                        MissionManager.completeMission(mission.id);
-                        window.dispatchEvent(new Event("playerStateUpdated"));
-                      }}
-                    />
-                    <span className={styles.line} />
-                  </div>
-                ))
-              )}
-            </div>
-          </div>
-
-          {/* 3. CALENDÁRIO */}
-          <div className={styles.secondContainer}>
-            <p className={`${styles.highlightedText} ${styles.tittle}`}>
-              Calendário
-            </p>
-            <Calendar />
-          </div>
-
-          {/* 4. LOJA */}
-          <div className={styles.thirdContainer}>
-            <p
-              className={`${styles.highlightedText} ${styles.tittle} ${styles.tittleStore}`}
-            >
-              Destaques da loja
-            </p>
-            <div className={styles.newItemsStore}>
-              <div className={styles.newItem}>
-                <img src="/pocao.png" alt="Poção de vida" />
-                <p className={styles.text}>Poção de vida</p>
-                <div className={styles.valueItem}>
-                  <p className={styles.text}>50G</p>
-                </div>
-              </div>
-              <div className={styles.newItem}>
-                <img src="/escudo.png" alt="Escudo de madeira" />
-                <p className={styles.text}>Escudo de madeira</p>
-                <div className={styles.valueItem}>
-                  <p className={styles.text}>200G</p>
-                </div>
-              </div>
-              <div className={styles.newItem}>
-                <img src="/espada_curta.png" alt="Espada curta" />
-                <p className={styles.text}>Espada curta</p>
-                <div className={styles.valueItem}>
-                  <p className={styles.text}>350G</p>
-                </div>
-              </div>
-              <div className={styles.newItem}>
-                <img src="/pergaminho.png" alt="Pergaminho de XP" />
-                <p className={styles.text}>Pergaminho de XP</p>
-                <div className={styles.valueItem}>
-                  <p className={styles.text}>150G</p>
-                </div>
-              </div>
-            </div>
-          </div>
+    <div className="page">
+      <section className="page-head">
+        <div>
+          <p className="eyebrow">{formatDate(now)}</p>
+          <h1 className="title">{greeting(now)}, {profile.name}</h1>
+          <p className={`lead ${styles.lead}`}>{lead}</p>
         </div>
+        <div className={styles.desktopAction}>{newMission}</div>
+      </section>
+
+      <div className={styles.grid}>
+        <section className={`panel ${styles.hero}`}>
+          <div className={styles.heroTop}>
+            <div className={styles.portrait}>
+              <img src="/ui/hero.png" alt={`Personagem ${profile.playerClass}`} className="pixel-img" />
+            </div>
+            <div className={styles.heroInfo}>
+              <h2 className={`h2 ${styles.heroName}`}>{profile.name}</h2>
+              <span className="meta">NÍVEL {player.level} · {profile.playerClass.toUpperCase()}</span>
+            </div>
+          </div>
+          <div className={styles.heroBars}>
+            <PlayerBars player={player} />
+          </div>
+
+          <div className={styles.streak}>
+            <div className={styles.streakHead}>
+              <span className="meta">SEQUÊNCIA</span>
+              <span className="meta">{streak.current} {streak.current === 1 ? "DIA" : "DIAS"} · RECORDE {streak.record}</span>
+            </div>
+            <div className={styles.streakDays}>
+              {streak.week.map((day, i) => (
+                <div key={i} className={styles.streakDay}>
+                  <span
+                    className={`${styles.streakBox} ${day.done ? styles.streakDone : ""} ${day.today && !day.done ? styles.streakToday : ""}`}
+                  >
+                    {day.done && <CheckIcon size={10} />}
+                  </span>
+                  <span className={`${styles.streakLabel} ${day.today ? styles.streakLabelToday : ""}`}>{WEEK_DAYS[i]}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <Link to="/inventario" className={styles.heroLink}>Abrir inventário →</Link>
+        </section>
+
+        <section className={`panel ${styles.missions}`}>
+          <div className={styles.missionsHead}>
+            <h2 className={`h2 ${styles.missionsTitle}`}>Missões de hoje</h2>
+            <span className="meta">
+              {doneToday.length} / {list.length}<span className={styles.desktopOnly}> FEITAS</span>
+            </span>
+          </div>
+          {list.length === 0 ? (
+            <p className={`empty ${styles.emptyList}`}>Crie sua primeira missão para começar a evoluir.</p>
+          ) : (
+            <ul>
+              {list.map((mission) => (
+                <MissionRow key={mission.id} mission={mission} />
+              ))}
+            </ul>
+          )}
+        </section>
       </div>
+
+      <div className={styles.mobileAction}>{newMission}</div>
+      <MissionModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </div>
   );
 }

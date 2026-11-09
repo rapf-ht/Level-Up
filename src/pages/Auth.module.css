@@ -1,0 +1,51 @@
+.split { min-height: 100vh; display: flex; flex-wrap: wrap; background: var(--bg); }
+.brand { flex: 1 1 480px; min-height: 360px; background: var(--bg-bar); border-right: 2px solid var(--line); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 28px; padding: 48px 32px; }
+.brandLogo { width: 100%; max-width: 420px; height: auto; }
+.brandText { max-width: 380px; text-align: center; font-size: 18px; line-height: 1.5; color: var(--text-2); }
+.brandHero { display: flex; align-items: flex-end; gap: 20px; }
+.brandHero > img { width: 150px; height: 150px; }
+.brandPoints { display: flex; flex-direction: column; gap: 10px; padding-bottom: 24px; }
+.brandPoints span { display: flex; align-items: center; gap: 8px; font-family: var(--label); font-size: 12px; }
+.brandPoints i { width: 10px; height: 10px; flex: none; }
+.formSide { flex: 1 1 480px; min-width: 0; display: flex; align-items: center; justify-content: center; padding: 48px 24px; }
+.signinForm { width: 100%; max-width: 420px; display: flex; flex-direction: column; gap: 22px; }
+.signinTitle { font-family: var(--pixel); font-weight: 600; font-size: 38px; line-height: 1.1; }
+.input { min-height: 50px; }
+.passwordHead { display: flex; justify-content: space-between; align-items: baseline; }
+.forgot { font-size: 14px; }
+.submit { min-height: 52px; font-size: 18px; width: 100%; }
+.signinForm .submit { margin-top: 4px; }
+.switch { text-align: center; color: var(--text-soft); font-size: 15px; }
+
+.single { min-height: 100vh; background: var(--bg); display: flex; flex-direction: column; align-items: center; padding: 40px 24px 56px; gap: 32px; }
+.singleLogoLink { display: flex; }
+.singleLogo { height: 56px; width: auto; }
+.signupForm { width: 100%; max-width: 640px; padding: 32px; display: flex; flex-direction: column; gap: 24px; }
+.signupTitle { font-family: var(--pixel); font-weight: 600; font-size: 36px; line-height: 1.1; }
+.legend { display: block; margin-bottom: 10px; }
+.classes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.classCard { position: relative; display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 18px 10px; border: 2px solid var(--line); cursor: pointer; text-align: center; }
+.classCard:focus-within { outline: 2px solid var(--xp); outline-offset: 2px; }
+.classSelected { border-color: var(--gold); background: var(--raised); }
+.className { font-family: var(--pixel); font-size: 18px; }
+.classSelected .className { color: var(--gold); }
+.classDescription { font-size: 13px; color: var(--text-soft); line-height: 1.4; }
+.passwords { display: flex; flex-wrap: wrap; gap: 16px; }
+.password { flex: 1 1 240px; }
+.hint { flex-basis: 100%; font-size: 13px; color: var(--text-soft); }
+
+@media (max-width: 768px) {
+  .brand { flex-basis: 100%; min-height: 0; border-right: 0; border-bottom: 2px solid var(--line); padding: 24px 16px; gap: 12px; }
+  .brandLogo { max-width: 200px; }
+  .brandText { font-size: 15px; }
+  .brandHero { display: none; }
+  .formSide { flex-basis: 100%; padding: 24px 16px 40px; align-items: flex-start; }
+  .signinTitle { font-size: 30px; }
+  .single { padding: 24px 16px 40px; gap: 20px; }
+  .singleLogo { height: 40px; }
+  .signupForm { padding: 20px 16px; gap: 20px; }
+  .signupTitle { font-size: 30px; }
+  .classes { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .classCard { display: grid; grid-template-columns: 40px minmax(0, 1fr); column-gap: 12px; row-gap: 2px; text-align: left; padding: 12px; }
+  .classCard svg { grid-row: span 2; }
+}

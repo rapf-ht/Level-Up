@@ -1,9 +1,8 @@
 import { useState } from "react";
-import agendaStyles from "./Agenda.module.css";
+import styles from "./Agenda.module.css";
 import { MissoesList } from "../components/MissoesList";
-import { useAreaInfo } from "../hooks/useAreaInfo";
 
-const WEEK_DAYS_CAL = ["S", "T", "Q", "Q", "S", "S", "D"];
+const WEEK_DAYS = ["S", "T", "Q", "Q", "S", "S", "D"];
 
 export default function Agenda() {
   const today = new Date();
@@ -20,6 +19,7 @@ export default function Agenda() {
       setYear((y) => y - 1);
     } else setMonth((m) => m - 1);
   }
+
   function nextMonth() {
     if (month === 11) {
       setMonth(0);
@@ -33,56 +33,37 @@ export default function Agenda() {
   const startOffset = (firstDay + 6) % 7;
 
   const cells = [];
-  for (let i = startOffset - 1; i >= 0; i--)
-    cells.push({ day: prevDays - i, current: false });
+  for (let i = startOffset - 1; i >= 0; i--) cells.push({ day: prevDays - i, current: false });
   for (let d = 1; d <= daysInMonth; d++) cells.push({ day: d, current: true });
-  while (cells.length < 42)
-    cells.push({
-      day: cells.length - daysInMonth - startOffset + 1,
-      current: false,
-    });
+  while (cells.length < 42) {
+    cells.push({ day: cells.length - daysInMonth - startOffset + 1, current: false });
+  }
 
-  useAreaInfo("Área da Agenda", "📅", "/banners/banner_agenda.png");
+  const isToday = (cell) =>
+    cell.current && cell.day === today.getDate() && month === today.getMonth() && year === today.getFullYear();
 
   return (
     <>
-      <div className={agendaStyles.calendarCard}>
-        <div className={agendaStyles.calHeader}>
-          <button className={agendaStyles.navBtn} onClick={prevMonth}>
-            ‹
-          </button>
-          <span className={agendaStyles.monthLabel}>
-            {monthName} {year}
-          </span>
-          <button className={agendaStyles.navBtn} onClick={nextMonth}>
-            ›
-          </button>
+      <section className={`panel ${styles.card}`}>
+        <div className={styles.head}>
+          <button type="button" className={styles.nav} onClick={prevMonth} aria-label="Mês anterior">‹</button>
+          <h2 className={styles.month}>{monthName} {year}</h2>
+          <button type="button" className={styles.nav} onClick={nextMonth} aria-label="Próximo mês">›</button>
         </div>
-        <div className={agendaStyles.calGrid}>
-          {WEEK_DAYS_CAL.map((d, i) => (
-            <div key={i} className={agendaStyles.weekDay}>
-              {d}
-            </div>
+        <div className={styles.grid}>
+          {WEEK_DAYS.map((day, i) => (
+            <div key={i} className={styles.weekDay}>{day}</div>
           ))}
           {cells.map((cell, i) => (
             <div
               key={i}
-              className={`${agendaStyles.calCell}
-                ${!cell.current ? agendaStyles.otherMonth : ""}
-                ${
-                  cell.current &&
-                  cell.day === today.getDate() &&
-                  month === today.getMonth() &&
-                  year === today.getFullYear()
-                    ? agendaStyles.todayCell
-                    : ""
-                }`}
+              className={`${styles.cell} ${cell.current ? "" : styles.other} ${isToday(cell) ? styles.today : ""}`}
             >
               {cell.day}
             </div>
           ))}
         </div>
-      </div>
+      </section>
       <MissoesList categoryFilter="agenda" />
     </>
   );

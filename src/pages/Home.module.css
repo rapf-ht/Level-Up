@@ -1,347 +1,65 @@
-.backgroundGif {
-  background-image: url("/background-home-gif-2.gif");
-  background-attachment: fixed;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  min-height: 100vh;
-  justify-items: center;
+.grid { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 24px; align-items: start; }
+.missions { grid-column: 1; grid-row: 1; padding: 22px 24px 10px; }
+.hero { grid-column: 2; grid-row: 1; padding: 22px 24px; display: flex; flex-direction: column; gap: 18px; }
+
+.missionsHead { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 6px; }
+.row { display: flex; align-items: center; gap: 14px; padding: 16px 0; border-top: 2px dashed var(--line-soft); }
+.rowText { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px; cursor: pointer; }
+.rowTitle { font-size: 16px; font-weight: 500; }
+.rowDone { color: var(--text-off); text-decoration: line-through; }
+.rowMeta { display: flex; align-items: center; gap: 8px; font-family: var(--label); font-size: 11px; color: var(--text-soft); }
+.rowMeta .desktopOnly { margin-left: -2px; }
+.rowMetaDone { color: var(--text-off); }
+.rowDoneTag { font-family: var(--label); font-size: 12px; color: var(--ok); white-space: nowrap; }
+.emptyList { border-top: 2px dashed var(--line-soft); }
+
+.heroTop { display: flex; align-items: center; gap: 16px; }
+.portrait { width: 96px; height: 96px; flex: none; background: var(--raised); border: 2px solid var(--line); display: grid; place-items: center; }
+.portrait img { width: 88px; height: 88px; }
+.heroInfo { min-width: 0; display: flex; flex-direction: column; gap: 6px; }
+.heroBars { display: flex; flex-direction: column; gap: 18px; }
+.heroLink { font-family: var(--pixel); font-size: 16px; text-decoration: none; align-self: flex-start; padding: 6px 0; }
+
+.streak { display: flex; flex-direction: column; gap: 10px; padding-top: 16px; border-top: 2px dashed var(--line-soft); }
+.streakHead { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px; }
+.streakHead :global(.meta) { font-size: 11px; }
+.streakDays { display: flex; justify-content: space-between; }
+.streakDay { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.streakBox { width: 22px; height: 22px; display: grid; place-items: center; border: 2px solid var(--line-soft); background: var(--sunken); }
+.streakDone { background: var(--gold); border-color: var(--gold); color: var(--on-gold); }
+.streakToday { border: 2px dashed var(--gold); background: transparent; }
+.streakLabel { font-family: var(--label); font-size: 10px; color: var(--text-soft); }
+.streakLabelToday { color: var(--text); }
+
+.mobileAction { display: none; }
+
+@media (max-width: 960px) {
+  .grid { grid-template-columns: minmax(0, 1fr); }
+  .hero { grid-column: 1; grid-row: auto; }
+  .missions { grid-column: 1; grid-row: auto; }
 }
 
-.btnHideUI {
-  position: fixed;
-  right: 32px;
-  top: 90px;
-  background-color: rgba(var(--bg-panels-rgb), 0.8);
-  border: 1px solid var(--border-gold);
-  color: var(--text-gold);
-  padding: 8px 16px;
-  border-radius: 0 0 8px 8px;
-  cursor: pointer;
-  font-family: "Inter", sans-serif;
-  font-size: 16px;
-  z-index: 10;
-  transition: all 0.3s ease;
-}
-
-.btnHideUI:hover {
-  background-color: var(--text-highlight);
-  color: var(--bg-main);
-}
-
-.conteudoSeguro {
-  padding-top: 14vh;
-  display: grid;
-  grid-template-columns: 350px 1fr 1fr;
-  gap: 32px;
-  width: 100%;
-  max-width: 1440px;
-  padding-inline: 32px;
-  box-sizing: border-box;
-  align-items: start;
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-  transition:
-    opacity 0.5s ease,
-    transform 0.5s ease,
-    visibility 0.5s ease;
-}
-.conteudoOculto {
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(30px);
-}
-
-.animatedAvatar {
-  width: 140px;
-  position: fixed;
-  top: 75%;
-  left: 45%;
-  transform: translateX(-50%);
-  z-index: 0;
-  pointer-events: none;
-}
-
-/* Distribuição das Sessões nas Colunas e Linhas */
-.avatarContainer {
-  grid-column: 1 / 2;
-  width: 100%;
-  height: 454px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 24px;
-}
-
-.goalsContainer {
-  grid-column: 2 / 4;
-  width: 100%;
-  height: 454px;
-  padding: 24px 32px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  overflow-y: auto;
-}
-
-/* Estilização da barra de rolagem do painel de missões */
-.goalsContainer::-webkit-scrollbar {
-  width: 8px;
-}
-.goalsContainer::-webkit-scrollbar-track {
-  background: rgba(var(--bg-panels-rgb), 0.4);
-  border-radius: 10px;
-  margin-block: 8px;
-}
-.goalsContainer::-webkit-scrollbar-thumb {
-  background-color: var(--border-gold);
-  border-radius: 10px;
-  border: 2px solid rgba(var(--bg-panels-rgb), 0.7);
-}
-.goalsContainer::-webkit-scrollbar-thumb:hover {
-  background-color: var(--text-highlight);
-}
-
-.secondContainer {
-  grid-column: 1 / 4;
-  width: 100%;
-  height: auto;
-  padding: 24px 32px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.thirdContainer {
-  grid-column: 1 / 4;
-  width: 100%;
-  height: auto;
-  padding: 24px 32px;
-  margin-bottom: 140px;
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
-/* Estilização Base dos Painéis */
-.avatarContainer,
-.goalsContainer,
-.secondContainer,
-.thirdContainer {
-  background-color: rgba(var(--bg-panels-rgb), 0.7);
-  backdrop-filter: blur(8px);
-  border: 1px solid var(--border-gold);
-  border-radius: 15px;
-}
-
-/* Componentes do Perfil */
-.avatar {
-  width: 100%;
-  height: 269px;
-  align-content: center;
-  border-bottom: 1px solid var(--border-gold);
-  text-align: center;
-}
-
-.attributes {
-  width: 100%;
-  height: 140px;
-  align-content: center;
-}
-
-.attributesLine {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  gap: 16px;
-}
-
-.attributesBar {
-  width: 200px;
-  height: 16px;
-  background-color: rgba(0, 0, 0, 0.4);
-  border: 1px solid var(--border-gold);
-  border-radius: 12px;
-  position: relative;
-}
-
-.attributesBarHpFill {
-  background-color: #c33d44;
-  border-radius: 12px;
-  width: var(--nivel-hp);
-  height: 100%;
-  transition: width 0.3s ease;
-}
-
-.attributesBarXpFill {
-  background-color: #3f9ce0;
-  border-radius: 12px;
-  width: var(--nivel-xp);
-  height: 100%;
-  transition: width 0.3s ease;
-}
-
-/* Componentes das Missões */
-.goalsContainerLine {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-/* Componentes da Loja */
-.tittleStore {
-  font-size: 48px;
-}
-
-.newItemsStore {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  gap: 24px;
-  flex-wrap: wrap;
-}
-
-.newItem {
-  flex: 1;
-  min-width: 200px;
-  max-width: 250px;
-  background-color: rgba(var(--bg-store-rgb), 0.6);
-  border: 1px solid rgba(var(--border-gold-rgb), 0.4);
-  border-radius: 12px;
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.valueItem {
-  width: 100%;
-  padding: 8px 16px;
-  background-color: rgba(var(--bg-panels-rgb), 0.6);
-  border: 1px solid rgba(var(--border-gold-rgb), 0.2);
-  border-radius: 12px;
-  margin-top: 24px;
-}
-
-/* Textos Tradicionais e Divisores */
-.highlightedText {
-  font-size: 32px;
-  font-weight: bold;
-  font-family: "Cormorant Garamond", serif;
-  color: var(--text-gold);
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
-}
-
-.tittle {
-  font-size: 48px;
-}
-
-.text {
-  font-size: 20px;
-  font-family: "Inter", sans-serif;
-  color: var(--text-gold);
-  font-weight: 600;
-  text-align: center;
-}
-
-.line {
-  width: 100%;
-  height: 1px;
-  background-color: rgba(var(--border-gold-rgb), 0.25);
-}
-
-.avatarContainerMobile {
-  display: none;
-}
-
-@media screen and (max-width: 768px) {
-  .animatedAvatar {
-    top: 65%;
-    left: 35%;
-  }
-
-  .conteudoSeguro {
-    grid-template-columns: 1fr;
-    padding-top: 15vh;
-  }
-  .avatarContainer {
-    display: none;
-  }
-  .avatarContainerMobile {
-    display: grid;
-    grid-column: 1 / 4;
-    width: 100%;
-    height: auto;
-    padding: 16px;
-    gap: 16px;
-    background-color: rgba(var(--bg-panels-rgb), 0.7);
-    backdrop-filter: blur(8px);
-    border: 1px solid var(--border-gold);
-    border-radius: 15px;
-  }
-  .avatar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border: none;
-    height: auto;
-    gap: 16px;
-  }
-  .avatar img {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-  }
-  .avatar p {
-    font-size: 24px;
-  }
-  .avatarStats {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    width: 100%;
-    justify-content: space-around;
-  }
-  .avatarStatsMobile {
-    width: 100%;
-    height: auto;
-    display: flex;
-    justify-content: space-between;
-  }
-  .attributesLine {
-    justify-content: space-between;
-  }
-  .attributesLine p {
-    font-size: 20px !important;
-  }
-  .attributesBar {
-    width: 110px;
-  }
-  .attributesStats {
-    font-family: emoji;
-    font-size: 16px !important;
-  }
-  .attributes {
-    height: auto;
-  }
-  .goalsContainer {
-    grid-column: 1 / 4;
-    width: 100%;
-    height: auto;
-    padding: 24px 32px;
-    text-align: center;
-  }
-  .secondContainer {
-    text-align: center;
-  }
-  .thirdContainer {
-    text-align: center;
-  }
-  .tittleStore {
-    font-size: 44px;
-  }
+@media (max-width: 768px) {
+  .lead, .desktopAction, .streak, .heroLink, .desktopOnly, .desktopOnlyFlex, .heroName { display: none; }
+  .grid { gap: 18px; }
+  .hero { padding: 14px; display: grid; grid-template-columns: 72px minmax(0, 1fr); column-gap: 14px; row-gap: 8px; align-items: center; }
+  .heroTop { display: contents; }
+  .portrait { width: 72px; height: 72px; grid-row: span 2; }
+  .portrait img { width: 66px; height: 66px; }
+  .heroInfo :global(.meta) { font-size: 11px; }
+  .heroBars { min-width: 0; gap: 8px; }
+  .heroBars :global(.bar) { height: 14px; grid-column: 2; grid-row: 1; }
+  .heroBars :global(.bar-stack) { display: grid; grid-template-columns: 22px minmax(0, 1fr) auto; align-items: center; gap: 8px; }
+  .heroBars :global(.bar-head) { display: contents; font-size: 10px; }
+  .heroBars :global(.bar-hp) > div, .heroBars :global(.bar-xp) > div { background-size: auto; }
+  .missions { padding: 16px 16px 4px; }
+  .missionsTitle { font-size: 20px; }
+  .missionsHead { margin-bottom: 8px; }
+  .row { gap: 12px; padding: 13px 0; }
+  .rowText { gap: 4px; }
+  .rowTitle { font-size: 15px; font-weight: 400; }
+  .rowMeta { font-size: 10px; }
+  .rowMeta :global(.dot) { display: none; }
+  .mobileAction { display: block; }
+  .newMission { width: 100%; min-height: 50px; }
 }
