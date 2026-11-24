@@ -59,23 +59,22 @@ erDiagram
 
 ```sql
 CREATE TYPE class_enum AS ENUM (
-    'GUERREIRO',  -- Saúde & corpo
-    'MAGO',       -- Estudos & conhecimento
-    'ARQUEIRO',   -- Trabalho & produtividade
-    'DRUIDA'      -- Bem-estar & hábitos
+    'GUERREIRO',  -- Mais HP, ideal para rotinas puxadas
+    'MAGO',       -- Mais XP em missões de estudo
+    'LADINO'      -- Mais ouro por missão concluída
 );
 
 CREATE TYPE difficulty_enum AS ENUM (
-    'FACIL',
-    'NORMAL',
-    'DIFICIL'
+    'NOVATO',
+    'VETERANO',
+    'LENDÁRIO'
 );
 
 CREATE TYPE item_type_enum AS ENUM (
     'PET',
-    'FUNDO',
+    'CASA',
     'ROUPA',
-    'EFEITO'
+    'EQUIPAMENTO'
 );
 ```
 
@@ -85,9 +84,9 @@ CREATE TYPE item_type_enum AS ENUM (
 
 ```sql
 -- ─── ENUMs ───────────────────────────────────────────────────────
-CREATE TYPE class_enum AS ENUM ('GUERREIRO', 'MAGO', 'ARQUEIRO', 'DRUIDA');
-CREATE TYPE difficulty_enum AS ENUM ('FACIL', 'NORMAL', 'DIFICIL');
-CREATE TYPE item_type_enum AS ENUM ('PET', 'FUNDO', 'ROUPA', 'EFEITO');
+CREATE TYPE class_enum AS ENUM ('GUERREIRO', 'MAGO', 'LADINO');
+CREATE TYPE difficulty_enum AS ENUM ('NOVATO', 'VETERANO', 'LENDÁRIO');
+CREATE TYPE item_type_enum AS ENUM ('PET', 'CASA', 'ROUPA', 'EQUIPAMENTO');
 
 -- ─── TABELAS ─────────────────────────────────────────────────────
 
@@ -172,9 +171,9 @@ CREATE INDEX idx_accomplish_quest     ON Accomplish(id_quest);
 
 INSERT INTO Item (name, gc_price, type) VALUES
     ('Armadura Anciã',   200, 'ROUPA'),
-    ('Casa Nova',        150, 'FUNDO'),
+    ('Casa Nova',        150, 'CASA'),
     ('Dragão Filhote',   500, 'PET'),
-    ('Aura Mágica',      300, 'EFEITO');
+    ('Espada Curta',     350, 'EQUIPAMENTO');
 ```
 
 ---
