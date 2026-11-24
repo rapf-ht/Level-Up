@@ -1,81 +1,102 @@
 package com.levelup.api.service;
 
+import com.levelup.api.dtos.AccountDTO;
+import com.levelup.api.dtos.AuthResponseDTO;
+import com.levelup.api.dtos.LoginDTO;
 import com.levelup.api.dtos.SignupDTO;
+import com.levelup.api.dtos.UpdateAccountDTO;
 import com.levelup.api.entities.Account;
-import com.levelup.api.enums.ClassPlayer;
+import com.levelup.api.exceptions.ConflictException;
+import com.levelup.api.exceptions.InvalidCredentialsException;
+import com.levelup.api.exceptions.ResourceNotFoundException;
 import com.levelup.api.repository.AccountRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.levelup.api.security.JwtService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import java.util.Optional;
+import org.springframework.transaction.annotation.Transactional;
 
-// @Service avisa ao Spring: "Esta classe contém a lógica de negócio do sistema.
-// Por favor, gerencie ela para mim e a torne disponível para ser injetada em outros lugares."
 @Service
+@RequiredArgsConstructor
 public class AccountService {
 
-    // @Autowired faz a "Injeção de Dependência".
-    // O Spring cria a instância do AccountRepository e entrega pronta para você usar aqui,
-    // sem precisar fazer "new AccountRepository()".
-    @Autowired
-    private AccountRepository accountRepository;
+    private final AccountRepository accountRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
 
-    // Injeta o PasswordEncoder que você configurou lá no SecurityConfig.java
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    @Transactional
+    public AuthResponseDTO register(SignupDTO signup) {
+        String normalizedEmail = signup.email().trim().toLowerCase();
+        String normalizedUsername = signup.username().trim();
 
-    // Método responsável pelo CADASTRO (Registro)
-    public Account register(SignupDTO signup) {
-        // Regra de negócio 1: Não permitir dois jogadores com o mesmo email.
-        if (accountRepository.existsByEmail(signup.email)) {
-            // Se já existir, interrompe o processo e lança um erro.
-            throw new RuntimeException("Email já cadastrado.");
+        if (accountRepository.existsByEmailIgnoreCase(normalizedEmail)) {
+            throw new ConflictException("Email já cadastrado.");
         }
 
-        // Instancia uma nova entidade vazia para ser preenchida com os dados do DTO.
+        if (accountRepository.existsByUsernameIgnoreCase(normalizedUsername)) {
+            throw new ConflictException("Username já está em uso.");
+        }
+
         Account account = new Account();
+        account.setUsername(normalizedUsername);
+        account.setEmail(normalizedEmail);
+        account.setPassword(passwordEncoder.encode(signup.password()));
+        account.setClassPlayer(signup.classPlayer());
 
-        // Dica: Cuidado aqui! No seu DTO estava 'public String user;', e na entidade 'private String user;'.
-        // O método gerado pelo Lombok na entidade Account seria setUser(), e não setUsername().
-        // Se der erro de compilação, basta trocar para: account.setUser(signup.user);
-        account.setUsername(signup.username);
-        account.setEmail(signup.email);
-
-        // Regra de negócio 2: Criptografia.
-        // Pega a senha em "texto limpo" (ex: "123456"), passa pelo encriptador (BCrypt)
-        // e salva o hash seguro (ex: "$2a$10$xyz...") na entidade.
-        account.setPassword(passwordEncoder.encode(signup.password));
-
-        // Regra de negócio 3: Transformando a String do DTO em um Enum seguro para o banco.
-        // O .toUpperCase() garante que mesmo que o usuário envie "guerreiro",
-        // o sistema procure por "GUERREIRO" no Enum.
-        account.setClasses(ClassPlayer.valueOf(signup.classPlayer.toUpperCase()));
-
-        // Manda o repositório salvar no banco de dados e retorna a conta salva (agora com um ID gerado).
-        return accountRepository.save(account);
+        Account saved = accountRepository.save(account);
+        String token = jwtService.generateToken(saved);
+        return AuthResponseDTO.bearer(token, jwtService.getExpirationMs(), saved);
     }
 
-    // Método responsável pelo LOGIN
-    public Optional<Account> login(String email, String password) {
-        // Busca a conta no banco usando o email. O resultado vem dentro da caixa "Optional".
-        Optional<Account> accountOptional = accountRepository.findByEmail(email);
+    @Transactional(readOnly = true)
+    public AuthResponseDTO login(LoginDTO login) {
+        String normalizedEmail = login.email().trim().toLowerCase();
 
-        // Se a caixa estiver vazia (usuário não existe), retorna vazio para o Controller lidar com isso.
-        if (accountOptional.isEmpty()) {
-            return Optional.empty();
+        Account account = accountRepository.findByEmailIgnoreCase(normalizedEmail)
+                .orElseThrow(() -> new InvalidCredentialsException("Credenciais inválidas."));
+
+        if (!passwordEncoder.matches(login.password(), account.getPassword())) {
+            throw new InvalidCredentialsException("Credenciais inválidas.");
         }
 
-        // Se chegou aqui, a conta existe. Tiramos a conta de dentro do Optional usando o .get().
-        Account account = accountOptional.get();
+        String token = jwtService.generateToken(account);
+        return AuthResponseDTO.bearer(token, jwtService.getExpirationMs(), account);
+    }
 
-        // Regra de negócio 4: Verificação de senha segura.
-        // O método .matches() compara a senha crua digitada no login com a senha criptografada
-        // que está salva no banco, fazendo a matemática por trás para ver se "batem".
-        boolean passwordMatcher = passwordEncoder.matches(password, account.getPassword());
+    @Transactional(readOnly = true)
+    public AccountDTO getById(Long idAccount) {
+        Account account = findAccountOrThrow(idAccount);
+        return AccountDTO.fromEntity(account);
+    }
 
-        // Operador ternário (if/else enxuto):
-        // Se a senha bater (true), retorna um Optional com a conta dentro.
-        // Se a senha estiver errada (false), retorna um Optional vazio (negando o login).
-        return passwordMatcher ? Optional.of(account) : Optional.empty();
+    @Transactional
+    public AccountDTO update(Long idAccount, UpdateAccountDTO dto) {
+        Account account = findAccountOrThrow(idAccount);
+
+        if (dto.username() != null && !dto.username().isBlank()) {
+            String normalizedUsername = dto.username().trim();
+            if (!normalizedUsername.equalsIgnoreCase(account.getUsername())
+                    && accountRepository.existsByUsernameIgnoreCase(normalizedUsername)) {
+                throw new ConflictException("Username já está em uso.");
+            }
+            account.setUsername(normalizedUsername);
+        }
+
+        if (dto.classPlayer() != null) {
+            account.setClassPlayer(dto.classPlayer());
+        }
+
+        return AccountDTO.fromEntity(accountRepository.save(account));
+    }
+
+    @Transactional
+    public void delete(Long idAccount) {
+        Account account = findAccountOrThrow(idAccount);
+        accountRepository.delete(account);
+    }
+
+    private Account findAccountOrThrow(Long idAccount) {
+        return accountRepository.findById(idAccount)
+                .orElseThrow(() -> new ResourceNotFoundException("Conta não encontrada."));
     }
 }
