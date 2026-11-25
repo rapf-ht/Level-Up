@@ -1,89 +1,22 @@
-.modalOverlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.7);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 2000;
-}
+.overlay { position: fixed; inset: 0; z-index: 60; display: flex; align-items: center; justify-content: center; padding: 16px; overflow-y: auto; background: rgba(11, 9, 7, 0.82); }
+.dialog { width: 100%; max-width: 472px; margin: auto; background: var(--panel); border: 2px solid var(--gold); padding: 26px; display: flex; flex-direction: column; gap: 22px; }
+.head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.title { font-family: var(--pixel); font-weight: 600; font-size: 26px; }
+.close { width: 44px; height: 44px; border: 2px solid var(--line); background: transparent; color: var(--text); display: grid; place-items: center; cursor: pointer; padding: 0; }
+.form { display: flex; flex-direction: column; gap: 22px; }
+.legend { margin-bottom: 8px; }
+.difficulties { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.difficulty { position: relative; display: flex; flex-direction: column; gap: 6px; padding: 12px; border: 2px solid var(--line); cursor: pointer; }
+.difficulty:focus-within { outline: 2px solid var(--xp); outline-offset: 2px; }
+.selected { border-color: var(--gold); background: var(--raised); }
+.difficultyName { font-family: var(--pixel); font-size: 17px; }
+.selected .difficultyName { color: var(--gold); }
+.difficultyReward { font-family: var(--label); font-size: 11px; color: var(--text-soft); }
+.actions { display: flex; justify-content: flex-end; gap: 12px; padding-top: 4px; }
 
-.modalContent {
-  background: var(--bg-panels);
-  padding: 24px;
-  border-radius: 15px;
-  border: 1px solid var(--border-gold);
-  width: 90%;
-  max-width: 400px;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-.inputModal {
-  padding: 10px;
-  border-radius: 5px;
-  border: 1px solid var(--border-gold);
-  background: var(--bg-main);
-  color: var(--text-gold);
-  width: 100%;
-}
-
-.modalActions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-}
-
-.btnPrimary,
-.btnSecondary {
-  padding: 8px 16px;
-  border-radius: 8px;
-  cursor: pointer;
-  border: none;
-}
-
-.btnPrimary {
-  background: var(--text-highlight);
-  color: var(--bg-main);
-}
-.btnSecondary {
-  background: transparent;
-  border: 1px solid var(--text-highlight);
-  color: var(--text-highlight);
-}
-
-.form {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-.inputGroup {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  color: var(--bg-main);
-}
-
-.errorInput {
-  border: 1px solid #ff4d4d !important;
-}
-
-.errorText {
-  color: #ff4d4d;
-  font-size: 12px;
-}
-
-.row {
-  display: flex;
-  gap: 15px;
-  width: 100%;
-}
-
-.row .inputGroup {
-  flex: 1;
+@media (max-width: 480px) {
+  .dialog { padding: 20px; }
+  .difficulties { grid-template-columns: minmax(0, 1fr); }
+  .difficulty { flex-direction: row; justify-content: space-between; align-items: center; }
+  .actions .btn { flex: 1; padding: 0 12px; }
 }

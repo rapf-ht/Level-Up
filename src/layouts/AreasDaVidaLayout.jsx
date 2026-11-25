@@ -1,234 +1,131 @@
-import { NavLink, Outlet, Link, useLocation } from "react-router-dom";
-import styles from "./AreasDaVidaLayout.module.css";
-import { AreaProvider, useArea } from "../contexts/AreaContext";
-import { MissionManager } from "../manager/MissionManager";
 import { useState } from "react";
-import { MissoesList } from "../components/MissoesList";
+import { NavLink, Outlet, useLocation } from "react-router-dom";
+import styles from "./AreasDaVidaLayout.module.css";
+import { MissionManager } from "../manager/MissionManager";
+import { useGameData } from "../hooks/useGameData";
+import { AREAS, getArea } from "../data/areas";
 import { MissionModal } from "../components/MissionModal";
+import { PixelBar } from "../components/PixelBar";
+import { PlusIcon } from "../components/PixelIcons";
 
-const areas = [
-  { label: "Saúde", to: "/areas-da-vida/saude", value: "saude" },
-  { label: "Estudos", to: "/areas-da-vida/estudos", value: "estudos" },
-  { label: "Agenda", to: "/areas-da-vida/agenda", value: "agenda" },
-  {
-    label: "Planejamento",
-    to: "/areas-da-vida/planejamento",
-    value: "planejamento",
-  },
-  {
-    label: "Organização",
-    to: "/areas-da-vida/organizacao",
-    value: "organizacao",
-  },
-  { label: "Lazer", to: "/areas-da-vida/lazer", value: "lazer" },
-  { label: "Finanças", to: "/areas-da-vida/financas", value: "financas" },
-];
+const WEEK_DAYS = ["D", "S", "T", "Q", "Q", "S", "S"];
 
-const weekDays = ["D", "S", "T", "Q", "Q", "S", "S"];
+function compareWeeks(total, previous) {
+  const difference = total - previous;
+  if (difference > 0) return `${difference} a mais que a anterior`;
+  if (difference < 0) return `${-difference} a menos que a anterior`;
+  return "Igual à semana anterior";
+}
 
-const xpBars = [
-  { h: 40, active: true },
-  { h: 55, active: true },
-  { h: 70, active: true },
-  { h: 20, active: false },
-  { h: 15, active: false },
-  { h: 10, active: false },
-  { h: 8, active: false },
-];
-
-function AreasDaVidaContent() {
-  const { areaInfo } = useArea();
+export default function AreasDaVidaLayout() {
+  const { player, missions } = useGameData();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const areaTitle = areaInfo.title;
-  const areaIcon = areaInfo.icon;
-  const areaBanner = areaInfo.banner;
-  const location = useLocation();
+  const { pathname } = useLocation();
 
-  const currentArea = areas.find((area) => location.pathname.includes(area.to));
-  const activeCategory = currentArea ? currentArea.value : "outros";
+  const area = getArea(pathname.split("/").filter(Boolean)[1]);
+  const inArea = missions.filter((m) => m.category === area.value);
+  const completed = inArea.filter((m) => m.status === "completed").length;
+  const weekly = MissionManager.getWeeklyXp(area.value);
+  const streak = MissionManager.getStreak();
+  const highestDay = Math.max(...weekly.days, 1);
+  const today = new Date().getDay();
 
   return (
-    <div className={styles.page}>
-      {/* ── MOBILE ── */}
-      <div className={styles.mobileAreaTabsContainer}>
-        <nav className={styles.mobileAreaTabs}>
-          {areas.map((area) => (
-            <NavLink
-              key={area.to}
-              to={area.to}
-              className={({ isActive }) =>
-                `${styles.mobileAreaTab} ${isActive ? styles.mobileAreaTabActive : ""}`
-              }
-            >
-              <span className={styles.mobileAreaTabIcon}>{area.icon}</span>
-              <span className={styles.mobileAreaTabLabel}>{area.label}</span>
-            </NavLink>
-          ))}
-        </nav>
-      </div>
-
-      {/* ── Banner ── */}
-      <div className={styles.banner}>
-        {areaBanner ? (
-          <img src={areaBanner} alt={areaTitle} className={styles.bannerImg} />
-        ) : (
-          ""
-        )}
-      </div>
-
-      {/* ── Breadcrumb ── */}
-      <div className={styles.breadcrumb}>
-        <Link to="/home">Home</Link> &gt;{" "}
-        <Link to="/areas-da-vida">Áreas da Vida</Link> &gt;{" "}
-        <span>{areaTitle}</span>
-      </div>
-
-      {/* ── Page Header ── */}
-      <div className={styles.pageHeader}>
-        <div className={styles.headerTopRow}>
-          <div className={styles.areaTitle}>
-            <span className={styles.areaIcon}>{areaIcon}</span>
-            <div>
-              <h1 className={styles.areaName}>{areaTitle}</h1>
-              <p className={styles.areaMeta}>
-                Classe • 5 tarefas ativas • Sequência de 5 dias
-              </p>
-            </div>
-          </div>
-          <button
-            className={styles.newMissionBtn}
-            onClick={() => setIsModalOpen(true)}
-          >
-            + Nova Missão
-          </button>
-
-          <MissionModal
-            isOpen={isModalOpen}
-            onClose={() => setIsModalOpen(false)}
-            category={activeCategory}
-          />
-        </div>
-
-        <div className={styles.statsRow}>
-          <div className={styles.statCard}>
-            <p className={styles.statLabel}>Missões concluídas</p>
-            <p className={styles.statValue}>12</p>
-            <div className={styles.progressBar}>
-              <div className={styles.progressFill} style={{ width: "60%" }} />
-            </div>
-            <p className={styles.statSub}>60% da meta atual</p>
-          </div>
-          <div className={styles.statCard}>
-            <p className={styles.statLabel}>XP ganho esta semana</p>
-            <p className={`${styles.statValue} ${styles.xpValue}`}>+ 280</p>
-            <p className={styles.statSub}>40 a mais que semana passada</p>
-          </div>
-          <div className={styles.statCard}>
-            <p className={styles.statLabel}>Sequência atual</p>
-            <p className={styles.statValue}>4</p>
-            <p className={styles.statSub}>Recorde: 14 dias</p>
-          </div>
-        </div>
-      </div>
-
-      {/* ── Body ── */}
-      <div className={styles.body}>
-        {/* Sidebar */}
-        <aside className={styles.sidebar}>
-          <h2 className={styles.sidebarTitle}>Áreas da vida</h2>
-          <nav className={styles.areaNav}>
-            {areas.map((area) => (
+    <div className={`page ${styles.page}`}>
+      <aside className={styles.sidebar}>
+        <h2 className={`meta ${styles.sidebarTitle}`}>ÁREAS DA VIDA</h2>
+        <nav aria-label="Áreas" className={styles.areaNav}>
+          {AREAS.map((item) => {
+            const active = missions.filter((m) => m.category === item.value && m.status === "pending").length;
+            return (
               <NavLink
-                key={area.to}
-                to={area.to}
-                className={({ isActive }) =>
-                  `${styles.areaBtn} ${isActive ? styles.areaBtnActive : ""}`
-                }
+                key={item.value}
+                to={`/areas-da-vida/${item.value}`}
+                className={({ isActive }) => `${styles.areaLink} ${isActive ? styles.areaActive : ""}`}
               >
-                {area.label}
+                <span className={styles.areaDot} style={{ background: item.color }} />
+                <span className={styles.areaName}>{item.label}</span>
+                <span className={styles.areaCount}>{active}</span>
               </NavLink>
-            ))}
-          </nav>
-          <div className={styles.progressSection}>
-            <p className={styles.progressTitle}>Progresso Geral</p>
-            <p className={styles.progressLabel}>Tarefas Gerais</p>
-            <div className={styles.progressBar}>
-              <div
-                className={styles.progressFillGreen}
-                style={{ width: "65%" }}
-              />
-            </div>
-            <p className={`${styles.progressLabel} ${styles.xpLabel}`}>
-              XP da Semana
-            </p>
-            <div className={styles.progressBar}>
-              <div
-                className={styles.progressFillBlue}
-                style={{ width: "45%" }}
-              />
-            </div>
+            );
+          })}
+        </nav>
+      </aside>
+
+      <div className={styles.content}>
+        <section className="page-head">
+          <div>
+            <p className="eyebrow">ÁREAS DA VIDA / {area.label.toUpperCase()}</p>
+            <h1 className={`title ${styles.areaTitle}`}>
+              <span className={styles.areaTitleDot} style={{ background: area.color }} />
+              {area.label}
+            </h1>
           </div>
-        </aside>
+          <button type="button" className="btn btn-primary" onClick={() => setIsModalOpen(true)}>
+            <PlusIcon size={14} />
+            Nova missão
+          </button>
+        </section>
 
-        {/* Main */}
-        <main className={styles.content}>
-          <Outlet />
-        </main>
-
-        {/* Right Panel */}
-        <aside className={styles.rightPanel}>
-          {/* HP */}
-          <div className={styles.rpCard}>
-            <p className={styles.hpLabel}>❤️ STATUS DE HP</p>
-            <p className={styles.hpValue}>72 / 100</p>
-            <div className={styles.hpBar}>
-              <div className={styles.hpFill} style={{ width: "72%" }} />
-            </div>
+        <section className={`panel ${styles.stats}`}>
+          <div className={styles.stat}>
+            <span className={styles.statLabel}>CONCLUÍDAS</span>
+            <span className={styles.statValue}>{completed}</span>
+            <PixelBar kind="ok" value={completed} max={inArea.length} />
           </div>
-
-          {/* Sequência */}
-          <div className={styles.rpCard}>
-            <p className={styles.rpLabel}>SEQUÊNCIA</p>
-            <div className={styles.streakDots}>
-              {weekDays.map((day, i) => (
-                <div key={i} className={styles.streakDot}>
-                  <div className={i < 3 ? styles.dotDone : styles.dotEmpty}>
-                    {i < 3 ? "✓" : "XP"}
-                  </div>
-                  <span className={styles.dayLabel}>{day}</span>
-                </div>
-              ))}
-            </div>
+          <div className={styles.stat}>
+            <span className={styles.statLabel}>XP NA SEMANA</span>
+            <span className={styles.statValue} style={{ color: "var(--xp-text)" }}>+{weekly.total}</span>
+            <span className={styles.statNote}>{compareWeeks(weekly.total, weekly.previous)}</span>
           </div>
+          <div className={styles.stat}>
+            <span className={styles.statLabel}>SEQUÊNCIA</span>
+            <span className={styles.statValue} style={{ color: "var(--gold)" }}>
+              {streak.current} {streak.current === 1 ? "dia" : "dias"}
+            </span>
+            <span className={styles.statNote}>Recorde: {streak.record} {streak.record === 1 ? "dia" : "dias"}</span>
+          </div>
+        </section>
 
-          {/* XP da semana */}
-          <div className={styles.rpCard}>
-            <p className={styles.rpLabel}>XP DA SEMANA</p>
-            <div className={styles.chartBars}>
-              {xpBars.map((bar, i) => (
+        <Outlet />
+
+        <section className={styles.bottom}>
+          <div className={`panel ${styles.card}`}>
+            <h2 className={styles.cardTitle}>XP da semana</h2>
+            <div className={styles.chart}>
+              {weekly.days.map((value, i) => (
                 <div
                   key={i}
-                  className={`${styles.bar} ${bar.active ? styles.barActive : styles.barInactive}`}
-                  style={{ height: bar.h }}
+                  className={value > 0 ? styles.chartBar : styles.chartEmpty}
+                  style={value > 0 ? { height: `${Math.max((value / highestDay) * 100, 12)}%` } : undefined}
+                  title={`${value} XP`}
                 />
               ))}
             </div>
             <div className={styles.chartDays}>
-              {weekDays.map((d, i) => (
-                <span key={i}>{d}</span>
+              {WEEK_DAYS.map((day, i) => (
+                <span key={i} style={i === today ? { color: "var(--text)" } : undefined}>{day}</span>
               ))}
             </div>
           </div>
-        </aside>
+          <div className={`panel ${styles.card}`}>
+            <h2 className={styles.cardTitle}>Seu HP</h2>
+            <p className={styles.cardText}>Missões diárias não concluídas até a meia-noite custam HP. Mantenha a barra cheia.</p>
+            <div className="bar-head">
+              <span style={{ color: "var(--hp-text)" }}>HP</span>
+              <span>{player.hp} / {player.maxHp}</span>
+            </div>
+            <PixelBar kind="hp" value={player.hp} max={player.maxHp} />
+          </div>
+        </section>
       </div>
-    </div>
-  );
-}
 
-export default function AreasDaVidaLayout() {
-  return (
-    <AreaProvider>
-      <AreasDaVidaContent />
-    </AreaProvider>
+      <MissionModal
+        key={area.value}
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        category={area.value}
+      />
+    </div>
   );
 }

@@ -1,87 +1,76 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import styles from "./MissoesList.module.css";
 import { MissionManager } from "../manager/MissionManager";
+import { useGameData } from "../hooks/useGameData";
+import { MISSION_TYPES } from "../data/areas";
 
-const tabs = ["Ativas", "Concluídas", "Falhadas"];
+const TABS = [
+  { key: "pending", label: "Ativas", empty: "Nenhuma missão ativa nesta área. Crie uma para ganhar XP e ouro." },
+  { key: "completed", label: "Concluídas", empty: "Conclua uma missão para vê-la aqui." },
+  { key: "failed", label: "Falhadas", empty: "Nenhuma missão falhada. Continue assim." },
+];
 
-export function MissoesList({ categoryFilter = null, headerExtra }) {
-  const [activeTab, setActiveTab] = useState("Ativas");
-  const [missions, setMissions] = useState([]);
+function complete(id) {
+  MissionManager.completeMission(id);
+  window.dispatchEvent(new Event("playerStateUpdated"));
+}
 
-  useEffect(() => {
-    const load = () => {
-      const loadedMissions = categoryFilter
-        ? MissionManager.getMissionsByCategory(categoryFilter)
-        : MissionManager.getMissions();
-      setMissions(loadedMissions);
-    };
+export function MissoesList({ categoryFilter = null }) {
+  const { missions } = useGameData();
+  const [activeTab, setActiveTab] = useState(TABS[0]);
 
-    load();
-    window.addEventListener("playerStateUpdated", load);
-    return () => window.removeEventListener("playerStateUpdated", load);
-  }, [categoryFilter]);
-
-  function handleCompleteMission(id) {
-    MissionManager.completeMission(id);
-    window.dispatchEvent(new Event("playerStateUpdated"));
-  }
-
-  const visible = missions.filter((m) => {
-    if (activeTab === "Ativas") return m.status === "pending";
-    if (activeTab === "Concluídas") return m.status === "completed";
-    if (activeTab === "Falhadas") return m.status === "failed";
-    return true;
-  });
+  const inArea = categoryFilter ? missions.filter((m) => m.category === categoryFilter) : missions;
+  const count = (key) => inArea.filter((m) => m.status === key).length;
+  const visible = inArea.filter((m) => m.status === activeTab.key);
 
   return (
-    <div className={styles.wrapper}>
-      <div className={styles.header}>
-        <h2 className={styles.title}>Missões</h2>
-        {headerExtra}
-      </div>
-
-      <div className={styles.tabs}>
-        {tabs.map((tab) => (
+    <section className="panel">
+      <div role="tablist" aria-label="Filtrar missões" className={`tabs ${styles.tabs}`}>
+        {TABS.map((tab) => (
           <button
-            key={tab}
+            key={tab.key}
+            type="button"
+            role="tab"
+            aria-selected={activeTab.key === tab.key}
+            className={`tab ${activeTab.key === tab.key ? styles.activeTab : ""}`}
             onClick={() => setActiveTab(tab)}
-            className={`${styles.tab} ${activeTab === tab ? styles.tabActive : ""}`}
           >
-            {tab}
+            {tab.label} · {count(tab.key)}
           </button>
         ))}
       </div>
 
-      <div className={styles.list}>
-        {visible.length === 0 && (
-          <p className={styles.empty}>Nenhuma missão aqui. Crie uma nova!</p>
-        )}
-        {visible.map((mission) => (
-          <div key={mission.id} className={styles.missionCard}>
-            <button
-              className={`${styles.checkbox} ${mission.status === "completed" ? styles.checkboxDone : ""}`}
-              onClick={() => handleCompleteMission(mission.id)}
-              disabled={mission.status === "completed" || mission.status === "failed"}
-            >
-              {mission.status === "completed" && "✓"}
-              {mission.status === "failed" && "✗"}
-            </button>
-            <div className={styles.missionInfo}>
-              <span
-                className={`${styles.missionTitle} ${mission.status === "completed" ? styles.missionDone : ""} ${mission.status === "failed" ? styles.missionFailed : ""}`}
-              >
-                {mission.title}
-              </span>
-              <div className={styles.missionTags}>
-                <span>{mission.type.toUpperCase()}</span>
-                <span className={styles.separator}>|</span>
-                <span>{mission.category}</span>
-              </div>
-            </div>
-            <span className={styles.xpBadge}>{mission.xpReward} XP</span>
-          </div>
-        ))}
-      </div>
-    </div>
+      {visible.length === 0 ? (
+        <p className={`empty ${styles.empty}`}>{activeTab.empty}</p>
+      ) : (
+        <ul className={styles.list}>
+          {visible.map((mission) => {
+            const type = MISSION_TYPES[mission.type] ?? MISSION_TYPES.daily;
+            const pending = mission.status === "pending";
+            const inputId = `area-${mission.id}`;
+            return (
+              <li key={mission.id} className={styles.row}>
+                <input
+                  id={inputId}
+                  type="checkbox"
+                  className="px-check"
+                  checked={mission.status === "completed"}
+                  disabled={!pending}
+                  onChange={() => complete(mission.id)}
+                />
+                <label htmlFor={inputId} className={`${styles.title} ${pending ? "" : styles.titleOff}`}>
+                  {mission.title}
+                </label>
+                <span className={`badge ${type.badge}`}>{type.label.toUpperCase()}</span>
+                <span className={styles.rewards}>
+                  <span className="reward-xp">+{mission.xpReward} XP</span>
+                  <span className="reward-gold">+{mission.goldReward} G</span>
+                </span>
+              </li>
+            );
+          })}
+        </ul>
+      )}
+    </section>
   );
 }

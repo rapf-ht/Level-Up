@@ -1,59 +1,58 @@
 package com.levelup.api.controllers;
 
 import com.levelup.api.dtos.AccountDTO;
+import com.levelup.api.dtos.AuthResponseDTO;
 import com.levelup.api.dtos.LoginDTO;
 import com.levelup.api.dtos.SignupDTO;
+import com.levelup.api.dtos.UpdateAccountDTO;
+import com.levelup.api.security.AccountUserDetails;
 import com.levelup.api.service.AccountService;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-// @RestController diz que esta classe vai responder requisições web devolvendo dados (JSON).
 @RestController
-// @RequestMapping define o caminho base para todas as rotas dessa classe.
 @RequestMapping("/api/account")
-
-// ATENÇÃO AQUI: Vi seu comentário "//Rever isso".
-// A porta 5432 é a porta padrão do banco de dados PostgreSQL.
-// O @CrossOrigin serve para permitir que seu Front-end faça requisições para esta API.
-// Você deve colocar aqui a URL de onde o Front-end estará rodando (ex: http://localhost:3000,
-// http://localhost:5173 ou a porta do Live Server do Figma/UI que vocês estão construindo).
-@CrossOrigin("http://localhost:5432")
+@RequiredArgsConstructor
 public class AccountController {
 
-    // @Autowired injeta a dependência do AccountService automaticamente.
-    // É o Service que contém as regras de negócio reais (salvar no banco, checar senha, etc).
-    @Autowired
-    private AccountService accountService;
+    private final AccountService accountService;
 
-    // Rota: POST http://localhost:8080/api/account/register
     @PostMapping("/register")
-    // @RequestBody diz ao Spring para pegar o JSON que veio na requisição e converter em SignupDTO.
-    public ResponseEntity<?> register(@RequestBody SignupDTO signup) {
-        try {
-            // Tenta registrar a conta usando o Service.
-            var account = accountService.register(signup);
-            // Se der certo, retorna status 200 (OK) e a conta formatada como AccountDTO (sem a senha).
-            return ResponseEntity.ok(new AccountDTO(account));
-        } catch (RuntimeException i) {
-            // Se algo der errado (ex: email já existe), retorna status 400 (Bad Request) com a mensagem de erro.
-            return ResponseEntity.badRequest().body(i.getMessage());
-        }
+    public ResponseEntity<AuthResponseDTO> register(@Valid @RequestBody SignupDTO signup) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(accountService.register(signup));
     }
 
-    // Rota: POST http://localhost:8080/api/account/login
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginDTO login) {
-        // Tenta fazer o login buscando no Service
-        var account = accountService.login(login.email, login.password);
+    public ResponseEntity<AuthResponseDTO> login(@Valid @RequestBody LoginDTO login) {
+        return ResponseEntity.ok(accountService.login(login));
+    }
 
-        // Se a conta for encontrada (isPresent() do Optional for verdadeiro)...
-        if (account.isPresent()) {
-            // Retorna a conta logada com status 200 (OK)
-            return ResponseEntity.ok(new AccountDTO(account.get()));
-        }
+    @GetMapping("/me")
+    public ResponseEntity<AccountDTO> me(@AuthenticationPrincipal AccountUserDetails principal) {
+        return ResponseEntity.ok(accountService.getById(principal.getIdAccount()));
+    }
 
-        // Se não encontrar ou a senha estiver errada, retorna status 401 (Unauthorized).
-        return ResponseEntity.status(401).body("Credencias inválidas");
+    @PatchMapping("/me")
+    public ResponseEntity<AccountDTO> updateMe(
+            @AuthenticationPrincipal AccountUserDetails principal,
+            @Valid @RequestBody UpdateAccountDTO dto
+    ) {
+        return ResponseEntity.ok(accountService.update(principal.getIdAccount(), dto));
+    }
+
+    @DeleteMapping("/me")
+    public ResponseEntity<Void> deleteMe(@AuthenticationPrincipal AccountUserDetails principal) {
+        accountService.delete(principal.getIdAccount());
+        return ResponseEntity.noContent().build();
     }
 }

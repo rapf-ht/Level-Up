@@ -1,29 +1,28 @@
 package com.levelup.api.dtos;
 
 import com.levelup.api.entities.Account;
+import com.levelup.api.enums.ClassPlayer;
 
-public class AccountDTO {
-    public Long idAccount;
-    public String username;
-    public String email;
-    // SEM SENHA, LGPD - RESPONSABILIDADE COM O USUÁRIO
-    public String classPlayer;
-    public Integer level;
-    public Integer xp;
-    public Integer hp;
-    public Integer gc;
-
-    // Construtor
-    // Este construtor atua como um "conversor". Ele pega a Entidade (Account)
-    // que veio do banco de dados e a transforma no DTO, extraindo apenas os dados seguros.
-    public AccountDTO (Account account) {
-        this.idAccount = account.getIdAccount();
-        this.username = account.getUsername();
-        this.email = account.getEmail();
-        this.classPlayer = account.getClasses().toString(); //Wrapper para String
-        this.level = account.getLevel();
-        this.xp = account.getXp();
-        this.hp = account.getHp();
-        this.gc = account.getGc();
+public record AccountDTO(
+        Long idAccount,
+        String username,
+        String email,
+        ClassPlayer classPlayer,
+        Integer level,
+        Integer xpAmount,
+        Integer hpAmount,
+        Integer gcAmount
+) {
+    public static AccountDTO fromEntity(Account account) {
+        return new AccountDTO(
+                account.getIdAccount(),
+                account.getUsername(),
+                account.getEmail(),
+                account.getClassPlayer(),
+                account.getLevel(),
+                account.getXpAmount(),
+                account.getHpAmount(),
+                account.getGcAmount()
+        );
     }
 }

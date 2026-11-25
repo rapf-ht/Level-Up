@@ -14,6 +14,27 @@ const MISSION_REWARDS = {
     weekly: { xp: 100, gold: 50 }
 };
 
+function emitGameEvent(detail) {
+    window.dispatchEvent(new CustomEvent('gameEvent', { detail }));
+}
+
+function startOfDay(date) {
+    const d = new Date(date);
+    d.setHours(0, 0, 0, 0);
+    return d;
+}
+
+function addDays(date, amount) {
+    const d = startOfDay(date);
+    d.setDate(d.getDate() + amount);
+    return d;
+}
+
+function startOfWeek(date = new Date()) {
+    const d = startOfDay(date);
+    return addDays(d, -d.getDay());
+}
+
 export const MissionManager = {
     
     // -----------------------------------------
@@ -33,7 +54,7 @@ export const MissionManager = {
             state.xp = state.xp - xpNeeded; // Guarda o XP que sobrou
             state.hp = state.maxHp; // Cura completa ao upar
             state.gold += 50; // Bônus de nível
-            alert(`🎉 Nível Acima! Você alcançou o Nível ${state.level}!`);
+            emitGameEvent({ type: "levelup", level: state.level });
         }
 
         localStorage.setItem('gameState', JSON.stringify(state));
@@ -95,6 +116,67 @@ export const MissionManager = {
     },
 
     // -----------------------------------------
+    // ESTATÍSTICAS (derivadas das missões concluídas)
+    // -----------------------------------------
+    getStreak: () => {
+        const days = new Set(
+            MissionManager.getMissions()
+                .filter((m) => m.status === 'completed' && m.completedAt)
+                .map((m) => startOfDay(m.completedAt).getTime())
+        );
+        const has = (date) => days.has(date.getTime());
+        const today = startOfDay(new Date());
+
+        let cursor = has(today) ? today : addDays(today, -1);
+        let current = 0;
+        while (has(cursor)) {
+            current += 1;
+            cursor = addDays(cursor, -1);
+        }
+
+        let record = 0;
+        days.forEach((time) => {
+            if (has(addDays(time, -1))) return;
+            let run = 0;
+            let day = new Date(time);
+            while (has(day)) {
+                run += 1;
+                day = addDays(day, 1);
+            }
+            record = Math.max(record, run);
+        });
+
+        const week = Array.from({ length: 7 }, (_, i) => {
+            const day = addDays(startOfWeek(), i);
+            return { done: has(day), today: day.getTime() === today.getTime() };
+        });
+
+        return { current, record, week };
+    },
+
+    // XP por dia da semana atual e total da semana anterior
+    getWeeklyXp: (category = null) => {
+        const start = startOfWeek();
+        const previousStart = addDays(start, -7);
+        const days = Array(7).fill(0);
+        let previous = 0;
+
+        MissionManager.getMissions()
+            .filter((m) => m.status === 'completed' && m.completedAt && (!category || m.category === category))
+            .forEach((m) => {
+                const day = startOfDay(m.completedAt);
+                if (day >= start) {
+                    const index = Math.round((day - start) / 86400000);
+                    if (index < 7) days[index] += m.xpReward || 0;
+                } else if (day >= previousStart) {
+                    previous += m.xpReward || 0;
+                }
+            });
+
+        return { days, total: days.reduce((a, b) => a + b, 0), previous };
+    },
+
+    // -----------------------------------------
     // SISTEMA DE PUNIÇÃO (Rodar ao carregar o app)
     // -----------------------------------------
     checkFailedDailies: () => {
@@ -120,16 +202,17 @@ export const MissionManager = {
             
             // Regra de Morte
             if (player.hp <= 0) {
-                alert("💀 Você perdeu todo seu HP! O progresso do nível atual foi zerado e você perdeu 25% do seu ouro.");
+                emitGameEvent({ type: "death", amount: damageTaken });
                 player.hp = player.maxHp;
                 player.xp = 0;
                 player.gold = Math.floor(player.gold * 0.75);
             } else {
-                alert(`⚠️ Você tomou ${damageTaken} de dano por não completar suas diárias ontem!`);
+                emitGameEvent({ type: "damage", amount: damageTaken });
             }
             
             MissionManager.savePlayerState(player);
             localStorage.setItem('missions', JSON.stringify(updatedMissions));
+            window.dispatchEvent(new Event('playerStateUpdated'));
         }
     }
 };

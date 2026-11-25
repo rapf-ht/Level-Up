@@ -1,65 +1,14 @@
-.calendarCard {
-  background: var(--bg-panels);
-  border: 2px solid var(--border-gold);
-  border-radius: 8px;
-  padding: 0.75rem;
-  margin-bottom: 1rem;
-}
-.calHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 0.5rem;
-}
-.navBtn {
-  background: none;
-  border: none;
-  font-size: 1.2rem;
-  color: var(--text-gold);
-  cursor: pointer;
-  padding: 0.2rem 0.5rem;
-  border-radius: 4px;
-}
-.navBtn:hover {
-  background: rgba(var(--border-gold-rgb), 0.15);
-}
-.monthLabel {
-  font-size: 0.85rem;
-  font-weight: 700;
-  color: var(--text-highlight);
-  text-transform: capitalize;
-}
-.calGrid {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 1px;
-}
-.weekDay {
-  text-align: center;
-  font-size: 0.7rem;
-  font-weight: 700;
-  color: var(--text-muted);
-  padding: 0.3rem 0;
-}
-.calCell {
-  text-align: center;
-  padding: 0.35rem 0;
-  font-size: 0.78rem;
-  color: var(--text-gold);
-  cursor: pointer;
-  border-radius: 4px;
-  transition: background 0.15s;
-}
-.calCell:hover {
-  background: rgba(var(--border-gold-rgb), 0.3);
-}
-.otherMonth {
-  color: var(--text-muted);
-  opacity: 0.5;
-}
-.todayCell {
-  background: rgba(var(--border-gold-rgb), 0.4);
-  border: 1px solid var(--text-highlight);
-  color: var(--text-highlight);
-  font-weight: 700;
+.card { padding: 20px 22px; display: flex; flex-direction: column; gap: 16px; }
+.head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.month { font-family: var(--pixel); font-weight: 600; font-size: 20px; }
+.nav { width: 44px; height: 44px; border: 2px solid var(--line); background: transparent; color: var(--text); font-family: var(--pixel); font-size: 20px; cursor: pointer; padding: 0; }
+.grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; }
+.weekDay { padding: 6px 0; text-align: center; font-family: var(--label); font-size: 11px; color: var(--text-soft); }
+.cell { padding: 10px 0; text-align: center; font-family: var(--label); font-size: 12px; color: var(--text-2); background: var(--sunken); border: 2px solid var(--line-soft); }
+.other { color: var(--text-off); background: transparent; border-color: transparent; }
+.today { color: var(--gold); border: 2px dashed var(--gold); background: transparent; }
+
+@media (max-width: 768px) {
+  .card { padding: 16px; }
+  .cell { padding: 8px 0; }
 }
