@@ -37,8 +37,9 @@ CREATE TABLE Inventory (
     id_inventory SERIAL PRIMARY KEY,
     id_item      INT NOT NULL,
     id_account   INT NOT NULL,
-    equipped     BOOLEAN DEFAULT FALSE,
-    acquired_at  TIMESTAMP DEFAULT NOW()
+    equipped     BOOLEAN NOT NULL DEFAULT FALSE,
+    acquired_at  TIMESTAMP NOT NULL DEFAULT NOW(),
+    CONSTRAINT uq_inventory_account_item UNIQUE (id_account, id_item)
 );
 
 CREATE TABLE Accomplish (
@@ -65,6 +66,7 @@ ALTER TABLE Accomplish ADD FOREIGN KEY (id_account) REFERENCES Account (id_accou
 CREATE INDEX idx_quest_account ON Quest(id_account);
 CREATE INDEX idx_item_quest ON Item(id_quest);
 CREATE INDEX idx_inventory_account ON Inventory(id_account);
+CREATE INDEX idx_inventory_item ON Inventory(id_item);
 CREATE INDEX idx_accomplish_account ON Accomplish(id_account);
 CREATE INDEX idx_accomplish_status ON Accomplish(id_account, status);
 

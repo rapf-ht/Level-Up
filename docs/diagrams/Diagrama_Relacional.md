@@ -40,10 +40,10 @@ erDiagram
 
     INVENTORY {
         serial    id_inventory  PK  "Auto-incremento"
-        int       id_item       FK  "NOT NULL"
-        int       id_account    FK  "NOT NULL"
-        boolean   equipped          "DEFAULT FALSE"
-        timestamp acquired_at       "DEFAULT NOW()"
+        int       id_item       FK  "NOT NULL UNIQUE (com id_account)"
+        int       id_account    FK  "NOT NULL UNIQUE (com id_item)"
+        boolean   equipped          "NOT NULL DEFAULT FALSE"
+        timestamp acquired_at       "NOT NULL DEFAULT NOW()"
     }
 
     ACCOMPLISH {
@@ -122,8 +122,9 @@ CREATE TABLE Inventory (
     id_inventory    SERIAL      PRIMARY KEY,
     id_item         INT         NOT NULL,
     id_account      INT         NOT NULL,
-    equipped        BOOLEAN     DEFAULT FALSE,
-    acquired_at     TIMESTAMP   DEFAULT NOW()
+    equipped        BOOLEAN     NOT NULL DEFAULT FALSE,
+    acquired_at     TIMESTAMP   NOT NULL DEFAULT NOW(),
+    CONSTRAINT uq_inventory_account_item UNIQUE (id_account, id_item)
 );
 
 CREATE TABLE Accomplish (
@@ -198,6 +199,10 @@ INSERT INTO Item (name, description, icon, gc_price, type) VALUES
 |-------|--------------|
 | Um item pode ser recompensa de no máximo uma quest | `id_quest` em Item é FK nullable (0,1) |
 | Um usuário pode ter vários itens no inventário | Tabela Inventory N:M |
+| Cada conta possui no máximo 1 unidade por item | `CONSTRAINT uq_inventory_account_item UNIQUE (id_account, id_item)` |
+| Apenas 1 item equipado por tipo por conta | Regra no `InventoryService` + lock pessimista na conta |
+| Venda devolve 50% do preço do item | `Item.getSellPrice()` (`floor(gcPrice * 0.5)`) |
+| Compra, venda e equipamento são atômicos | `@Transactional` + lock pessimista (`findByIdForUpdate`) |
 | Um usuário pode completar várias quests | Tabela Accomplish N:M |
 | Deletar account remove missões privadas, inventário e conquistas | `ON DELETE CASCADE` |
 | Deletar quest não deleta o item recompensa | `ON DELETE SET NULL` |
