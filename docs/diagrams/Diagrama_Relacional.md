@@ -6,23 +6,26 @@ Diagrama Relacional com tipos de dados, chaves primárias e estrangeiras.
 erDiagram
     ACCOUNT {
         serial      id_account  PK  "Auto-incremento"
-        varchar50   username        "NOT NULL"
+        varchar50   username        "NOT NULL UNIQUE"
         varchar255  email           "NOT NULL UNIQUE"
         varchar255  password        "NOT NULL hash bcrypt"
-        int         level           "DEFAULT 1"
-        int         xp_amount       "DEFAULT 0"
-        int         hp_amount       "DEFAULT 100"
-        int         gc_amount       "DEFAULT 0"
-        class_enum  class           "NOT NULL"
+        int         level           "NOT NULL DEFAULT 1"
+        int         xp_amount       "NOT NULL DEFAULT 0"
+        int         hp_amount       "NOT NULL DEFAULT 100"
+        int         gc_amount       "NOT NULL DEFAULT 0"
+        varchar20   class           "NOT NULL CHECK (GUERREIRO, MAGO, LADINO)"
     }
 
     QUEST {
         serial          id_quest     PK  "Auto-incremento"
         varchar100      title            "NOT NULL"
         varchar500      description
-        int             xp_reward        "DEFAULT 0"
-        int             gc_amount        "DEFAULT 0"
-        difficulty_enum difficulty       "NOT NULL"
+        int             xp_reward        "NOT NULL DEFAULT 0"
+        int             gc_amount        "NOT NULL DEFAULT 0"
+        varchar20       difficulty       "NOT NULL CHECK (NOVATO, VETERANO, LENDARIO)"
+        varchar30       category         "NOT NULL DEFAULT OUTROS"
+        int             id_account   FK  "NULL — missão global se nulo"
+        timestamp       created_at       "NOT NULL DEFAULT NOW()"
     }
 
     ITEM {
@@ -30,7 +33,7 @@ erDiagram
         int            id_quest  FK  "NULL — recompensa opcional"
         varchar100     name          "NOT NULL"
         int            gc_price      "NOT NULL"
-        item_type_enum type          "NOT NULL"
+        varchar20      type          "NOT NULL CHECK (PET, CASA, ROUPA, EQUIPAMENTO)"
     }
 
     INVENTORY {
@@ -46,6 +49,7 @@ erDiagram
         int id_account  PK, FK  "NOT NULL"
     }
 
+    ACCOUNT     ||--o{ QUEST       : "cria (opcional)"
     ACCOUNT     ||--o{ ACCOMPLISH  : "id_account"
     QUEST       ||--o{ ACCOMPLISH  : "id_quest"
     QUEST       ||--o| ITEM        : "id_quest"
@@ -55,27 +59,13 @@ erDiagram
 
 ---
 
-## ENUMs
+## ENUMs (persistidos como `VARCHAR` + `CHECK` compatível com JPA `@Enumerated(EnumType.STRING)`)
 
 ```sql
-CREATE TYPE class_enum AS ENUM (
-    'GUERREIRO',  -- Mais HP, ideal para rotinas puxadas
-    'MAGO',       -- Mais XP em missões de estudo
-    'LADINO'      -- Mais ouro por missão concluída
-);
-
-CREATE TYPE difficulty_enum AS ENUM (
-    'NOVATO',
-    'VETERANO',
-    'LENDÁRIO'
-);
-
-CREATE TYPE item_type_enum AS ENUM (
-    'PET',
-    'CASA',
-    'ROUPA',
-    'EQUIPAMENTO'
-);
+-- class:        'GUERREIRO' (Mais HP), 'MAGO' (Mais XP em estudos), 'LADINO' (Mais ouro)
+-- difficulty:   'NOVATO' (10 XP / 5 GC), 'VETERANO' (30 XP / 15 GC), 'LENDARIO' (100 XP / 50 GC; API aceita/retorna 'LENDÁRIO')
+-- category:     'SAUDE', 'ESTUDOS', 'AGENDA', 'PLANEJAMENTO', 'ORGANIZACAO', 'LAZER', 'FINANCAS', 'OUTROS'
+-- type (Item):  'PET', 'CASA', 'ROUPA', 'EQUIPAMENTO'
 ```
 
 ---
@@ -83,32 +73,30 @@ CREATE TYPE item_type_enum AS ENUM (
 ## Script SQL Completo
 
 ```sql
--- ─── ENUMs ───────────────────────────────────────────────────────
-CREATE TYPE class_enum AS ENUM ('GUERREIRO', 'MAGO', 'LADINO');
-CREATE TYPE difficulty_enum AS ENUM ('NOVATO', 'VETERANO', 'LENDÁRIO');
-CREATE TYPE item_type_enum AS ENUM ('PET', 'CASA', 'ROUPA', 'EQUIPAMENTO');
-
 -- ─── TABELAS ─────────────────────────────────────────────────────
 
 CREATE TABLE Account (
     id_account  SERIAL          PRIMARY KEY,
-    username    VARCHAR(50)     NOT NULL,
+    username    VARCHAR(50)     NOT NULL UNIQUE,
     email       VARCHAR(255)    NOT NULL UNIQUE,
     password    VARCHAR(255)    NOT NULL,
-    level       INT             DEFAULT 1,
-    xp_amount   INT             DEFAULT 0,
-    hp_amount   INT             DEFAULT 100,
-    gc_amount   INT             DEFAULT 0,
-    class       class_enum      NOT NULL
+    level       INT             NOT NULL DEFAULT 1,
+    xp_amount   INT             NOT NULL DEFAULT 0,
+    hp_amount   INT             NOT NULL DEFAULT 100,
+    gc_amount   INT             NOT NULL DEFAULT 0,
+    class       VARCHAR(20)     NOT NULL CHECK (class IN ('GUERREIRO', 'MAGO', 'LADINO'))
 );
 
 CREATE TABLE Quest (
-    id_quest    SERIAL              PRIMARY KEY,
-    title       VARCHAR(100)        NOT NULL,
+    id_quest    SERIAL          PRIMARY KEY,
+    title       VARCHAR(100)    NOT NULL,
     description VARCHAR(500),
-    xp_reward   INT                 DEFAULT 0,
-    gc_amount   INT                 DEFAULT 0,
-    difficulty  difficulty_enum     NOT NULL
+    xp_reward   INT             NOT NULL DEFAULT 0,
+    gc_amount   INT             NOT NULL DEFAULT 0,
+    difficulty  VARCHAR(20)     NOT NULL CHECK (difficulty IN ('NOVATO', 'VETERANO', 'LENDARIO')),
+    category    VARCHAR(30)     NOT NULL DEFAULT 'OUTROS' CHECK (category IN ('SAUDE', 'ESTUDOS', 'AGENDA', 'PLANEJAMENTO', 'ORGANIZACAO', 'LAZER', 'FINANCAS', 'OUTROS')),
+    id_account  INT,
+    created_at  TIMESTAMP       NOT NULL DEFAULT NOW()
 );
 
 CREATE TABLE Item (
@@ -116,7 +104,7 @@ CREATE TABLE Item (
     id_quest    INT,
     name        VARCHAR(100)    NOT NULL,
     gc_price    INT             NOT NULL,
-    type        item_type_enum  NOT NULL
+    type        VARCHAR(20)     NOT NULL CHECK (type IN ('PET', 'CASA', 'ROUPA', 'EQUIPAMENTO'))
 );
 
 CREATE TABLE Inventory (
@@ -134,6 +122,11 @@ CREATE TABLE Accomplish (
 );
 
 -- ─── FOREIGN KEYS ────────────────────────────────────────────────
+
+ALTER TABLE Quest
+    ADD CONSTRAINT fk_quest_account
+    FOREIGN KEY (id_account) REFERENCES Account (id_account)
+    ON DELETE CASCADE;
 
 ALTER TABLE Item
     ADD CONSTRAINT fk_item_quest
@@ -162,6 +155,7 @@ ALTER TABLE Accomplish
 
 -- ─── ÍNDICES ─────────────────────────────────────────────────────
 
+CREATE INDEX idx_quest_account        ON Quest(id_account);
 CREATE INDEX idx_inventory_account    ON Inventory(id_account);
 CREATE INDEX idx_inventory_item       ON Inventory(id_item);
 CREATE INDEX idx_accomplish_account   ON Accomplish(id_account);
@@ -185,6 +179,6 @@ INSERT INTO Item (name, gc_price, type) VALUES
 | Um item pode ser recompensa de no máximo uma quest | `id_quest` em Item é FK nullable (0,1) |
 | Um usuário pode ter vários itens no inventário | Tabela Inventory N:M |
 | Um usuário pode completar várias quests | Tabela Accomplish N:M |
-| Deletar account remove inventário e conquistas | `ON DELETE CASCADE` |
+| Deletar account remove missões privadas, inventário e conquistas | `ON DELETE CASCADE` |
 | Deletar quest não deleta o item recompensa | `ON DELETE SET NULL` |
 | Senhas nunca em texto plano | Hash bcrypt no backend |
