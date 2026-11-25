@@ -13,6 +13,8 @@ spring:
 
 app:
   timezone: ${APP_TIMEZONE:America/Sao_Paulo}
+  seed:
+    items: ${APP_SEED_ITEMS:true}
   jwt:
     secret: ${JWT_SECRET:levelup-dev-secret-key-change-in-production-min-32-chars}
     expiration-ms: ${JWT_EXPIRATION_MS:86400000}

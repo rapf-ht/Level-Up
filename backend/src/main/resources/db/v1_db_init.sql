@@ -24,11 +24,13 @@ CREATE TABLE Quest (
 );
 
 CREATE TABLE Item (
-    id_item  SERIAL PRIMARY KEY,
-    id_quest INT,
-    gc_price INT NOT NULL,
-    name     VARCHAR(100) NOT NULL,
-    type     VARCHAR(20) NOT NULL CHECK (type IN ('PET', 'CASA', 'ROUPA', 'EQUIPAMENTO'))
+    id_item     SERIAL PRIMARY KEY,
+    id_quest    INT,
+    name        VARCHAR(100) NOT NULL,
+    description VARCHAR(255),
+    icon        VARCHAR(255),
+    gc_price    INT NOT NULL CHECK (gc_price >= 0),
+    type        VARCHAR(20) NOT NULL CHECK (type IN ('PET', 'CASA', 'ROUPA', 'EQUIPAMENTO'))
 );
 
 CREATE TABLE Inventory (
@@ -61,6 +63,16 @@ ALTER TABLE Accomplish ADD FOREIGN KEY (id_account) REFERENCES Account (id_accou
 
 -- Índices
 CREATE INDEX idx_quest_account ON Quest(id_account);
+CREATE INDEX idx_item_quest ON Item(id_quest);
 CREATE INDEX idx_inventory_account ON Inventory(id_account);
 CREATE INDEX idx_accomplish_account ON Accomplish(id_account);
 CREATE INDEX idx_accomplish_status ON Accomplish(id_account, status);
+
+-- Seed (catálogo inicial de itens)
+INSERT INTO Item (name, description, icon, gc_price, type) VALUES
+    ('Armadura Anciã',    'Vestes encantadas de um herói esquecido.',            NULL,                       200, 'ROUPA'),
+    ('Casa Nova',         'Um lar aconchegante para descansar após as missões.', '/banners/banner_casa.png', 150, 'CASA'),
+    ('Dragão Filhote',    'Um companheiro leal que solta faíscas.',              NULL,                       500, 'PET'),
+    ('Espada Curta',      'Uma lâmina leve para iniciantes.',                    '/ui/espada.png',           350, 'EQUIPAMENTO'),
+    ('Escudo de Madeira', 'Proteção básica feita de carvalho.',                  '/ui/escudo.png',           200, 'EQUIPAMENTO');
+

@@ -29,11 +29,13 @@ erDiagram
     }
 
     ITEM {
-        serial         id_item   PK  "Auto-incremento"
-        int            id_quest  FK  "NULL — recompensa opcional"
-        varchar100     name          "NOT NULL"
-        int            gc_price      "NOT NULL"
-        varchar20      type          "NOT NULL CHECK (PET, CASA, ROUPA, EQUIPAMENTO)"
+        serial         id_item     PK  "Auto-incremento"
+        int            id_quest    FK  "NULL — recompensa opcional"
+        varchar100     name            "NOT NULL"
+        varchar255     description     "NULL"
+        varchar255     icon            "NULL"
+        int            gc_price        "NOT NULL CHECK (gc_price >= 0)"
+        varchar20      type            "NOT NULL CHECK (PET, CASA, ROUPA, EQUIPAMENTO)"
     }
 
     INVENTORY {
@@ -110,7 +112,9 @@ CREATE TABLE Item (
     id_item     SERIAL          PRIMARY KEY,
     id_quest    INT,
     name        VARCHAR(100)    NOT NULL,
-    gc_price    INT             NOT NULL,
+    description VARCHAR(255),
+    icon        VARCHAR(255),
+    gc_price    INT             NOT NULL CHECK (gc_price >= 0),
     type        VARCHAR(20)     NOT NULL CHECK (type IN ('PET', 'CASA', 'ROUPA', 'EQUIPAMENTO'))
 );
 
@@ -169,6 +173,7 @@ ALTER TABLE Accomplish
 -- ─── ÍNDICES ─────────────────────────────────────────────────────
 
 CREATE INDEX idx_quest_account        ON Quest(id_account);
+CREATE INDEX idx_item_quest           ON Item(id_quest);
 CREATE INDEX idx_inventory_account    ON Inventory(id_account);
 CREATE INDEX idx_inventory_item       ON Inventory(id_item);
 CREATE INDEX idx_accomplish_account   ON Accomplish(id_account);
@@ -177,11 +182,12 @@ CREATE INDEX idx_accomplish_quest     ON Accomplish(id_quest);
 
 -- ─── SEED (dados iniciais) ────────────────────────────────────────
 
-INSERT INTO Item (name, gc_price, type) VALUES
-    ('Armadura Anciã',   200, 'ROUPA'),
-    ('Casa Nova',        150, 'CASA'),
-    ('Dragão Filhote',   500, 'PET'),
-    ('Espada Curta',     350, 'EQUIPAMENTO');
+INSERT INTO Item (name, description, icon, gc_price, type) VALUES
+    ('Armadura Anciã',    'Vestes encantadas de um herói esquecido.',            NULL,                       200, 'ROUPA'),
+    ('Casa Nova',         'Um lar aconchegante para descansar após as missões.', '/banners/banner_casa.png', 150, 'CASA'),
+    ('Dragão Filhote',    'Um companheiro leal que solta faíscas.',              NULL,                       500, 'PET'),
+    ('Espada Curta',      'Uma lâmina leve para iniciantes.',                    '/ui/espada.png',           350, 'EQUIPAMENTO'),
+    ('Escudo de Madeira', 'Proteção básica feita de carvalho.',                  '/ui/escudo.png',           200, 'EQUIPAMENTO');
 ```
 
 ---
