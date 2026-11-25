@@ -40,8 +40,14 @@ CREATE TABLE Inventory (
 );
 
 CREATE TABLE Accomplish (
-    id_quest   INT NOT NULL,
-    id_account INT NOT NULL,
+    id_quest     INT NOT NULL,
+    id_account   INT NOT NULL,
+    status       VARCHAR(20) NOT NULL DEFAULT 'PENDING' CHECK (status IN ('PENDING', 'COMPLETED', 'FAILED')),
+    xp_earned    INT NOT NULL DEFAULT 0,
+    gc_earned    INT NOT NULL DEFAULT 0,
+    created_at   TIMESTAMP NOT NULL DEFAULT NOW(),
+    completed_at TIMESTAMP,
+    failed_at    TIMESTAMP,
     PRIMARY KEY (id_quest, id_account)
 );
 
@@ -57,3 +63,4 @@ ALTER TABLE Accomplish ADD FOREIGN KEY (id_account) REFERENCES Account (id_accou
 CREATE INDEX idx_quest_account ON Quest(id_account);
 CREATE INDEX idx_inventory_account ON Inventory(id_account);
 CREATE INDEX idx_accomplish_account ON Accomplish(id_account);
+CREATE INDEX idx_accomplish_status ON Accomplish(id_account, status);

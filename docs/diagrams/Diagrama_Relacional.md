@@ -45,8 +45,14 @@ erDiagram
     }
 
     ACCOMPLISH {
-        int id_quest    PK, FK  "NOT NULL"
-        int id_account  PK, FK  "NOT NULL"
+        int       id_quest     PK, FK  "NOT NULL"
+        int       id_account   PK, FK  "NOT NULL"
+        varchar20 status               "NOT NULL DEFAULT PENDING CHECK (PENDING, COMPLETED, FAILED)"
+        int       xp_earned            "NOT NULL DEFAULT 0"
+        int       gc_earned            "NOT NULL DEFAULT 0"
+        timestamp created_at           "NOT NULL DEFAULT NOW()"
+        timestamp completed_at         "NULL"
+        timestamp failed_at            "NULL"
     }
 
     ACCOUNT     ||--o{ QUEST       : "cria (opcional)"
@@ -62,10 +68,11 @@ erDiagram
 ## ENUMs (persistidos como `VARCHAR` + `CHECK` compatível com JPA `@Enumerated(EnumType.STRING)`)
 
 ```sql
--- class:        'GUERREIRO' (Mais HP), 'MAGO' (Mais XP em estudos), 'LADINO' (Mais ouro)
--- difficulty:   'NOVATO' (10 XP / 5 GC), 'VETERANO' (30 XP / 15 GC), 'LENDARIO' (100 XP / 50 GC; API aceita/retorna 'LENDÁRIO')
--- category:     'SAUDE', 'ESTUDOS', 'AGENDA', 'PLANEJAMENTO', 'ORGANIZACAO', 'LAZER', 'FINANCAS', 'OUTROS'
--- type (Item):  'PET', 'CASA', 'ROUPA', 'EQUIPAMENTO'
+-- class:                'GUERREIRO' (Mais HP), 'MAGO' (Mais XP em estudos), 'LADINO' (Mais ouro)
+-- difficulty:           'NOVATO' (10 XP / 5 GC), 'VETERANO' (30 XP / 15 GC), 'LENDARIO' (100 XP / 50 GC; API aceita/retorna 'LENDÁRIO')
+-- category:             'SAUDE', 'ESTUDOS', 'AGENDA', 'PLANEJAMENTO', 'ORGANIZACAO', 'LAZER', 'FINANCAS', 'OUTROS'
+-- status (Accomplish):  'PENDING', 'COMPLETED', 'FAILED'
+-- type (Item):          'PET', 'CASA', 'ROUPA', 'EQUIPAMENTO'
 ```
 
 ---
@@ -116,8 +123,14 @@ CREATE TABLE Inventory (
 );
 
 CREATE TABLE Accomplish (
-    id_quest    INT     NOT NULL,
-    id_account  INT     NOT NULL,
+    id_quest        INT         NOT NULL,
+    id_account      INT         NOT NULL,
+    status          VARCHAR(20) NOT NULL DEFAULT 'PENDING' CHECK (status IN ('PENDING', 'COMPLETED', 'FAILED')),
+    xp_earned       INT         NOT NULL DEFAULT 0,
+    gc_earned       INT         NOT NULL DEFAULT 0,
+    created_at      TIMESTAMP   NOT NULL DEFAULT NOW(),
+    completed_at    TIMESTAMP,
+    failed_at       TIMESTAMP,
     PRIMARY KEY (id_quest, id_account)
 );
 
@@ -159,6 +172,7 @@ CREATE INDEX idx_quest_account        ON Quest(id_account);
 CREATE INDEX idx_inventory_account    ON Inventory(id_account);
 CREATE INDEX idx_inventory_item       ON Inventory(id_item);
 CREATE INDEX idx_accomplish_account   ON Accomplish(id_account);
+CREATE INDEX idx_accomplish_status    ON Accomplish(id_account, status);
 CREATE INDEX idx_accomplish_quest     ON Accomplish(id_quest);
 
 -- ─── SEED (dados iniciais) ────────────────────────────────────────
