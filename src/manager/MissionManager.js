@@ -1,3 +1,5 @@
+import { DIFFICULTIES } from "../data/missions";
+
 // Valores padrão para um novo usuário
 const INITIAL_STATE = {
     level: 1,
@@ -7,12 +9,18 @@ const INITIAL_STATE = {
     maxHp: 50
 };
 
-// Recompensas pré-definidas
-const MISSION_REWARDS = {
-    daily: { xp: 10, gold: 5 },
-    medium: { xp: 30, gold: 15 },
-    weekly: { xp: 100, gold: 50 }
-};
+/*
+ * Modelo de missão
+ *   type:       'habito' | 'diaria' | 'afazer'
+ *   difficulty: 'facil' | 'media' | 'dificil'  (define XP, ouro e HP perdido)
+ *   category:   id da área da vida
+ *   dueDate:    'AAAA-MM-DD' opcional, só para afazeres
+ *   status:     só afazeres mudam: 'pending' -> 'completed'
+ *
+ * Hábitos e diárias se repetem, então o que aconteceu fica no histórico ('history'):
+ *   { id, missionId, title, category, type, kind: 'done' | 'miss', xp, gold, hp, at }
+ * Sequência, XP da semana e contadores de hoje saem do histórico.
+ */
 
 function emitGameEvent(detail) {
     window.dispatchEvent(new CustomEvent('gameEvent', { detail }));
@@ -35,94 +43,206 @@ function startOfWeek(date = new Date()) {
     return addDays(d, -d.getDay());
 }
 
+// Dia local no formato AAAA-MM-DD
+export function dayKey(date = new Date()) {
+    const d = new Date(date);
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${d.getFullYear()}-${month}-${day}`;
+}
+
+function read(key, fallback) {
+    try {
+        const raw = localStorage.getItem(key);
+        return raw ? JSON.parse(raw) : fallback;
+    } catch {
+        return fallback;
+    }
+}
+
+function write(key, value) {
+    localStorage.setItem(key, JSON.stringify(value));
+}
+
+function rewardOf(mission) {
+    return DIFFICULTIES[mission.difficulty] ?? DIFFICULTIES.facil;
+}
+
+// Converte missões do formato antigo (daily / medium / weekly) uma única vez.
+function migrate() {
+    const missions = read('missions', []);
+    if (!missions.some((m) => ['daily', 'medium', 'weekly'].includes(m.type))) return;
+
+    const history = read('history', []);
+    const converted = missions.map((m) => {
+        const type = m.type === 'daily' ? 'diaria' : 'afazer';
+        const difficulty = m.type === 'weekly' ? 'dificil' : m.type === 'medium' ? 'media' : 'facil';
+        if (m.status === 'completed' && m.completedAt) {
+            history.push({
+                id: crypto.randomUUID(), missionId: m.id, title: m.title, category: m.category, type,
+                kind: 'done', xp: m.xpReward ?? 0, gold: m.goldReward ?? 0, hp: 0, at: m.completedAt,
+            });
+        }
+        if (m.status === 'failed') {
+            history.push({
+                id: crypto.randomUUID(), missionId: m.id, title: m.title, category: m.category, type,
+                kind: 'miss', xp: 0, gold: 0, hp: 10, at: m.createdAt,
+            });
+        }
+        const next = {
+            id: m.id, title: m.title, type, difficulty, category: m.category, createdAt: m.createdAt,
+            status: type === 'afazer' && m.status === 'completed' ? 'completed' : 'pending',
+        };
+        if (next.status === 'completed') next.doneAt = m.completedAt;
+        return next;
+    });
+    write('missions', converted);
+    write('history', history);
+}
+
+migrate();
+
 export const MissionManager = {
-    
+
     // -----------------------------------------
-    // GERENCIAMENTO DE ESTADO DO JOGADOR
+    // ESTADO DO JOGADOR
     // -----------------------------------------
-    getPlayerState: () => {
-        const state = localStorage.getItem('gameState');
-        return state ? JSON.parse(state) : INITIAL_STATE;
-    },
+    getPlayerState: () => read('gameState', { ...INITIAL_STATE }),
 
     savePlayerState: (state) => {
-        // Regra de Subir de Nível: XP Necessário = Nível * 100
+        // Regra de subir de nível: XP necessário = nível * 100
         const xpNeeded = state.level * 100;
-        
+
         if (state.xp >= xpNeeded) {
             state.level += 1;
             state.xp = state.xp - xpNeeded; // Guarda o XP que sobrou
-            state.hp = state.maxHp; // Cura completa ao upar
+            state.hp = state.maxHp; // Cura completa ao subir
             state.gold += 50; // Bônus de nível
             emitGameEvent({ type: "levelup", level: state.level });
         }
 
-        localStorage.setItem('gameState', JSON.stringify(state));
+        write('gameState', state);
     },
 
     // -----------------------------------------
-    // GERENCIAMENTO DE MISSÕES
+    // MISSÕES
     // -----------------------------------------
-    getMissions: () => {
-        const missions = localStorage.getItem('missions');
-        return missions ? JSON.parse(missions) : [];
-    },
+    getMissions: () => read('missions', []),
 
-    // Cria uma nova missão (Ex: Ir à academia, Lavar a louça)
-    createMission: (title, type = 'daily', category = 'geral') => {
+    getHistory: () => read('history', []),
+
+    createMission: ({ title, type = 'afazer', difficulty = 'facil', category = 'outros', dueDate = null }) => {
         const missions = MissionManager.getMissions();
-        const rewards = MISSION_REWARDS[type];
-
-        const newMission = {
-            id: crypto.randomUUID(), // Gera um ID único
-            title: title,
-            type: type, // 'daily', 'medium', 'weekly'
-            category: category, // 'saude', 'estudos', 'financas', 'casa', etc.
-            status: 'pending', // 'pending', 'completed'
-            xpReward: rewards.xp,
-            goldReward: rewards.gold,
-            createdAt: new Date().toISOString()
+        const mission = {
+            id: crypto.randomUUID(),
+            title,
+            type,
+            difficulty,
+            category,
+            createdAt: new Date().toISOString(),
+            status: 'pending',
         };
-
-        missions.push(newMission);
-        localStorage.setItem('missions', JSON.stringify(missions));
-        return newMission;
+        if (type === 'afazer' && dueDate) mission.dueDate = dueDate;
+        missions.push(mission);
+        write('missions', missions);
+        return mission;
     },
 
-    // Completa a missão e dá as recompensas
+    updateMission: (missionId, patch) => {
+        write('missions', MissionManager.getMissions().map((m) => {
+            if (m.id !== missionId) return m;
+            const next = { ...m, ...patch };
+            if (next.type !== 'afazer' || !next.dueDate) delete next.dueDate;
+            return next;
+        }));
+    },
+
+    deleteMission: (missionId) => {
+        write('missions', MissionManager.getMissions().filter((m) => m.id !== missionId));
+    },
+
+    // Move as missões de uma área apagada para outra
+    moveCategory: (from, to) => {
+        write('missions', MissionManager.getMissions().map((m) => (m.category === from ? { ...m, category: to } : m)));
+    },
+
+    // Quantas vezes a missão foi feita hoje (hábitos podem ser feitos várias vezes)
+    timesDoneToday: (mission) => {
+        const today = dayKey();
+        return MissionManager.getHistory()
+            .filter((h) => h.kind === 'done' && h.missionId === mission.id && dayKey(h.at) === today).length;
+    },
+
+    isDoneToday: (mission) => {
+        if (mission.type === 'afazer') return mission.status === 'completed';
+        return MissionManager.timesDoneToday(mission) > 0;
+    },
+
+    // Cumpre a missão e dá a recompensa. Retorna a entrada do histórico, ou null se não havia o que fazer.
     completeMission: (missionId) => {
         const missions = MissionManager.getMissions();
-        const missionIndex = missions.findIndex(m => m.id === missionId);
+        const index = missions.findIndex((m) => m.id === missionId);
+        if (index === -1) return null;
+        const mission = missions[index];
 
-        if (missionIndex === -1 || missions[missionIndex].status === 'completed') return;
+        if (mission.type === 'afazer' && mission.status === 'completed') return null;
+        if (mission.type === 'diaria' && MissionManager.isDoneToday(mission)) return null;
 
-        // Atualiza a missão para completada
-        missions[missionIndex].status = 'completed';
-        missions[missionIndex].completedAt = new Date().toISOString();
-        localStorage.setItem('missions', JSON.stringify(missions));
+        const now = new Date().toISOString();
+        if (mission.type === 'afazer') {
+            missions[index] = { ...mission, status: 'completed', doneAt: now };
+            write('missions', missions);
+        }
 
-        // Dá os recursos ao jogador
+        const reward = rewardOf(mission);
+        const entry = {
+            id: crypto.randomUUID(), missionId: mission.id, title: mission.title, category: mission.category,
+            type: mission.type, kind: 'done', xp: reward.xp, gold: reward.gold, hp: 0, at: now,
+        };
+        write('history', [...MissionManager.getHistory(), entry]);
+
         const player = MissionManager.getPlayerState();
-        player.xp += missions[missionIndex].xpReward;
-        player.gold += missions[missionIndex].goldReward;
-        
+        player.xp += reward.xp;
+        player.gold += reward.gold;
         MissionManager.savePlayerState(player);
+        // Avisa a interface (o aviso com "Desfazer" escuta este evento)
+        window.dispatchEvent(new CustomEvent('missionCompleted', { detail: entry }));
+        return entry;
     },
 
-    // Função utilitária para filtrar missões por categoria diretamente no front
-    getMissionsByCategory: (category) => {
-        const missions = MissionManager.getMissions();
-        return missions.filter(mission => mission.category === category);
+    // Desfaz uma missão cumprida por engano: tira a entrada do histórico, devolve o XP e o ouro
+    // e, se for um afazer, volta ele para o quadro. Um nível já ganho não é retirado.
+    undoCompletion: (entryId) => {
+        const history = MissionManager.getHistory();
+        const entry = history.find((h) => h.id === entryId && h.kind === 'done');
+        if (!entry) return false;
+        write('history', history.filter((h) => h.id !== entryId));
+
+        if (entry.type === 'afazer') {
+            write('missions', MissionManager.getMissions().map((m) => {
+                if (m.id !== entry.missionId) return m;
+                const next = { ...m, status: 'pending' };
+                delete next.doneAt;
+                return next;
+            }));
+        }
+
+        const player = MissionManager.getPlayerState();
+        player.xp = Math.max(0, player.xp - entry.xp);
+        player.gold = Math.max(0, player.gold - entry.gold);
+        write('gameState', player);
+        window.dispatchEvent(new Event('playerStateUpdated'));
+        return true;
     },
 
     // -----------------------------------------
-    // ESTATÍSTICAS (derivadas das missões concluídas)
+    // ESTATÍSTICAS (derivadas do histórico)
     // -----------------------------------------
     getStreak: () => {
         const days = new Set(
-            MissionManager.getMissions()
-                .filter((m) => m.status === 'completed' && m.completedAt)
-                .map((m) => startOfDay(m.completedAt).getTime())
+            MissionManager.getHistory()
+                .filter((h) => h.kind === 'done')
+                .map((h) => startOfDay(h.at).getTime())
         );
         const has = (date) => days.has(date.getTime());
         const today = startOfDay(new Date());
@@ -161,15 +281,15 @@ export const MissionManager = {
         const days = Array(7).fill(0);
         let previous = 0;
 
-        MissionManager.getMissions()
-            .filter((m) => m.status === 'completed' && m.completedAt && (!category || m.category === category))
-            .forEach((m) => {
-                const day = startOfDay(m.completedAt);
+        MissionManager.getHistory()
+            .filter((h) => h.kind === 'done' && (!category || h.category === category))
+            .forEach((h) => {
+                const day = startOfDay(h.at);
                 if (day >= start) {
                     const index = Math.round((day - start) / 86400000);
-                    if (index < 7) days[index] += m.xpReward || 0;
+                    if (index < 7) days[index] += h.xp || 0;
                 } else if (day >= previousStart) {
-                    previous += m.xpReward || 0;
+                    previous += h.xp || 0;
                 }
             });
 
@@ -177,42 +297,52 @@ export const MissionManager = {
     },
 
     // -----------------------------------------
-    // SISTEMA DE PUNIÇÃO (Rodar ao carregar o app)
+    // CASTIGO DAS DIÁRIAS (roda ao abrir o app)
+    // Olha só o último dia em que o app foi aberto: cada diária que ficou sem fazer
+    // naquele dia custa HP conforme a dificuldade. Ficar dias sem abrir não acumula castigo.
     // -----------------------------------------
     checkFailedDailies: () => {
-        const missions = MissionManager.getMissions();
-        let player = MissionManager.getPlayerState();
+        const today = dayKey();
+        const lastCheck = localStorage.getItem('lastDailyCheck');
+        localStorage.setItem('lastDailyCheck', today);
+        if (!lastCheck || lastCheck >= today) return;
+
+        const history = MissionManager.getHistory();
+        const doneThatDay = new Set(
+            history.filter((h) => h.kind === 'done' && dayKey(h.at) === lastCheck).map((h) => h.missionId)
+        );
+        const missed = MissionManager.getMissions().filter(
+            (m) => m.type === 'diaria' && dayKey(m.createdAt) <= lastCheck && !doneThatDay.has(m.id)
+        );
+        if (missed.length === 0) return;
+
         let damageTaken = 0;
-        
-        const today = new Date().toISOString().split('T')[0];
-
-        const updatedMissions = missions.map(mission => {
-            // Se for diária, estiver pendente e foi criada antes de hoje = Falhou
-            const missionDate = mission.createdAt.split('T')[0];
-            
-            if (mission.type === 'daily' && mission.status === 'pending' && missionDate < today) {
-                mission.status = 'failed';
-                damageTaken += 10; // -10 HP por diária ignorada
-            }
-            return mission;
+        const at = new Date(`${lastCheck}T23:59:00`).toISOString();
+        missed.forEach((m) => {
+            const hp = rewardOf(m).hpLoss;
+            damageTaken += hp;
+            history.push({
+                id: crypto.randomUUID(), missionId: m.id, title: m.title, category: m.category,
+                type: m.type, kind: 'miss', xp: 0, gold: 0, hp, at,
+            });
         });
+        write('history', history);
 
-        if (damageTaken > 0) {
-            player.hp -= damageTaken;
-            
-            // Regra de Morte
-            if (player.hp <= 0) {
-                emitGameEvent({ type: "death", amount: damageTaken });
-                player.hp = player.maxHp;
-                player.xp = 0;
-                player.gold = Math.floor(player.gold * 0.75);
-            } else {
-                emitGameEvent({ type: "damage", amount: damageTaken });
-            }
-            
-            MissionManager.savePlayerState(player);
-            localStorage.setItem('missions', JSON.stringify(updatedMissions));
-            window.dispatchEvent(new Event('playerStateUpdated'));
+        const player = MissionManager.getPlayerState();
+        player.hp -= damageTaken;
+
+        // Regra de morte (requisitos): HP zerado faz perder 1 nível. O HP volta cheio.
+        if (player.hp <= 0) {
+            const levelLost = player.level > 1;
+            player.level = Math.max(1, player.level - 1);
+            player.xp = 0;
+            player.hp = player.maxHp;
+            emitGameEvent({ type: "death", amount: damageTaken, level: player.level, levelLost });
+        } else {
+            emitGameEvent({ type: "damage", amount: damageTaken, missed: missed.length });
         }
+
+        write('gameState', player);
+        window.dispatchEvent(new Event('playerStateUpdated'));
     }
 };

@@ -1,0 +1,37 @@
+.ranking { padding: 22px 24px 10px; display: flex; flex-direction: column; gap: 10px; }
+.head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
+.scopes { display: flex; border: 2px solid var(--line); background: var(--panel); clip-path: var(--chamfer); }
+.scope { min-height: 40px; padding: 0 14px; border: 0; background: transparent; color: var(--text-2); font-family: var(--pixel); font-size: 15px; cursor: pointer; }
+.scopeOn { background: var(--gold); color: var(--on-gold); font-weight: 600; }
+.scope:focus-visible { outline-offset: -4px; }
+
+.list { list-style: none; }
+.row { display: flex; align-items: center; gap: 14px; padding: 12px 0; border-top: 2px dashed var(--line-soft); }
+.row:first-child { border-top: 0; }
+.me { background: var(--raised); margin: 0 -12px; padding: 12px; }
+.place { width: 32px; flex: none; text-align: center; font-family: var(--label); font-size: 18px; color: var(--text-soft); }
+/* Ouro, prata e bronze para os três primeiros */
+.place1 { color: var(--gold); }
+.place2 { color: #a9b3bd; }
+.place3 { color: #c07a3c; }
+:global([data-theme="light"]) .place2 { color: #5d6b80; }
+:global([data-theme="light"]) .place3 { color: #8a4a14; }
+.portrait { width: 48px; flex: none; overflow: hidden; }
+.portrait svg { display: block; }
+.who { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.name { padding: 6px 0; font-family: var(--pixel); font-size: 18px; text-decoration: none; color: var(--text); }
+.name:hover { color: var(--gold); text-decoration: underline; }
+.you { color: var(--text-soft); font-size: 15px; }
+.detail { font-size: 14px; color: var(--text-soft); }
+.xp { font-family: var(--label); font-size: 14px; color: var(--xp-text); white-space: nowrap; }
+
+@media (max-width: 768px) {
+  .ranking { padding: 16px 16px 6px; }
+  .scopes { width: 100%; }
+  .scope { flex: 1; }
+  .row { gap: 10px; }
+  .place { width: 22px; font-size: 15px; }
+  .portrait { width: 40px; }
+  .name { font-size: 16px; }
+  .xp { font-size: 12px; }
+}

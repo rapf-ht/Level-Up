@@ -1,24 +1,52 @@
 import { useState } from "react";
+import { Link, useSearchParams } from "react-router-dom";
 import styles from "./Tavern.module.css";
 import { SearchIcon, ShieldIcon } from "../components/PixelIcons";
+import { Ranking } from "../components/Ranking";
+import { PLAYERS } from "../data/players";
+import { Avatar } from "../components/Avatar";
+import { EmptyState } from "../components/EmptyState";
 
 const GUILDS = [
-  { id: 1, name: "Guilda dos Estudos", leader: "ana.rpg", members: 5, capacity: 8, bg: "#2a2440", line: "#4a3f6a", color: "#c9b8f0" },
-  { id: 2, name: "Corredores da Manhã", leader: "lucas_m", members: 3, capacity: 6, bg: "#1d2a1b", line: "#3f6b3c", color: "#9fd69c" },
-  { id: 3, name: "República Organizada", leader: "bia.c", members: 4, capacity: 4, bg: "#2b2316", line: "#6b5426", color: "#e9c46a" },
-  { id: 4, name: "Clube da Economia", leader: "rafa.dev", members: 2, capacity: 8, bg: "#1a2733", line: "#35546f", color: "#7fb8ec" },
-  { id: 5, name: "Projeto Integrador 3B", leader: "jggranito", members: 6, capacity: 6, bg: "#331d1a", line: "#6b3a33", color: "#ef7b6c", mine: true },
-  { id: 6, name: "Leitores Noturnos", leader: "carol_l", members: 7, capacity: 10, bg: "#33261a", line: "#6b4a2a", color: "#f09a5b" },
+  { id: 1, name: "Guilda dos Estudos", leader: "ana.rpg", members: 5, capacity: 8, tone: "purple" },
+  { id: 2, name: "Corredores da Manhã", leader: "lucas_m", members: 3, capacity: 6, tone: "green" },
+  { id: 3, name: "República Organizada", leader: "bia.c", members: 4, capacity: 4, tone: "gold" },
+  { id: 4, name: "Clube da Economia", leader: "rafa.dev", members: 2, capacity: 8, tone: "blue" },
+  { id: 5, name: "Projeto Integrador 3B", leader: "jggranito", members: 6, capacity: 6, tone: "red", mine: true },
+  { id: 6, name: "Leitores Noturnos", leader: "carol_l", members: 7, capacity: 10, tone: "orange" },
 ];
 
 const TABS = [
   { key: "guildas", label: "Guildas" },
-  { key: "mural", label: "Mural de missões", soon: "O mural de missões em grupo ainda está em construção." },
-  { key: "amigos", label: "Amigos", soon: "A lista de amigos ainda está em construção." },
+  { key: "ranking", label: "Ranking" },
+  { key: "amigos", label: "Amigos" },
+  { key: "mural", label: "Mural de missões", soon: "O mural de missões em grupo ainda não está pronto. Por enquanto, combine as missões dentro da sua guilda." },
 ];
 
+function Friends() {
+  const friends = PLAYERS.filter((player) => player.friend);
+  if (friends.length === 0) {
+    return <p className="empty">Você ainda não tem amigos na Taverna. Abra o perfil de alguém no ranking e toque em Adicionar amigo.</p>;
+  }
+  return (
+    <ul className={styles.friends}>
+      {friends.map((friend) => (
+        <li key={friend.id}>
+          <Link to={`/jogador/${friend.id}`} className={`panel ${styles.friend}`}>
+            <span className={`slot ${styles.friendPortrait}`}><Avatar equipped={friend.equipped} size={44} /></span>
+            <span className={styles.friendText}>
+              <span className={styles.friendName}>{friend.name}</span>
+              <span className={styles.friendNote}>{friend.playerClass} de nível {friend.level}, {friend.streak} dias seguidos</span>
+            </span>
+          </Link>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 function GuildAction({ guild }) {
-  if (guild.mine) return <span className="badge badge-ok">SUA GUILDA</span>;
+  if (guild.mine) return <span className="badge badge-ok">Sua guilda</span>;
   if (guild.members >= guild.capacity) {
     return <button type="button" className="btn btn-sm" disabled>Cheia</button>;
   }
@@ -26,7 +54,9 @@ function GuildAction({ guild }) {
 }
 
 export default function Tavern() {
-  const [activeTab, setActiveTab] = useState(TABS[0]);
+  const [params, setParams] = useSearchParams();
+  const activeTab = TABS.find((tab) => tab.key === params.get("aba")) ?? TABS[0];
+  const setActiveTab = (tab) => setParams(tab.key === "guildas" ? {} : { aba: tab.key }, { replace: true });
   const [search, setSearch] = useState("");
 
   const guilds = GUILDS.filter((guild) => guild.name.toLowerCase().includes(search.trim().toLowerCase()));
@@ -34,9 +64,8 @@ export default function Tavern() {
   return (
     <div className={`page ${styles.page}`}>
       <section>
-        <p className="eyebrow">SOCIAL</p>
         <h1 className="title">Taverna</h1>
-        <p className="lead">Encontre uma guilda, aceite convites e cumpra missões em grupo.</p>
+        <p className="lead">Entre em uma guilda para cumprir missões em grupo ou crie a sua.</p>
       </section>
 
       <div role="tablist" aria-label="Seções da taverna" className={`tabs ${styles.tabs}`}>
@@ -80,18 +109,23 @@ export default function Tavern() {
           ) : (
             <div className={styles.grid}>
               {guilds.map((guild) => (
-                <article key={guild.id} className={`panel ${styles.guild}`}>
+                <article key={guild.id} className={styles.guild}>
                   <div
-                    className={styles.emblem}
-                    style={{ background: guild.bg, borderColor: guild.line, color: guild.color }}
+                    className={styles.cloth}
+                    style={{
+                      "--cloth": `var(--tone-${guild.tone}-bg)`,
+                      "--cloth-line": `var(--tone-${guild.tone}-line)`,
+                      "--cloth-ink": `var(--tone-${guild.tone})`,
+                    }}
                   >
-                    <ShieldIcon size={28} />
-                  </div>
-                  <div className={styles.guildInfo}>
+                    <ShieldIcon size={56} className={styles.emblem} />
                     <h2 className={styles.guildName}>{guild.name}</h2>
-                    <span className={styles.guildMeta}>
-                      Líder: {guild.leader} · <span className={styles.members}>{guild.members}/{guild.capacity}</span>
-                    </span>
+                    <p className={styles.guildMeta}>Liderada por <Link to={`/jogador/${guild.leader}`}>{guild.leader}</Link></p>
+                    <div className={styles.seats} role="img" aria-label={`${guild.members} de ${guild.capacity} vagas ocupadas`}>
+                      {Array.from({ length: guild.capacity }, (_, i) => (
+                        <span key={i} className={i < guild.members ? styles.seatTaken : styles.seat} />
+                      ))}
+                    </div>
                   </div>
                   <GuildAction guild={guild} />
                 </article>
@@ -99,8 +133,12 @@ export default function Tavern() {
             </div>
           )}
         </>
+      ) : activeTab.key === "ranking" ? (
+        <Ranking />
+      ) : activeTab.key === "amigos" ? (
+        <Friends />
       ) : (
-        <p className="empty">{activeTab.soon}</p>
+        <EmptyState art="quadro">{activeTab.soon}</EmptyState>
       )}
     </div>
   );

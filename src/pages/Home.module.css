@@ -1,34 +1,47 @@
-.grid { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 24px; align-items: start; }
+.date { font-size: 14px; color: var(--text-soft); margin-bottom: 8px; }
+.grid { display: grid; grid-template-columns: minmax(0, 1fr) 360px; grid-template-rows: auto 1fr; gap: 24px; align-items: start; }
 .missions { grid-column: 1; grid-row: 1; padding: 22px 24px 10px; }
-.hero { grid-column: 2; grid-row: 1; padding: 22px 24px; display: flex; flex-direction: column; gap: 18px; }
+.hero { grid-column: 2; grid-row: 1 / span 2; padding: 26px 26px; display: flex; flex-direction: column; gap: 18px; }
 
 .missionsHead { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 6px; }
 .row { display: flex; align-items: center; gap: 14px; padding: 16px 0; border-top: 2px dashed var(--line-soft); }
 .rowText { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px; cursor: pointer; }
 .rowTitle { font-size: 16px; font-weight: 500; }
 .rowDone { color: var(--text-off); text-decoration: line-through; }
-.rowMeta { display: flex; align-items: center; gap: 8px; font-family: var(--label); font-size: 11px; color: var(--text-soft); }
+.rowMeta { display: flex; align-items: center; gap: 8px; font-family: var(--pixel); font-size: 13px; color: var(--text-soft); }
 .rowMeta .desktopOnly { margin-left: -2px; }
 .rowMetaDone { color: var(--text-off); }
-.rowDoneTag { font-family: var(--label); font-size: 12px; color: var(--ok); white-space: nowrap; }
+.rowDoneTag { font-family: var(--pixel); font-size: 14px; color: var(--ok-text); white-space: nowrap; }
 .emptyList { border-top: 2px dashed var(--line-soft); }
+.late { color: var(--hp-text); }
+.more { padding: 12px 0 14px; border-top: 2px dashed var(--line-soft); font-size: 14px; color: var(--text-soft); }
+
+.habits { grid-column: 1; grid-row: 2; padding: 22px 24px; }
+.habitList { display: flex; flex-wrap: wrap; gap: 10px; padding-top: 6px; }
+.habit { display: flex; align-items: center; gap: 10px; min-height: 48px; padding: 0 14px 0 6px; border: 2px solid var(--line); background: var(--sunken); color: var(--text); font-family: var(--body); font-size: 15px; cursor: pointer; clip-path: var(--chamfer); }
+.habit:hover { border-color: var(--gold); }
+.habit:active .habitPlus { transform: translateY(2px); }
+.habit:focus-visible { outline-offset: -6px; }
+.habitPlus { width: 32px; height: 32px; display: grid; place-items: center; background: var(--gold); color: var(--on-gold); box-shadow: inset 0 -3px 0 var(--gold-dark); }
+.habitName { font-weight: 500; }
+.habitCount { font-family: var(--label); font-size: 12px; color: var(--ok-text); }
 
 .heroTop { display: flex; align-items: center; gap: 16px; }
-.portrait { width: 96px; height: 96px; flex: none; background: var(--raised); border: 2px solid var(--line); display: grid; place-items: center; }
-.portrait img { width: 88px; height: 88px; }
+.portrait { width: 96px; height: 96px; flex: none; background: var(--sunken); border: 2px solid var(--gold-dark); box-shadow: inset 3px 3px 0 var(--track), inset -3px -3px 0 var(--raised); display: grid; place-items: center; clip-path: var(--chamfer); }
+.portrait svg { display: block; }
 .heroInfo { min-width: 0; display: flex; flex-direction: column; gap: 6px; }
 .heroBars { display: flex; flex-direction: column; gap: 18px; }
 .heroLink { font-family: var(--pixel); font-size: 16px; text-decoration: none; align-self: flex-start; padding: 6px 0; }
 
 .streak { display: flex; flex-direction: column; gap: 10px; padding-top: 16px; border-top: 2px dashed var(--line-soft); }
 .streakHead { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px; }
-.streakHead :global(.meta) { font-size: 11px; }
+.streakHead :global(.meta) { font-size: 13px; }
 .streakDays { display: flex; justify-content: space-between; }
 .streakDay { display: flex; flex-direction: column; align-items: center; gap: 4px; }
 .streakBox { width: 22px; height: 22px; display: grid; place-items: center; border: 2px solid var(--line-soft); background: var(--sunken); }
 .streakDone { background: var(--gold); border-color: var(--gold); color: var(--on-gold); }
 .streakToday { border: 2px dashed var(--gold); background: transparent; }
-.streakLabel { font-family: var(--label); font-size: 10px; color: var(--text-soft); }
+.streakLabel { font-family: var(--pixel); font-size: 12px; color: var(--text-soft); }
 .streakLabelToday { color: var(--text); }
 
 .mobileAction { display: none; }
@@ -37,28 +50,32 @@
   .grid { grid-template-columns: minmax(0, 1fr); }
   .hero { grid-column: 1; grid-row: auto; }
   .missions { grid-column: 1; grid-row: auto; }
+  .habits { grid-column: 1; grid-row: auto; }
 }
 
 @media (max-width: 768px) {
+  .date { font-size: 13px; margin-bottom: 4px; }
   .lead, .desktopAction, .streak, .heroLink, .desktopOnly, .desktopOnlyFlex, .heroName { display: none; }
   .grid { gap: 18px; }
-  .hero { padding: 14px; display: grid; grid-template-columns: 72px minmax(0, 1fr); column-gap: 14px; row-gap: 8px; align-items: center; }
+  .hero { padding: 18px; display: grid; grid-template-columns: 72px minmax(0, 1fr); column-gap: 14px; row-gap: 8px; align-items: center; }
   .heroTop { display: contents; }
   .portrait { width: 72px; height: 72px; grid-row: span 2; }
-  .portrait img { width: 66px; height: 66px; }
-  .heroInfo :global(.meta) { font-size: 11px; }
+  .portrait svg { width: 62px; height: 62px; }
+  .heroInfo :global(.meta) { font-size: 13px; }
   .heroBars { min-width: 0; gap: 8px; }
   .heroBars :global(.bar) { height: 14px; grid-column: 2; grid-row: 1; }
   .heroBars :global(.bar-stack) { display: grid; grid-template-columns: 22px minmax(0, 1fr) auto; align-items: center; gap: 8px; }
-  .heroBars :global(.bar-head) { display: contents; font-size: 10px; }
+  .heroBars :global(.bar-head) { display: contents; font-size: 12px; }
   .heroBars :global(.bar-hp) > div, .heroBars :global(.bar-xp) > div { background-size: auto; }
   .missions { padding: 16px 16px 4px; }
+  .habits { padding: 16px; }
+  .habit { font-size: 14px; }
   .missionsTitle { font-size: 20px; }
   .missionsHead { margin-bottom: 8px; }
   .row { gap: 12px; padding: 13px 0; }
   .rowText { gap: 4px; }
   .rowTitle { font-size: 15px; font-weight: 400; }
-  .rowMeta { font-size: 10px; }
+  .rowMeta { font-size: 12px; }
   .rowMeta :global(.dot) { display: none; }
   .mobileAction { display: block; }
   .newMission { width: 100%; min-height: 50px; }

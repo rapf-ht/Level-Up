@@ -1,18 +1,29 @@
-.tabs { border-bottom: 2px solid var(--line); }
-.activeTab { background: var(--raised); }
-.empty { padding: 28px 24px; }
-.list { padding: 0 24px; }
-.row { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; padding: 18px 0; border-top: 2px dashed var(--line-soft); }
-.row:first-child { border-top: 0; }
-.title { flex: 1 1 240px; min-width: 0; font-size: 16px; font-weight: 500; cursor: pointer; }
-.titleOff { color: var(--text-off); text-decoration: line-through; cursor: default; }
-.rewards { width: 120px; display: flex; justify-content: flex-end; gap: 12px; }
+.wrap { display: flex; flex-direction: column; }
+.tabs { border-bottom: 0; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+.tabs :global(.tab) { flex: none; }
+.board { padding: 24px; }
+.list { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(240px, 100%), 1fr)); gap: 24px 20px; }
+.note { display: flex; flex-direction: column; gap: 8px; min-height: 180px; }
+.top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.difficulty { font-family: var(--pixel); font-size: 13px; color: var(--text-soft); }
+.title { flex: 1; font-size: 16px; font-weight: 600; line-height: 1.35; cursor: pointer; }
+span.title { cursor: default; }
+.titleOff { color: var(--text-off); }
+.due, .count, .risk { font-size: 13px; color: var(--text-soft); }
+.dueLate { color: var(--hp-text); font-weight: 600; }
+.count { color: var(--ok-text); font-weight: 600; }
+.footer { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; padding-top: 10px; border-top: 2px dashed var(--note-line); }
+.rewards { display: flex; gap: 12px; }
+.check { display: flex; align-items: center; gap: 8px; font-family: var(--pixel); font-size: 15px; }
+.plus { min-height: 38px; padding: 0 12px 2px; font-size: 15px; --gold: #7f5410; --gold-light: #8c5e14; --gold-dark: #4e320a; --on-gold: #fbf5e3; }
+.manage { display: flex; gap: 14px; }
+.manage button { min-height: 36px; padding: 0 2px; border: 0; background: none; color: var(--text-soft); font-family: var(--pixel); font-size: 14px; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+.manage button:hover { color: var(--text); }
+.empty { max-width: 460px; margin: 8px auto; padding: 18px 16px 8px; }
 
 @media (max-width: 768px) {
-  .list { padding: 0 16px; }
-  .empty { padding: 20px 16px; }
-  .title { flex-basis: calc(100% - 38px); font-size: 15px; }
-  .row { padding: 14px 0; gap: 10px 12px; }
-  .row > :global(.badge) { margin-left: 36px; }
-  .rewards { margin-left: auto; width: auto; }
+  .board { padding: 16px 14px; }
+  .list { gap: 18px; }
+  .note { min-height: 0; }
+  .title { font-size: 15px; }
 }

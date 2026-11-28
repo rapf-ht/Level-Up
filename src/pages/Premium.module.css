@@ -1,0 +1,39 @@
+.page { max-width: 1040px; }
+.intro { display: flex; align-items: center; gap: 22px; }
+.crest { width: 88px; height: 88px; flex: none; }
+
+.layout { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 28px; align-items: start; }
+
+/* A lista de vantagens é um pergaminho pregado, sem inclinação */
+.perks { transform: none; padding: 30px 28px 26px; }
+.perksTitle { font-family: var(--pixel); font-weight: 600; font-size: 22px; margin-bottom: 16px; }
+.perkList { display: flex; flex-direction: column; gap: 14px; }
+.perk { display: flex; gap: 12px; font-size: 16px; line-height: 1.5; }
+.perkIcon { flex: none; margin-top: 5px; color: var(--ok-text); }
+.perk strong { font-weight: 600; }
+
+.checkout { padding: 28px; display: flex; flex-direction: column; gap: 18px; }
+.plans { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.plan { display: flex; flex-direction: column; gap: 4px; padding: 14px; border: 2px solid var(--line); background: var(--sunken); cursor: pointer; clip-path: var(--chamfer); }
+.plan:hover { border-color: var(--text-off); }
+.plan:focus-within { outline: 2px solid var(--xp); outline-offset: -6px; }
+.planOn, .planOn:hover { border-color: var(--gold); background: var(--raised); }
+.planName { font-family: var(--pixel); font-size: 17px; }
+.planOn .planName { color: var(--gold); }
+.planPrice { font-family: var(--label); font-size: 20px; margin-top: 6px; }
+.planPeriod { font-size: 13px; color: var(--text-soft); }
+.planNote { font-size: 13px; color: var(--ok-text); }
+.checkout :global(.btn) { width: 100%; }
+.soon { font-size: 14px; line-height: 1.5; color: var(--text-soft); }
+.back { font-family: var(--pixel); font-size: 16px; }
+
+@media (max-width: 860px) {
+  .layout { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+}
+@media (max-width: 768px) {
+  .intro { align-items: flex-start; gap: 14px; }
+  .crest { width: 56px; height: 56px; }
+  .perks { padding: 26px 18px 20px; }
+  .perk { font-size: 15px; }
+  .checkout { padding: 20px; }
+}

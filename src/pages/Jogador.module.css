@@ -1,0 +1,26 @@
+.page { max-width: 1000px; }
+.card { display: flex; gap: 32px; padding: 32px; align-items: center; }
+.stage { flex: none; width: 220px; height: 260px; display: flex; align-items: center; justify-content: center; background: linear-gradient(180deg, var(--sunken) 0 80%, var(--track) 80%); border: 2px solid var(--line-soft); clip-path: var(--chamfer); overflow: hidden; }
+
+.info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px; }
+.handle { font-size: 15px; color: var(--text-soft); }
+.summary { margin-top: 10px; font-size: 16px; line-height: 1.6; color: var(--text-2); max-width: 60ch; }
+.actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+
+.trophies { padding: 22px 24px; display: flex; flex-direction: column; gap: 18px; }
+.trophiesHead { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.trophyGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(240px, 100%), 1fr)); gap: 14px; }
+.trophy { display: flex; align-items: center; gap: 12px; }
+.medal { width: 56px; flex: none; color: var(--gold); }
+.locked .medal { color: var(--text-off); }
+.trophyText { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.trophyName { font-family: var(--pixel); font-size: 17px; }
+.locked .trophyName { color: var(--text-off); }
+.trophyNote { font-size: 13px; line-height: 1.4; color: var(--text-soft); }
+
+@media (max-width: 768px) {
+  .card { flex-direction: column; align-items: stretch; padding: 20px; gap: 18px; }
+  .stage { width: 100%; height: 220px; }
+  .actions :global(.btn) { flex: 1 1 100%; }
+  .trophies { padding: 16px; }
+}

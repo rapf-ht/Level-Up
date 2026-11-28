@@ -1,29 +1,44 @@
 import { useEffect, useState } from "react";
 import styles from "./BazarMagico.module.css";
-import { ItemManager, SHOP_CATALOG } from "../manager/ItemManager";
+import { EQUIPMENT_SLOTS, ItemManager, SHOP_CATALOG } from "../manager/ItemManager";
 import { useGameData } from "../hooks/useGameData";
 import { CheckIcon } from "../components/PixelIcons";
+import { ConfirmDialog } from "../components/ConfirmDialog";
+import { EmptyState } from "../components/EmptyState";
 
-const FILTERS = [
-  { value: null, label: "TODOS" },
-  { value: "pocoes", label: "POÇÕES", tag: "POÇÃO" },
-  { value: "armas", label: "ARMAS", tag: "ARMA" },
-  { value: "armaduras", label: "ARMADURAS", tag: "ARMADURA" },
-  { value: "aparencia", label: "APARÊNCIA", tag: "APARÊNCIA" },
-  { value: "mascotes", label: "MASCOTES", tag: "MASCOTE" },
-  { value: "ovos", label: "OVOS", tag: "OVO" },
-  { value: "casas", label: "CASAS", tag: "CASA" },
+// Categorias do Bazar, pelo lugar onde o item vai: consumível, no corpo, atrás do personagem ou ao lado dele.
+const CATEGORIES = [
+  { value: null, label: "Todos" },
+  { value: "pocoes", label: "Poções" },
+  { value: "equipamentos", label: "Equipamentos" },
+  { value: "cenarios", label: "Cenários" },
+  { value: "mascotes", label: "Mascotes" },
 ];
 
-const tagFor = (type) => FILTERS.find((filter) => filter.value === type)?.tag ?? type.toUpperCase();
+function categoryOf(item) {
+  if (!item.slot) return "pocoes";
+  if (item.slot === "cenario") return "cenarios";
+  if (item.slot === "pet") return "mascotes";
+  if (item.slot === "casa") return "casas";
+  return "equipamentos";
+}
+
+// Etiqueta do cartão: o espaço do equipamento (Capacete, Arma...) ou a categoria
+function tagFor(item) {
+  if (!item.slot) return "Poção";
+  if (item.slot === "cenario") return "Cenário";
+  if (item.slot === "pet") return "Mascote";
+  const label = EQUIPMENT_SLOTS.find((slot) => slot.id === item.slot)?.label ?? item.slot;
+  return label.charAt(0).toUpperCase() + label.slice(1);
+}
 
 function ItemCard({ item, owned, price, priceShort, action }) {
   return (
     <article className={`panel ${styles.card}`}>
-      <div className={styles.picture}>
+      <div className={`shelf ${styles.picture}`}>
         <img src={item.icon} alt={item.name} className={priceShort ? styles.dimmed : undefined} />
-        <span className={styles.tag}>{tagFor(item.type)}</span>
-        {owned > 0 && <span className={styles.owned}>VOCÊ TEM {owned}</span>}
+        <span className={styles.tag}>{tagFor(item)}</span>
+        {owned > 0 && <span className={styles.owned}>Você tem {owned}</span>}
       </div>
       <div className={styles.body}>
         <h2 className={styles.name}>{item.name}</h2>
@@ -46,24 +61,28 @@ export default function BazarMagico() {
   const [mode, setMode] = useState("comprar");
   const [filter, setFilter] = useState(null);
   const [toast, setToast] = useState(null);
+  const [pending, setPending] = useState(null);
 
   useEffect(() => {
     if (!toast) return undefined;
-    const timer = setTimeout(() => setToast(null), 3000);
+    // Avisos com botão ficam mais tempo na tela, para dar tempo de usar o botão
+    const timer = setTimeout(() => setToast(null), toast.equipId ? 7000 : 3000);
     return () => clearTimeout(timer);
   }, [toast]);
 
-  const matches = (item) => !filter || item.type === filter;
+  const matches = (item) => !filter || categoryOf(item) === filter;
+  const inventory = ItemManager.getInventoryWithDetails();
+  const source = mode === "comprar" ? SHOP_CATALOG : inventory;
+  const countIn = (value) => source.filter((item) => !value || categoryOf(item) === value).length;
   const shopItems = SHOP_CATALOG.filter(matches);
-  const sellItems = ItemManager.getInventoryWithDetails().filter(matches);
+  const sellItems = inventory.filter(matches);
 
   return (
     <div className="page">
       <section className="page-head">
         <div>
-          <p className="eyebrow">LOJA</p>
           <h1 className="title">Bazar Mágico</h1>
-          <p className="lead">Troque o ouro das suas missões por itens e equipamentos.</p>
+          <p className="lead">Troque o ouro das suas missões por poções, armas, roupas e mascotes.</p>
         </div>
         <div role="tablist" aria-label="Modo" className={styles.modes}>
           {[["comprar", "Comprar"], ["vender", "Vender"]].map(([value, label]) => (
@@ -81,23 +100,27 @@ export default function BazarMagico() {
         </div>
       </section>
 
-      <nav aria-label="Tipo de item" className={styles.filters}>
-        {FILTERS.map((item) => (
+      <nav aria-label="Categorias" className={styles.filters}>
+        {CATEGORIES.map((item) => (
           <button
             key={item.label}
             type="button"
             aria-pressed={filter === item.value}
             className={`${styles.filter} ${filter === item.value ? styles.filterActive : ""}`}
-            onClick={() => setFilter(item.value)}
+            onClick={(event) => {
+              setFilter(item.value);
+              // No celular a faixa de categorias rola para o lado: traz a escolhida para a vista
+              event.currentTarget.scrollIntoView({ block: "nearest", inline: "nearest" });
+            }}
           >
-            {item.label}
+            {item.label} <span className={styles.filterCount}>{countIn(item.value)}</span>
           </button>
         ))}
       </nav>
 
       {mode === "comprar" && (
         shopItems.length === 0 ? (
-          <p className="empty">Nenhum item deste tipo à venda no momento.</p>
+          <EmptyState art="bau">Não há itens desse tipo à venda no momento. Confira as outras categorias.</EmptyState>
         ) : (
           <div className={styles.grid}>
             {shopItems.map((item) => {
@@ -116,7 +139,7 @@ export default function BazarMagico() {
                       <button
                         type="button"
                         className={`btn btn-sm btn-primary ${styles.buy}`}
-                        onClick={() => setToast(ItemManager.buyItem(item.id))}
+                        onClick={() => setPending(item)}
                       >
                         Comprar
                       </button>
@@ -131,7 +154,7 @@ export default function BazarMagico() {
 
       {mode === "vender" && (
         sellItems.length === 0 ? (
-          <p className="empty">Você ainda não tem itens deste tipo. Compre no Bazar para vender depois.</p>
+          <EmptyState art="mochila">Você ainda não tem nada desse tipo para vender. Os itens comprados aparecem aqui.</EmptyState>
         ) : (
           <div className={styles.grid}>
             {sellItems.map((item) => (
@@ -155,10 +178,45 @@ export default function BazarMagico() {
         )
       )}
 
+      <ConfirmDialog
+        open={Boolean(pending)}
+        title={pending ? `Comprar ${pending.name}?` : ""}
+        confirmLabel={pending ? `Comprar por ${pending.price} G` : "Comprar"}
+        onCancel={() => setPending(null)}
+        onConfirm={() => {
+          const result = ItemManager.buyItem(pending.id);
+          setToast(result.success && pending.slot ? { ...result, equipId: pending.id, message: `Compra concluída: ${pending.name} está na sua mochila.` } : result);
+          setPending(null);
+        }}
+      >
+        {pending && (
+          <>
+            <div className={styles.confirmItem}>
+              <img src={pending.icon} alt="" />
+              <p>{pending.description}</p>
+            </div>
+            <dl className={styles.ledger}>
+              <div><dt>Seu ouro agora</dt><dd>{player.gold} G</dd></div>
+              <div><dt>Preço</dt><dd>-{pending.price} G</dd></div>
+              <div className={styles.ledgerTotal}><dt>Depois da compra</dt><dd>{player.gold - pending.price} G</dd></div>
+            </dl>
+          </>
+        )}
+      </ConfirmDialog>
+
       {toast && (
         <div role="status" className={`toast ${toast.success ? "" : "toast-error"}`}>
           {toast.success && <CheckIcon size={16} />}
-          {toast.message}
+          <span className={styles.toastText}>{toast.message}</span>
+          {toast.equipId && (
+            <button
+              type="button"
+              className={styles.toastAction}
+              onClick={() => setToast(ItemManager.equipItem(toast.equipId))}
+            >
+              Equipar agora
+            </button>
+          )}
         </div>
       )}
     </div>

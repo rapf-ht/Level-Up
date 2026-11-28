@@ -1,0 +1,6 @@
+.empty { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 24px 12px; text-align: center; }
+.art { flex: none; }
+.text { max-width: 44ch; font-size: 15px; line-height: 1.5; color: var(--text-soft); }
+
+/* Versão em linha, para painéis estreitos */
+.compact { flex-direction: row; align-items: center; text-align: left; padding: 16px 0; gap: 14px; }

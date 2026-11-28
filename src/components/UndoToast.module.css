@@ -1,0 +1,5 @@
+.toast { z-index: 55; padding-right: 8px; }
+.text { flex: 1; min-width: 0; }
+.undo { flex: none; min-height: 40px; padding: 0 12px; border: 2px solid currentColor; background: transparent; color: inherit; font-family: var(--pixel); font-size: 15px; cursor: pointer; }
+.undo:hover { background: color-mix(in srgb, currentColor 12%, transparent); }
+.undo:focus-visible { outline-offset: 2px; }

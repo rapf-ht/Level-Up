@@ -9,9 +9,8 @@ export default function NotFound() {
 
   return (
     <div className="page" style={{ alignItems: "center", justifyContent: "center", textAlign: "center", minHeight: "60vh" }}>
-      <p className="eyebrow">ERRO 404</p>
-      <h1 className="title">Caminho não encontrado</h1>
-      <p className="lead">Esta página não existe ou ocorreu um erro ao abri-la.</p>
+            <h1 className="title">Página não encontrada</h1>
+      <p className="lead">Talvez o link esteja errado ou a página tenha mudado de lugar.</p>
       <Link to="/home" className="btn btn-primary">Voltar ao início</Link>
     </div>
   );

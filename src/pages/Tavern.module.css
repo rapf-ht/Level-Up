@@ -4,14 +4,30 @@
 .search { flex: 1 1 320px; min-width: 0; position: relative; }
 .searchIcon { position: absolute; left: 16px; top: 15px; color: var(--text-soft); }
 .searchInput { padding-left: 44px; }
-.count { font-family: var(--label); font-size: 11px; padding: 2px 6px; background: var(--hp); color: #fff; }
-.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(340px, 100%), 1fr)); gap: 16px; }
-.guild { display: flex; align-items: center; gap: 16px; padding: 18px; }
-.emblem { width: 56px; height: 56px; flex: none; border: 2px solid; display: grid; place-items: center; }
-.guildInfo { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
-.guildName { font-family: var(--pixel); font-weight: 600; font-size: 19px; }
+.count { font-family: var(--label); font-size: 12px; padding: 2px 6px; background: var(--count-bg); color: var(--on-hp); }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(210px, 100%), 1fr)); gap: 36px 24px; padding-top: 10px; }
+
+/* Estandarte pendurado: haste de madeira em cima, pano com ponta em "V" embaixo */
+.guild { position: relative; display: flex; flex-direction: column; align-items: center; gap: 14px; }
+.guild::before { content: ""; position: absolute; top: -8px; left: 4px; right: 4px; height: 8px; background: var(--board-frame); box-shadow: inset 0 2px 0 var(--board-light), -6px 0 0 var(--gold-dark), 6px 0 0 var(--gold-dark); }
+.cloth { width: 100%; min-height: 250px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 8px; padding: 22px 16px 46px; background: var(--cloth); box-shadow: inset 0 0 0 2px var(--cloth-line), inset 0 0 0 6px var(--cloth), inset 0 0 0 8px var(--cloth-line); clip-path: polygon(0 0, 100% 0, 100% 100%, 50% calc(100% - 26px), 0 100%); }
+.emblem { color: var(--cloth-ink); margin-bottom: 6px; }
+.guildName { font-family: var(--pixel); font-weight: 600; font-size: 20px; line-height: 1.2; color: var(--text); }
 .guildMeta { font-size: 14px; color: var(--text-soft); }
-.members { font-family: var(--label); font-size: 11px; }
+.seats { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px; margin-top: auto; padding-top: 8px; max-width: 150px; }
+.seat, .seatTaken { width: 10px; height: 10px; border: 2px solid var(--cloth-ink); }
+.seatTaken { background: var(--cloth-ink); }
+.guild :global(.btn), .guild :global(.badge) { min-width: 120px; justify-content: center; text-align: center; }
+
+.friends { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr)); gap: 12px; }
+.friend { display: flex; align-items: center; gap: 14px; padding: 12px 14px; text-decoration: none; color: var(--text); }
+.friend:hover { border-color: var(--gold); }
+.friend:focus-visible { outline-offset: -6px; }
+.friendPortrait { width: 52px; flex: none; overflow: hidden; }
+.friendPortrait svg { display: block; }
+.friendText { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.friendName { font-family: var(--pixel); font-size: 18px; }
+.friendNote { font-size: 14px; color: var(--text-soft); }
 
 @media (max-width: 768px) {
   .page { gap: 18px; }
@@ -19,7 +35,7 @@
   .tabs :global(.tab) { flex: none; padding: 0 16px; }
   .search { flex-basis: 100%; }
   .actions :global(.btn) { flex: 1; padding: 0 12px; }
-  .grid { gap: 12px; }
-  .guild { padding: 14px; gap: 12px; }
-  .emblem { width: 48px; height: 48px; }
+  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 30px 14px; }
+  .cloth { min-height: 220px; padding: 18px 10px 40px; }
+  .guildName { font-size: 17px; }
 }

@@ -1,6 +1,6 @@
 .page { flex-direction: row; align-items: flex-start; padding-top: 32px; }
 .sidebar { flex: 0 0 240px; display: flex; flex-direction: column; gap: 14px; }
-.sidebarTitle { font-weight: 400; letter-spacing: 0.06em; }
+.sidebarTitle { font-weight: 400; }
 .areaNav { display: flex; flex-direction: column; gap: 4px; }
 .areaLink { display: flex; align-items: center; gap: 12px; min-height: 46px; padding: 0 14px; border: 2px solid transparent; color: var(--text-2); text-decoration: none; font-family: var(--pixel); font-size: 17px; }
 .areaLink:hover { color: var(--text); }
@@ -12,13 +12,18 @@
 .content { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 24px; }
 .areaTitle { display: flex; align-items: center; gap: 14px; }
 .areaTitleDot { width: 18px; height: 18px; flex: none; }
+.headActions { display: flex; flex-wrap: wrap; gap: 10px; }
+.newArea { display: flex; align-items: center; gap: 10px; min-height: 46px; padding: 0 14px; border: 2px dashed var(--line); background: transparent; color: var(--text-soft); font-family: var(--pixel); font-size: 16px; cursor: pointer; margin-top: 6px; }
+.newArea:hover { color: var(--text); border-color: var(--text-off); }
+.slots { padding: 2px 2px 0; font-size: 13px; color: var(--text-soft); }
+.dailyBar { display: flex; flex-direction: column; gap: 6px; max-width: 320px; font-family: var(--pixel); font-size: 14px; }
 
-.stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
-.stat { padding: 18px 22px; display: flex; flex-direction: column; gap: 10px; border-left: 2px solid var(--line); }
-.stat:first-child { border-left: 0; }
-.statLabel { font-family: var(--label); font-size: 11px; color: var(--text-soft); }
-.statValue { font-family: var(--pixel); font-size: 32px; line-height: 1; }
-.statNote { font-size: 13px; color: var(--text-soft); }
+.logbook { position: relative; display: flex; flex-direction: column; gap: 14px; padding: 18px 22px 18px 30px; background: var(--note-bg); color: var(--note-text); border: 2px solid var(--note-line); box-shadow: 4px 4px 0 var(--note-shadow); font-size: 16px; line-height: 1.6; max-width: 72ch; }
+.logbook::before { content: ""; position: absolute; left: 12px; top: 14px; bottom: 14px; width: 2px; background: repeating-linear-gradient(180deg, var(--hp) 0 6px, transparent 6px 10px); opacity: 0.6; }
+.logbook strong { font-weight: 600; }
+.logbook .xp { color: #24578c; }
+.logbook .goldText { color: #7f5410; }
+.logbook :global(.bar) { --track: #e3d6b4; --line: var(--note-line); max-width: 320px; }
 
 .bottom { display: flex; flex-wrap: wrap; gap: 24px; }
 .card { flex: 1 1 300px; min-width: 0; padding: 20px 22px; display: flex; flex-direction: column; gap: 14px; }
@@ -27,7 +32,7 @@
 .chart { height: 96px; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 10px; align-items: end; }
 .chartBar { background: repeating-linear-gradient(0deg, var(--xp) 0 8px, var(--panel) 8px 10px); }
 .chartEmpty { height: 10px; background: var(--line); }
-.chartDays { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 10px; text-align: center; font-family: var(--label); font-size: 11px; color: var(--text-soft); }
+.chartDays { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 10px; text-align: center; font-family: var(--pixel); font-size: 13px; color: var(--text-soft); }
 
 @media (max-width: 960px) {
   .page { flex-direction: column; align-items: stretch; }
@@ -35,6 +40,8 @@
   .sidebarTitle { display: none; }
   .areaNav { flex-direction: row; overflow-x: auto; margin: 0 -24px; padding: 0 24px 4px; scrollbar-width: none; }
   .areaLink { flex: none; min-height: 44px; border-color: var(--line); }
+  .newArea { flex: none; margin-top: 0; min-height: 44px; }
+  .slots { display: none; }
   .areaActive { border-color: var(--gold); }
 }
 
@@ -42,11 +49,11 @@
   .page { padding-top: 16px; }
   .areaNav { margin: 0 -16px; padding: 0 16px 4px; }
   .content { gap: 18px; }
-  .content > :global(.page-head) :global(.btn) { width: 100%; }
+  .headActions { width: 100%; }
+  .headActions :global(.btn) { flex: 1; padding: 0 12px; }
   .content > :global(.page-head) > div { width: 100%; }
-  .stat { padding: 12px 10px; gap: 8px; }
-  .statValue { font-size: 24px; }
-  .statNote, .stat :global(.bar) { display: none; }
+  .logbook { padding: 14px 16px 14px 26px; font-size: 15px; }
+  .logbook::before { left: 10px; }
   .bottom { gap: 18px; }
   .card { padding: 16px; }
 }

@@ -4,26 +4,31 @@ import styles from "./RootLayout.module.css";
 import { MissionManager } from "../manager/MissionManager";
 import { useGameData } from "../hooks/useGameData";
 import { GameEffects } from "../components/GameEffects";
-import { BagIcon, BellIcon, GridIcon, HomeIcon, MugIcon, UserIcon } from "../components/PixelIcons";
+import { useTheme } from "../hooks/useTheme";
+import { NotificationBell } from "../components/NotificationBell";
+import { UndoToast } from "../components/UndoToast";
+import { BagIcon, GridIcon, HomeIcon, MoonIcon, MugIcon, SunIcon, UserIcon } from "../components/PixelIcons";
 
 const MAIN_NAV = [
   { to: "/home", label: "Início" },
-  { to: "/areas-da-vida", label: "Áreas da Vida" },
+  { to: "/areas-da-vida", label: "Missões" },
   { to: "/inventario", label: "Inventário" },
   { to: "/bazar-magico", label: "Bazar" },
   { to: "/tavern", label: "Taverna" },
 ];
 
 const MOBILE_NAV = [
-  { to: "/home", label: "INÍCIO", Icon: HomeIcon },
-  { to: "/areas-da-vida", label: "MISSÕES", Icon: GridIcon },
-  { to: "/bazar-magico", label: "BAZAR", Icon: BagIcon },
-  { to: "/inventario", label: "PERFIL", Icon: UserIcon },
-  { to: "/tavern", label: "TAVERNA", Icon: MugIcon },
+  { to: "/home", label: "Início", Icon: HomeIcon },
+  { to: "/areas-da-vida", label: "Missões", Icon: GridIcon },
+  { to: "/bazar-magico", label: "Bazar", Icon: BagIcon },
+  { to: "/inventario", label: "Inventário", Icon: UserIcon },
+  { to: "/tavern", label: "Taverna", Icon: MugIcon },
 ];
 
 export default function RootLayout() {
   const { player } = useGameData();
+  const { theme, toggleTheme } = useTheme();
+  const isLight = theme === "light";
 
   useEffect(() => {
     MissionManager.checkFailedDailies();
@@ -32,6 +37,7 @@ export default function RootLayout() {
   return (
     <div className={styles.shell}>
       <GameEffects />
+      <UndoToast />
       <header className={styles.header}>
         <div className={styles.headerInner}>
           <Link to="/home" className={styles.logoLink}>
@@ -54,9 +60,16 @@ export default function RootLayout() {
               <span className="sr-only">Ouro:</span>
               <span>{player.gold}</span>
             </div>
-            <button type="button" aria-label="Notificações" className={styles.iconButton}>
-              <BellIcon />
+            <button
+              type="button"
+              aria-label={isLight ? "Mudar para o tema escuro" : "Mudar para o tema claro"}
+              title={isLight ? "Tema escuro (masmorra)" : "Tema claro (pergaminho)"}
+              className={styles.iconButton}
+              onClick={toggleTheme}
+            >
+              {isLight ? <MoonIcon size={18} /> : <SunIcon size={20} />}
             </button>
+            <NotificationBell />
             <Link to="/inventario" aria-label="Seu perfil" className={styles.avatar}>
               <img src="/ui/avatar.png" alt="" />
             </Link>
@@ -72,7 +85,7 @@ export default function RootLayout() {
       <footer className={styles.footer}>
         <div className={styles.footerInner}>
           <img src="/ui/logo.png" alt="Level Up" className={`${styles.footerLogo} pixel-img`} />
-          <span>Transforme tarefas em missões e evolua com sua guilda.</span>
+          <span>Projeto Integrador II</span>
         </div>
       </footer>
 

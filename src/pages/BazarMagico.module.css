@@ -1,17 +1,19 @@
-.modes { display: flex; border: 2px solid var(--line); background: var(--panel); }
+.modes { display: flex; border: 2px solid var(--line); background: var(--panel); clip-path: var(--chamfer); }
 .mode { min-height: 44px; padding: 0 24px; border: 0; background: transparent; color: var(--text-2); font-family: var(--pixel); font-size: 17px; cursor: pointer; }
 .modeActive { background: var(--gold); color: var(--on-gold); font-weight: 600; }
 .filters { display: flex; flex-wrap: wrap; gap: 8px; }
-.filter { min-height: 40px; padding: 0 16px; border: 2px solid var(--line); background: transparent; color: var(--text-2); font-family: var(--label); font-size: 12px; cursor: pointer; }
+.filter { clip-path: var(--chamfer); min-height: 40px; padding: 0 16px; border: 2px solid var(--line); background: transparent; color: var(--text-2); font-family: var(--pixel); font-size: 15px; cursor: pointer; }
 .filter:hover { border-color: var(--text-off); }
 .filterActive, .filterActive:hover { border-color: var(--gold); background: var(--raised); color: var(--gold); }
+.filterCount { margin-left: 4px; font-family: var(--label); font-size: 12px; color: var(--text-soft); }
+.filterActive .filterCount { color: var(--gold); }
 .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(260px, 100%), 1fr)); gap: 20px; }
 
 .card { display: flex; flex-direction: column; }
-.picture { position: relative; height: 160px; background: var(--sunken); border-bottom: 2px solid var(--line); display: grid; place-items: center; }
-.picture > img { width: 96px; height: 96px; object-fit: contain; }
+.picture { height: 160px; border-bottom: 2px solid var(--line); }
+.picture > img { position: relative; z-index: 1; width: 96px; height: 96px; object-fit: contain; margin-bottom: 2px; }
 .dimmed { opacity: 0.55; }
-.tag, .owned { position: absolute; top: 10px; font-family: var(--label); font-size: 10px; padding: 4px 6px; border: 2px solid var(--line); }
+.tag, .owned { z-index: 1; position: absolute; top: 10px; font-family: var(--pixel); font-size: 13px; padding: 2px 6px; border: 2px solid var(--line); }
 .tag { left: 10px; background: var(--bg); color: var(--text-soft); }
 .owned { right: 10px; background: var(--ok-bg); border-color: var(--ok-line); color: var(--ok-text); }
 .body { padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
@@ -20,8 +22,21 @@
 .footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 8px; }
 .price { display: flex; align-items: center; gap: 6px; font-family: var(--label); font-size: 15px; color: var(--gold); }
 .priceShort { color: var(--hp-text); }
-.buy { box-shadow: 0 3px 0 var(--gold-dark); padding: 0 18px; }
-.buy:active { transform: translateY(3px); box-shadow: none; }
+.buy { padding: 0 18px 2px; }
+.buy:active { padding: 2px 18px 0; }
+
+.confirmItem { display: flex; align-items: center; gap: 14px; }
+.confirmItem img { width: 56px; height: 56px; flex: none; object-fit: contain; image-rendering: pixelated; }
+.ledger { display: flex; flex-direction: column; gap: 6px; padding: 12px 14px; background: var(--sunken); border: 2px dashed var(--line-soft); }
+.ledger > div { display: flex; justify-content: space-between; gap: 12px; }
+.ledger dt { color: var(--text-soft); }
+.ledger dd { font-family: var(--label); font-size: 14px; color: var(--gold); }
+.ledgerTotal { padding-top: 6px; border-top: 2px solid var(--line-soft); }
+.ledgerTotal dt { color: var(--text); }
+
+.toastText { flex: 1; min-width: 0; }
+.toastAction { flex: none; min-height: 40px; padding: 0 12px; border: 2px solid currentColor; background: transparent; color: inherit; font-family: var(--pixel); font-size: 15px; cursor: pointer; }
+.toastAction:hover { background: color-mix(in srgb, currentColor 12%, transparent); }
 
 @media (max-width: 768px) {
   .modes { width: 100%; }

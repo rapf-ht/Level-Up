@@ -1,0 +1,19 @@
+.focus { padding: 16px 20px; display: flex; flex-direction: column; gap: 14px; }
+.head { display: flex; align-items: center; justify-content: space-between; gap: 14px; }
+.title { font-family: var(--pixel); font-weight: 600; font-size: 20px; }
+.lead { font-size: 14px; color: var(--text-soft); margin-top: 2px; }
+.body { display: flex; flex-direction: column; gap: 12px; border-top: 2px dashed var(--line-soft); padding-top: 12px; }
+.tabs { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+.tabs :global(.tab) { flex: none; }
+.timer { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px 24px; }
+.display { font-family: var(--label); font-size: 52px; line-height: 1; color: var(--text); }
+.controls { display: flex; flex-wrap: wrap; gap: 10px; }
+.message { font-size: 15px; color: var(--ok-text); font-weight: 600; }
+
+@media (max-width: 768px) {
+  .focus { padding: 14px 16px; }
+  .head :global(.btn) { flex: none; }
+  .display { font-size: 42px; }
+  .controls { width: 100%; }
+  .controls :global(.btn) { flex: 1; padding: 0 10px; }
+}

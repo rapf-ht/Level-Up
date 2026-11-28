@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import styles from "./GameEffects.module.css";
+import { Avatar } from "./Avatar";
+import { ItemManager } from "../manager/ItemManager";
 
 const AUTO_CLOSE = { levelup: 4500, damage: 3000 };
 const SPARKS = Array.from({ length: 12 }, (_, i) => i);
@@ -30,10 +32,10 @@ export function GameEffects() {
       <div className={styles.damage} role="status">
         <div className={styles.damageFlash} aria-hidden="true" />
         <div className={styles.damageCard}>
-          <img src="/ui/hero.png" alt="" className={`${styles.damageHero} pixel-img`} />
+          <Avatar equipped={ItemManager.getEquipped()} size={64} className={styles.damageHero} />
           <div>
             <p className={styles.damageAmount}>-{current.amount} HP</p>
-            <p className={styles.note}>Você não concluiu suas diárias de ontem.</p>
+            <p className={styles.note}>{current.missed === 1 ? "Você não cumpriu 1 diária." : `Você não cumpriu ${current.missed ?? "algumas"} diárias.`}</p>
           </div>
         </div>
       </div>
@@ -56,23 +58,19 @@ export function GameEffects() {
             SPARKS.map((i) => (
               <span key={i} className={styles.spark} style={{ "--i": i }} />
             ))}
-          <img
-            src="/ui/hero.png"
-            alt=""
-            className={`${isLevelUp ? styles.heroJump : styles.heroFall} pixel-img`}
-          />
+          <Avatar equipped={ItemManager.getEquipped()} size={150} className={isLevelUp ? styles.heroJump : styles.heroFall} />
         </div>
         {isLevelUp ? (
           <>
-            <p className={styles.kicker}>VOCÊ SUBIU DE NÍVEL</p>
+            <p className={styles.kicker}>Você subiu de nível!</p>
             <h2 id="game-effect-title" className={styles.level}>Nível {current.level}</h2>
-            <p className={styles.note}>HP restaurado e 50 de ouro de bônus.</p>
+            <p className={styles.note}>Seu HP foi restaurado e você ganhou 50 de ouro de bônus.</p>
           </>
         ) : (
           <>
-            <p className={`${styles.kicker} ${styles.kickerDanger}`}>SEU HP ACABOU</p>
-            <h2 id="game-effect-title" className={styles.level}>Você caiu</h2>
-            <p className={styles.note}>O XP do nível atual foi zerado e você perdeu 25% do ouro. Seu HP foi restaurado.</p>
+            <p className={`${styles.kicker} ${styles.kickerDanger}`}>Seu HP chegou a zero</p>
+            <h2 id="game-effect-title" className={styles.level}>Hora de recomeçar</h2>
+            <p className={styles.note}>{current.levelLost ? `Você voltou para o nível ${current.level}` : "Seu XP foi zerado"}, e seu HP já foi restaurado. Cumpra suas diárias para recuperar o progresso.</p>
           </>
         )}
         <button type="button" className="btn btn-primary" onClick={close} autoFocus>

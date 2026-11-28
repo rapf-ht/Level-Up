@@ -1,0 +1,34 @@
+.page { max-width: 760px; }
+.section { padding: 24px; display: flex; flex-direction: column; gap: 20px; }
+.legend { display: block; margin-bottom: 10px; }
+
+.classes, .themes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.choice { display: flex; align-items: center; gap: 12px; padding: 12px; border: 2px solid var(--line); background: var(--sunken); cursor: pointer; clip-path: var(--chamfer); }
+.choice:hover { border-color: var(--text-off); }
+.choice:focus-within { outline: 2px solid var(--xp); outline-offset: -6px; }
+.choiceOn, .choiceOn:hover { border-color: var(--gold); background: var(--raised); }
+.choiceText { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.choiceName { font-family: var(--pixel); font-size: 17px; }
+.choiceOn .choiceName { color: var(--gold); }
+.choiceNote { font-size: 13px; line-height: 1.35; color: var(--text-soft); }
+
+/* Amostras dos temas: cores fixas de propósito, mostram o tema mesmo quando o outro está ativo */
+.swatch { width: 32px; height: 32px; flex: none; display: grid; place-items: center; border: 2px solid; }
+.swatch_dark { background: #14110e; border-color: #3a3229; color: #e9c46a; }
+.swatch_light { background: #efe3c4; border-color: #a88d5f; color: #7f5410; }
+.swatch_system { background: linear-gradient(135deg, #14110e 0 50%, #efe3c4 50%); border-color: var(--line); }
+
+.note { font-size: 14px; line-height: 1.5; color: var(--text-soft); }
+
+.danger { border-color: var(--tone-red-line); }
+.deleteBtn { border-color: var(--hp); color: var(--hp-text); }
+.deleteBtn:hover { border-color: var(--hp-text); color: var(--hp-text); }
+.confirm { display: flex; flex-direction: column; gap: 12px; padding: 14px 16px; background: var(--tone-red-bg); border: 2px solid var(--tone-red-line); color: var(--tone-red); }
+.confirmActions { display: flex; flex-wrap: wrap; gap: 10px; }
+.back { font-family: var(--pixel); font-size: 16px; }
+
+@media (max-width: 768px) {
+  .section { padding: 16px; gap: 16px; }
+  .classes, .themes { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .confirmActions :global(.btn) { flex: 1 1 100%; }
+}

@@ -2,30 +2,44 @@ import { useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import styles from "./MissionModal.module.css";
-import { MissionManager } from "../manager/MissionManager";
-import { AREAS, OTHER_AREA } from "../data/areas";
+import { MissionManager, dayKey } from "../manager/MissionManager";
+import { OTHER_AREA } from "../data/areas";
+import { DIFFICULTIES, DIFFICULTY_ORDER, MISSION_TYPES, TYPE_ORDER } from "../data/missions";
+import { useAreas } from "../hooks/useAreas";
 import { CloseIcon } from "./PixelIcons";
 
-const CATEGORIES = [...AREAS, OTHER_AREA];
+function ModalContent({ onClose, category, mission }) {
+  const areas = useAreas();
+  const categories = [...areas, OTHER_AREA];
+  const editing = Boolean(mission);
 
-const DIFFICULTIES = [
-  { value: "daily", label: "Diária", reward: "10 XP · 5 G" },
-  { value: "medium", label: "Média", reward: "30 XP · 15 G" },
-  { value: "weekly", label: "Semanal", reward: "100 XP · 50 G" },
-];
+  const validationSchema = Yup.object({
+    title: Yup.string().trim().min(3, "Use pelo menos 3 letras.").required("Dê um nome para a missão."),
+    type: Yup.string().oneOf(TYPE_ORDER).required(),
+    difficulty: Yup.string().oneOf(DIFFICULTY_ORDER).required(),
+    category: Yup.string().oneOf(categories.map((c) => c.value)).required(),
+    dueDate: Yup.string().nullable(),
+  });
 
-const validationSchema = Yup.object({
-  title: Yup.string().trim().min(3, "Use pelo menos 3 letras.").required("Dê um nome para a missão."),
-  type: Yup.string().oneOf(DIFFICULTIES.map((d) => d.value)).required(),
-  category: Yup.string().oneOf(CATEGORIES.map((c) => c.value)).required(),
-});
-
-function ModalContent({ onClose, category }) {
   const formik = useFormik({
-    initialValues: { title: "", type: "daily", category: category || AREAS[0].value },
+    initialValues: {
+      title: mission?.title ?? "",
+      type: mission?.type ?? "diaria",
+      difficulty: mission?.difficulty ?? "facil",
+      category: mission?.category ?? category ?? areas[0]?.value ?? OTHER_AREA.value,
+      dueDate: mission?.dueDate ?? "",
+    },
     validationSchema,
     onSubmit: (values) => {
-      MissionManager.createMission(values.title.trim(), values.type, values.category);
+      const data = {
+        title: values.title.trim(),
+        type: values.type,
+        difficulty: values.difficulty,
+        category: values.category,
+        dueDate: values.type === "afazer" && values.dueDate ? values.dueDate : null,
+      };
+      if (editing) MissionManager.updateMission(mission.id, data);
+      else MissionManager.createMission(data);
       window.dispatchEvent(new Event("playerStateUpdated"));
       onClose();
     },
@@ -39,7 +53,9 @@ function ModalContent({ onClose, category }) {
     return () => window.removeEventListener("keydown", onKey);
   }, [onClose]);
 
-  const hasError = formik.touched.title && formik.errors.title;
+  // O erro do nome só aparece depois da primeira tentativa de salvar
+  const hasError = formik.submitCount > 0 && formik.errors.title;
+  const type = formik.values.type;
 
   return (
     <div className={styles.overlay} onClick={onClose}>
@@ -51,7 +67,7 @@ function ModalContent({ onClose, category }) {
         onClick={(event) => event.stopPropagation()}
       >
         <div className={styles.head}>
-          <h2 id="nm-title" className={styles.title}>Nova missão</h2>
+          <h2 id="nm-title" className={styles.title}>{editing ? "Editar missão" : "Nova missão"}</h2>
           <button type="button" aria-label="Fechar" className={styles.close} onClick={onClose}>
             <CloseIcon size={14} />
           </button>
@@ -59,13 +75,13 @@ function ModalContent({ onClose, category }) {
 
         <form onSubmit={formik.handleSubmit} className={styles.form} noValidate>
           <div className="field">
-            <label htmlFor="nm-nome" className="field-label">NOME DA MISSÃO</label>
+            <label htmlFor="nm-nome" className="field-label">Nome da missão</label>
             <input
               id="nm-nome"
               name="title"
               type="text"
               className="px-input"
-              placeholder="Ex: Ler 10 páginas"
+              placeholder={type === "habito" ? "Ex: Beber um copo de água" : type === "diaria" ? "Ex: Ler 10 páginas" : "Ex: Pagar a conta de luz"}
               autoFocus
               aria-invalid={Boolean(hasError)}
               aria-describedby={hasError ? "nm-erro" : undefined}
@@ -77,46 +93,69 @@ function ModalContent({ onClose, category }) {
           </div>
 
           <fieldset className="field">
-            <legend className={`field-label ${styles.legend}`}>DIFICULDADE</legend>
-            <div className={styles.difficulties}>
-              {DIFFICULTIES.map((difficulty) => {
-                const selected = formik.values.type === difficulty.value;
+            <legend className={`field-label ${styles.legend}`}>Tipo</legend>
+            <div className={styles.options}>
+              {TYPE_ORDER.map((key) => {
+                const selected = type === key;
                 return (
-                  <label key={difficulty.value} className={`${styles.difficulty} ${selected ? styles.selected : ""}`}>
-                    <input
-                      type="radio"
-                      name="type"
-                      value={difficulty.value}
-                      checked={selected}
-                      onChange={formik.handleChange}
-                      className="sr-only"
-                    />
-                    <span className={styles.difficultyName}>{difficulty.label}</span>
-                    <span className={styles.difficultyReward}>{difficulty.reward}</span>
+                  <label key={key} className={`${styles.option} ${selected ? styles.selected : ""}`}>
+                    <input type="radio" name="type" value={key} checked={selected} onChange={formik.handleChange} className="sr-only" />
+                    <span className={styles.optionName}>{MISSION_TYPES[key].label}</span>
                   </label>
                 );
               })}
             </div>
+            <p className={styles.hint}>{MISSION_TYPES[type].hint}</p>
           </fieldset>
 
-          <div className="field">
-            <label htmlFor="nm-area" className="field-label">ÁREA DA VIDA</label>
-            <select
-              id="nm-area"
-              name="category"
-              className="px-input"
-              value={formik.values.category}
-              onChange={formik.handleChange}
-            >
-              {CATEGORIES.map((item) => (
-                <option key={item.value} value={item.value}>{item.label}</option>
-              ))}
-            </select>
+          <fieldset className="field">
+            <legend className={`field-label ${styles.legend}`}>Dificuldade</legend>
+            <div className={styles.options}>
+              {DIFFICULTY_ORDER.map((key) => {
+                const item = DIFFICULTIES[key];
+                const selected = formik.values.difficulty === key;
+                return (
+                  <label key={key} className={`${styles.option} ${selected ? styles.selected : ""}`}>
+                    <input type="radio" name="difficulty" value={key} checked={selected} onChange={formik.handleChange} className="sr-only" />
+                    <span className={styles.optionName}>{item.label}</span>
+                    <span className={styles.optionReward}>+{item.xp} XP, +{item.gold} G</span>
+                  </label>
+                );
+              })}
+            </div>
+            {type === "diaria" && (
+              <p className={styles.hint}>Se não for cumprida no dia, custa {DIFFICULTIES[formik.values.difficulty].hpLoss} de HP.</p>
+            )}
+          </fieldset>
+
+          <div className={styles.row}>
+            <div className="field">
+              <label htmlFor="nm-area" className="field-label">Área da vida</label>
+              <select id="nm-area" name="category" className="px-input" value={formik.values.category} onChange={formik.handleChange}>
+                {categories.map((item) => (
+                  <option key={item.value} value={item.value}>{item.label}</option>
+                ))}
+              </select>
+            </div>
+            {type === "afazer" && (
+              <div className="field">
+                <label htmlFor="nm-prazo" className="field-label">Prazo (opcional)</label>
+                <input
+                  id="nm-prazo"
+                  name="dueDate"
+                  type="date"
+                  className="px-input"
+                  min={editing ? undefined : dayKey()}
+                  value={formik.values.dueDate}
+                  onChange={formik.handleChange}
+                />
+              </div>
+            )}
           </div>
 
           <div className={styles.actions}>
             <button type="button" className="btn" onClick={onClose}>Cancelar</button>
-            <button type="submit" className="btn btn-primary">Criar missão</button>
+            <button type="submit" className="btn btn-primary">{editing ? "Salvar missão" : "Criar missão"}</button>
           </div>
         </form>
       </div>
@@ -124,7 +163,7 @@ function ModalContent({ onClose, category }) {
   );
 }
 
-export function MissionModal({ isOpen, onClose, category }) {
+export function MissionModal({ isOpen, onClose, category, mission }) {
   if (!isOpen) return null;
-  return <ModalContent onClose={onClose} category={category} />;
+  return <ModalContent onClose={onClose} category={category} mission={mission} />;
 }

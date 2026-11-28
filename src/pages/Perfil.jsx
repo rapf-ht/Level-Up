@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import styles from "./Perfil.module.css";
 import { ItemManager, EQUIPMENT_SLOTS } from "../manager/ItemManager";
 import { useGameData } from "../hooks/useGameData";
 import { getProfile } from "../data/profile";
 import { PlayerBars } from "../components/PixelBar";
 import { CheckIcon, CloseIcon } from "../components/PixelIcons";
+import { Avatar } from "../components/Avatar";
+import { EmptyState } from "../components/EmptyState";
 
 const BACKPACK_SIZE = 24;
 
@@ -23,13 +26,13 @@ function Slot({ slot, selected, onSelect }) {
       className={`${styles.slot} ${item ? styles.slotFilled : ""} ${selected ? styles.slotSelected : ""}`}
       onClick={() => onSelect(selected ? null : slot.id)}
     >
-      {item ? <img src={item.icon} alt="" /> : slot.label.toUpperCase()}
+      {item ? <img src={item.icon} alt="" /> : capitalize(slot.label)}
     </button>
   );
 }
 
 export default function Perfil() {
-  const { player, missions } = useGameData();
+  const { player, history } = useGameData();
   const profile = getProfile();
   const [selectedSlot, setSelectedSlot] = useState(null);
   const [toast, setToast] = useState(null);
@@ -42,16 +45,16 @@ export default function Perfil() {
 
   const inventory = ItemManager.getInventoryWithDetails();
   const equipped = ItemManager.getEquipped();
-  const completed = missions.filter((m) => m.status === "completed");
-  const failed = missions.filter((m) => m.status === "failed");
-  const totalXp = completed.reduce((sum, m) => sum + (m.xpReward || 0), 0);
-  const totalGold = completed.reduce((sum, m) => sum + (m.goldReward || 0), 0);
+  const completed = history.filter((h) => h.kind === "done");
+  const failed = history.filter((h) => h.kind === "miss");
+  const totalXp = completed.reduce((sum, h) => sum + (h.xp || 0), 0);
+  const totalGold = completed.reduce((sum, h) => sum + (h.gold || 0), 0);
 
   const stats = [
     { label: "XP acumulado", value: totalXp },
     { label: "Ouro acumulado", value: `${totalGold} G`, color: "var(--gold)" },
-    { label: "Missões concluídas", value: completed.length, color: "var(--ok-text)" },
-    { label: "Missões falhadas", value: failed.length, color: "var(--hp-text)" },
+    { label: "Missões cumpridas", value: completed.length, color: "var(--ok-text)" },
+    { label: "Diárias esquecidas", value: failed.length, color: "var(--hp-text)" },
     { label: "Ouro em carteira", value: `${player.gold} G`, color: "var(--gold)" },
   ];
 
@@ -68,19 +71,25 @@ export default function Perfil() {
 
   function unequip(slotId, item) {
     ItemManager.unequipSlot(slotId);
-    setToast({ success: true, message: `${item.name} desequipado.` });
+    setToast({ success: true, message: `Item removido: ${item.name}.` });
     setSelectedSlot(null);
   }
 
   return (
     <div className="page">
-      <section>
-        <p className="eyebrow">NÍVEL {player.level} · {profile.playerClass.toUpperCase()}</p>
-        <h1 className="title">{profile.name}</h1>
+      <section className="page-head">
+        <div>
+          <p className="eyebrow">{profile.playerClass} de nível {player.level}</p>
+          <h1 className="title">{profile.name}</h1>
+        </div>
+        <div className={styles.headActions}>
+          <Link to="/premium" className="btn btn-outline">Virar Patrono</Link>
+          <Link to="/configuracoes" className="btn">Configurações</Link>
+        </div>
       </section>
 
       <div className={styles.top}>
-        <section aria-label="Equipamento" className={`panel ${styles.equipment}`}>
+        <section aria-label="Equipamento" className={`frame ${styles.equipment}`}>
           <div className={styles.stageRow}>
             <div className={styles.slots}>
               {left.map((slot) => (
@@ -88,8 +97,7 @@ export default function Perfil() {
               ))}
             </div>
             <div className={styles.stage}>
-              <div className={styles.floor} />
-              <img src="/ui/hero.png" alt={`Personagem ${profile.playerClass}`} className="pixel-img" />
+              <Avatar equipped={equipped} size={256} label={`Seu personagem, ${profile.playerClass}`} className={styles.avatar} />
             </div>
             <div className={styles.slots}>
               {right.map((slot) => (
@@ -107,7 +115,7 @@ export default function Perfil() {
                 </button>
               </div>
               {slotItems.length === 0 ? (
-                <p className={styles.pickerEmpty}>Você não tem itens para este espaço. Procure no Bazar.</p>
+                <EmptyState art="mochila" compact size={48}>Você não tem itens para este espaço. Compre um no Bazar.</EmptyState>
               ) : (
                 <div className={styles.pickerItems}>
                   {slotItems.map((item) =>
@@ -146,7 +154,7 @@ export default function Perfil() {
       <section className={`panel ${styles.backpack}`}>
         <div className={styles.backpackHead}>
           <h2 className="h2">Mochila</h2>
-          <span className="meta">{inventory.length} / {BACKPACK_SIZE} ESPAÇOS</span>
+          <span className="meta">{inventory.length} de {BACKPACK_SIZE} espaços</span>
         </div>
         <div className={styles.backpackGrid}>
           {inventory.map((item) => {
@@ -165,19 +173,20 @@ export default function Perfil() {
                 type="button"
                 aria-label={`${label}. ${isEquipped ? "Desequipar" : "Equipar"}`}
                 title={item.name}
-                className={`${styles.cell} ${styles.cellAction}`}
+                className={`slot ${styles.cell} ${styles.cellAction}`}
+                data-equipped={isEquipped ? "true" : undefined}
                 onClick={() => (isEquipped ? unequip(item.slot, item) : equip(item))}
               >
                 {content}
               </button>
             ) : (
-              <div key={item.id} role="img" aria-label={label} title={item.name} className={styles.cell}>
+              <div key={item.id} role="img" aria-label={label} title={item.name} className={`slot ${styles.cell}`}>
                 {content}
               </div>
             );
           })}
           {Array.from({ length: Math.max(BACKPACK_SIZE - inventory.length, 0) }, (_, i) => (
-            <div key={i} className={styles.cellEmpty} />
+            <div key={i} className={`slot slot-empty ${styles.cellEmpty}`} />
           ))}
         </div>
       </section>

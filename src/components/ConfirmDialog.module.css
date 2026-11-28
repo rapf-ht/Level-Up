@@ -1,0 +1,10 @@
+/* position: fixed devolve ao <dialog> o centro da tela (a moldura .frame usa position: relative) */
+.dialog { position: fixed; inset: 0; margin: auto; height: fit-content; max-height: calc(100vh - 32px); overflow-y: auto; width: min(420px, calc(100vw - 32px)); padding: 26px; color: var(--text); display: flex; flex-direction: column; gap: 16px; }
+.dialog:not([open]) { display: none; }
+.dialog::backdrop { background: var(--overlay); }
+.title { font-family: var(--pixel); font-weight: 600; font-size: 24px; line-height: 1.15; }
+.body { display: flex; flex-direction: column; gap: 12px; font-size: 15px; line-height: 1.5; color: var(--text-2); }
+.actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.actions :global(.btn) { flex: 1 1 140px; }
+.danger { border-color: var(--hp); color: var(--hp-text); }
+.danger:hover { border-color: var(--hp-text); color: var(--hp-text); }

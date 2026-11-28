@@ -1,22 +1,25 @@
-.overlay { position: fixed; inset: 0; z-index: 60; display: flex; align-items: center; justify-content: center; padding: 16px; overflow-y: auto; background: rgba(11, 9, 7, 0.82); }
-.dialog { width: 100%; max-width: 472px; margin: auto; background: var(--panel); border: 2px solid var(--gold); padding: 26px; display: flex; flex-direction: column; gap: 22px; }
+.overlay { position: fixed; inset: 0; z-index: 60; display: flex; align-items: center; justify-content: center; padding: 16px; overflow-y: auto; background: var(--overlay); }
+.dialog { width: 100%; max-width: 520px; margin: auto; background: var(--panel); border: 2px solid var(--gold); padding: 26px; display: flex; flex-direction: column; gap: 22px; clip-path: var(--chamfer); }
 .head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .title { font-family: var(--pixel); font-weight: 600; font-size: 26px; }
 .close { width: 44px; height: 44px; border: 2px solid var(--line); background: transparent; color: var(--text); display: grid; place-items: center; cursor: pointer; padding: 0; }
-.form { display: flex; flex-direction: column; gap: 22px; }
+.form { display: flex; flex-direction: column; gap: 20px; }
 .legend { margin-bottom: 8px; }
-.difficulties { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
-.difficulty { position: relative; display: flex; flex-direction: column; gap: 6px; padding: 12px; border: 2px solid var(--line); cursor: pointer; }
-.difficulty:focus-within { outline: 2px solid var(--xp); outline-offset: 2px; }
-.selected { border-color: var(--gold); background: var(--raised); }
-.difficultyName { font-family: var(--pixel); font-size: 17px; }
-.selected .difficultyName { color: var(--gold); }
-.difficultyReward { font-family: var(--label); font-size: 11px; color: var(--text-soft); }
+.options { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.option { position: relative; display: flex; flex-direction: column; gap: 4px; padding: 10px 12px; border: 2px solid var(--line); cursor: pointer; clip-path: var(--chamfer); }
+.option:hover { border-color: var(--text-off); }
+.option:focus-within { outline: 2px solid var(--xp); outline-offset: -6px; }
+.selected, .selected:hover { border-color: var(--gold); background: var(--raised); }
+.optionName { font-family: var(--pixel); font-size: 17px; }
+.selected .optionName { color: var(--gold); }
+.optionReward { font-family: var(--label); font-size: 11px; color: var(--text-soft); }
+.hint { margin-top: 8px; font-size: 14px; line-height: 1.45; color: var(--text-soft); }
+.row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; }
 .actions { display: flex; justify-content: flex-end; gap: 12px; padding-top: 4px; }
 
 @media (max-width: 480px) {
   .dialog { padding: 20px; }
-  .difficulties { grid-template-columns: minmax(0, 1fr); }
-  .difficulty { flex-direction: row; justify-content: space-between; align-items: center; }
-  .actions .btn { flex: 1; padding: 0 12px; }
+  .options { grid-template-columns: minmax(0, 1fr); }
+  .option { flex-direction: row; justify-content: space-between; align-items: center; }
+  .actions :global(.btn) { flex: 1; padding: 0 12px; }
 }

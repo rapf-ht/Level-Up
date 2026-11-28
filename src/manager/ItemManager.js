@@ -1,3 +1,6 @@
+import { spriteIcon } from "../data/spriteArt";
+
+// sprite: camada do avatar (src/data/sprites.js). layerSrc (opcional): PNG 32x32 que substitui o sprite.
 export const SHOP_CATALOG = [
   {
     id: "pocao_hp_1",
@@ -30,6 +33,7 @@ export const SHOP_CATALOG = [
     price: 350,
     sellPrice: 175,
     icon: "/ui/espada.png",
+    sprite: "espada_curta",
     effect: null,
   },
   {
@@ -41,6 +45,91 @@ export const SHOP_CATALOG = [
     price: 200,
     sellPrice: 100,
     icon: "/ui/escudo.png",
+    sprite: "escudo_madeira",
+    effect: null,
+  },
+  {
+    id: "elmo_ferro_1",
+    name: "Elmo de ferro",
+    description: "Protege a cabeça e impõe respeito na guilda.",
+    type: "armaduras",
+    slot: "capacete",
+    price: 250,
+    sellPrice: 125,
+    icon: spriteIcon("elmo_ferro"),
+    sprite: "elmo_ferro",
+    effect: null,
+  },
+  {
+    id: "chapeu_mago_1",
+    name: "Chapéu de mago",
+    description: "Pontudo, roxo e com estrelas. Não dá poderes, mas dá estilo.",
+    type: "aparencia",
+    slot: "capacete",
+    price: 300,
+    sellPrice: 150,
+    icon: spriteIcon("chapeu_mago"),
+    sprite: "chapeu_mago",
+    effect: null,
+  },
+  {
+    id: "calca_viajante_1",
+    name: "Calça de viajante",
+    description: "Tecido verde e resistente para longas caminhadas.",
+    type: "aparencia",
+    slot: "calca",
+    price: 120,
+    sellPrice: 60,
+    icon: spriteIcon("calca_viajante"),
+    sprite: "calca_viajante",
+    effect: null,
+  },
+  {
+    id: "botas_couro_1",
+    name: "Botas de couro",
+    description: "Para quem não para de andar.",
+    type: "armaduras",
+    slot: "bota",
+    price: 150,
+    sellPrice: 75,
+    icon: spriteIcon("botas_couro"),
+    sprite: "botas_couro",
+    effect: null,
+  },
+  {
+    id: "cenario_floresta_1",
+    name: "Cenário: floresta",
+    description: "Céu aberto e árvores atrás do seu personagem.",
+    type: "aparencia",
+    slot: "cenario",
+    price: 400,
+    sellPrice: 200,
+    icon: spriteIcon("cenario_floresta"),
+    sprite: "cenario_floresta",
+    effect: null,
+  },
+  {
+    id: "cenario_taverna_1",
+    name: "Cenário: taverna",
+    description: "Paredes de madeira e uma janela acesa.",
+    type: "aparencia",
+    slot: "cenario",
+    price: 400,
+    sellPrice: 200,
+    icon: spriteIcon("cenario_taverna"),
+    sprite: "cenario_taverna",
+    effect: null,
+  },
+  {
+    id: "pet_slime_1",
+    name: "Slime de estimação",
+    description: "Pequeno, verde e sempre ao seu lado.",
+    type: "mascotes",
+    slot: "pet",
+    price: 500,
+    sellPrice: 250,
+    icon: spriteIcon("pet_slime"),
+    sprite: "pet_slime",
     effect: null,
   },
 ];
@@ -103,14 +192,14 @@ export const ItemManager = {
       return { success: false, message: "Este item não pode ser equipado." };
 
     if (ItemManager.getItemQuantity(itemId) < 1) {
-      return { success: false, message: "Você não possui este item." };
+      return { success: false, message: "Você não tem esse item." };
     }
 
     const equipped = ItemManager.getEquipped();
     equipped[item.slot] = itemId;
     ItemManager.saveEquipped(equipped);
     window.dispatchEvent(new Event("playerStateUpdated"));
-    return { success: true, message: `${item.name} equipado!` };
+    return { success: true, message: `Item equipado: ${item.name}.` };
   },
 
   unequipSlot: (slotId) => {
@@ -137,7 +226,7 @@ export const ItemManager = {
     if (!player) return { success: false, message: "Jogador não encontrado." };
 
     if (player.gold < item.price) {
-      return { success: false, message: "Ouro insuficiente!" };
+      return { success: false, message: "Ouro insuficiente. Cumpra mais missões para juntar o valor." };
     }
 
     player.gold -= item.price;
@@ -153,7 +242,7 @@ export const ItemManager = {
     ItemManager.saveInventory(inv);
 
     window.dispatchEvent(new Event("playerStateUpdated"));
-    return { success: true, message: item.slot ? `${item.name} comprado! Equipe no inventário.` : `${item.name} comprado!` };
+    return { success: true, message: item.slot ? `Compra concluída: ${item.name} está na sua mochila. Equipe pelo inventário.` : `Compra concluída: ${item.name} está na sua mochila.` };
   },
 
   sellItem: (itemId) => {
@@ -163,7 +252,7 @@ export const ItemManager = {
     const inv = ItemManager.getInventory();
     const existing = inv.find((i) => i.itemId === itemId);
     if (!existing || existing.quantity < 1) {
-      return { success: false, message: "Você não possui este item." };
+      return { success: false, message: "Você não tem esse item." };
     }
 
     const stateRaw = localStorage.getItem("gameState");
@@ -191,7 +280,7 @@ export const ItemManager = {
     window.dispatchEvent(new Event("playerStateUpdated"));
     return {
       success: true,
-      message: `${item.name} vendido por ${item.sellPrice}G!`,
+      message: `Você vendeu ${item.name} por ${item.sellPrice} de ouro.`,
     };
   },
 

@@ -27,6 +27,6 @@
   .gold { height: 40px; padding: 0 10px; gap: 6px; font-size: 13px; }
   .coin { width: 18px; height: 18px; }
   .mobileNav { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; background: var(--bg-bar); border-top: 2px solid var(--line); padding: 6px 4px 18px; }
-  .mobileLink { display: flex; flex-direction: column; align-items: center; gap: 5px; padding: 8px 0; text-decoration: none; color: var(--text-soft); font-family: var(--label); font-size: 9px; }
+  .mobileLink { display: flex; flex-direction: column; align-items: center; gap: 5px; padding: 8px 0; text-decoration: none; color: var(--text-soft); font-family: var(--pixel); font-size: 12px; white-space: nowrap; }
   .mobileActive, .mobileActive:hover { color: var(--gold); }
 }

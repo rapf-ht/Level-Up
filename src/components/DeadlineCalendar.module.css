@@ -1,0 +1,12 @@
+.card { padding: 18px 20px; display: flex; flex-direction: column; gap: 12px; }
+.head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.title { font-family: var(--pixel); font-weight: 600; font-size: 20px; }
+.navs { display: flex; gap: 6px; }
+.nav { width: 40px; height: 40px; border: 2px solid var(--line); background: transparent; color: var(--text); font-family: var(--pixel); font-size: 20px; cursor: pointer; padding: 0; }
+.grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; }
+.weekDay { padding: 4px 0; text-align: center; font-family: var(--pixel); font-size: 13px; color: var(--text-soft); }
+.cell { position: relative; padding: 8px 0; text-align: center; font-family: var(--label); font-size: 12px; color: var(--text-2); background: var(--sunken); border: 2px solid var(--line-soft); }
+.today { color: var(--gold); border: 2px dashed var(--gold); background: transparent; }
+.has { border-color: var(--tone-purple-line); color: var(--text); }
+.has::after { content: ""; position: absolute; left: calc(50% - 3px); bottom: 3px; width: 6px; height: 6px; background: var(--tone-purple); }
+.late::after { background: var(--hp); }

@@ -1,4 +1,4 @@
-.overlay { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; padding: 16px; background: rgba(11, 9, 7, 0.86); }
+.overlay { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; padding: 16px; background: var(--overlay); }
 .card { width: min(420px, 100%); display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 28px 24px; text-align: center; background: var(--panel); border: 2px solid var(--gold); }
 .stage { position: relative; width: 180px; height: 180px; display: grid; place-items: end center; }
 .heroJump, .heroFall { width: 150px; height: 150px; }
@@ -6,7 +6,7 @@
 .heroFall { animation: fall 0.7s steps(5) both; }
 .spark { position: absolute; left: 50%; top: 50%; width: 8px; height: 8px; background: var(--gold); opacity: 0; transform: rotate(calc(var(--i) * 30deg)) translateY(-20px); animation: spark 0.9s steps(6) calc(var(--i) * 40ms) 3; }
 .spark:nth-child(3n) { background: var(--xp); }
-.kicker { font-family: var(--label); font-size: 12px; letter-spacing: 0.06em; color: var(--gold); }
+.kicker { font-family: var(--pixel); font-size: 16px; color: var(--gold); }
 .kickerDanger { color: var(--hp-text); }
 .level { font-family: var(--pixel); font-weight: 600; font-size: 44px; line-height: 1.05; margin: 0; }
 .note { color: var(--text-soft); font-size: 15px; line-height: 1.5; }
@@ -14,7 +14,7 @@
 
 .damage { position: fixed; inset: 0; z-index: 100; pointer-events: none; display: flex; justify-content: center; align-items: flex-start; padding: 84px 16px 0; }
 .damageFlash { position: absolute; inset: 0; border: 12px solid var(--hp); animation: flash 0.5s steps(2) 3 both; }
-.damageCard { position: relative; display: flex; align-items: center; gap: 14px; padding: 12px 18px 12px 12px; background: #331d1a; border: 2px solid var(--hp); animation: enter 0.25s steps(3) both; }
+.damageCard { position: relative; display: flex; align-items: center; gap: 14px; padding: 12px 18px 12px 12px; background: var(--tone-red-bg); border: 2px solid var(--hp); animation: enter 0.25s steps(3) both; }
 .damageHero { width: 64px; height: 64px; animation: shake 0.4s steps(4) 2; }
 .damageAmount { font-family: var(--label); font-size: 20px; color: var(--hp-text); margin-bottom: 4px; }
 

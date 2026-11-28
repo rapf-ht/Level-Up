@@ -5,6 +5,7 @@ function read() {
   return {
     player: MissionManager.getPlayerState(),
     missions: MissionManager.getMissions(),
+    history: MissionManager.getHistory(),
   };
 }
 
